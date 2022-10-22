@@ -1,13 +1,482 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+/* ############ */
+/* All pages */
+/* ############ */
+
+:root {
+    --background-color: rgb(218, 218, 218);
+    --this-green: rgb(6, 83, 6);
+    --white-hover: rgb(200, 200, 200);
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', 'sans-serif';
+    background-color: var(--background-color);
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    padding: 10px;
+    padding-bottom: 100px;
+    background-color: var(--this-green);
+}
+
+nav {
+    color: white;
+    background-color: var(--this-green);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+nav a {
+    color: white;
+}
+
+#logo {
+    margin-right: 4rem;;
+}
+
+.subHeader {
+    display: flex;
+    gap: .8rem;
+    align-items: center;
+    overflow-y: auto;
+}
+
+#contact {
+    background-color: gray;
+    color: white;
+    padding: .8rem;
+}
+
+select {
+    background-color: green;
+    color: white;
+    font-weight: bold;
+}
+
+.optionTitle {
+    visibility: hidden;
+}
+
+.option{
+    margin-top: .5rem;
+}
+
+footer {
+    width: 100%;
+    color: var(--this-green);
+    text-align: center;
+    padding: 4rem 0 2rem;
+}
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    border: solid 1px red;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+}
+
+/* ## Links and Buttons ## */
+
+button {
+    width: 100%;
+    height: 50px;
+    border: none;
+    padding: 0;
+    border-radius: .25rem;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: var(--white-hover);
+}
+
+/* ################################################## */
+/* ############### index.html #####################*/
+/* ################################################## */
+
+#mainMenu {
+    margin-top: 1rem;
+    font-weight: bold;
+    width: 70vw;
+    margin-left: 15vw;
+    margin-right: 15vw;
+}
+
+#mainMenu div {
+    padding: .5rem;
+    border-radius: .25rem;
+    background-color: green;
+    color: white;
+}
+
+#mainMenu a:hover {
+    color: white;
+}
+
+
+/* ################################################## */
+/* ############### finances.html #####################*/
+/* ################################################## */
+
+#financeMenu {
+    width: 730px;
+    margin: auto;
+}
+
+#summaryContainer {
+    margin-top: -4rem;
+    display: flex;
+    justify-content: space-between;
+    gap: 1.5rem;
+}
+
+.summaryBox {
+    background: white;
+    color: black;
+    width: 33%;
+    height: 125px;
+    padding: 1.5rem;
+    border-radius: 0.25rem;
+    overflow: auto;
+}
+
+#total {
+    background: green;
+    color: white;
+}
+
+.title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+    font-size: .8rem;
+}
+
+.values {
+    font-size: 1.5rem;
+}
+
+#transactionsContainer {
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+#newTransaction {
+    color: green;
+    font-size: .8rem;
+}
+
+#newTransaction:hover {
+    color: white;
+    cursor: pointer;
+}
+
+.tableTransaction .income {
+    color: green;
+}
+
+.tableTransaction .expense {
+    color: red;
+}
+
+/* ################ Forms ############## */
+
+.divForm {
+    width: 400px;
+    padding: 0.5rem;
+    background-color: var(--background-color);
+    border: 3px solid var(--this-green);
+    border-radius: 6px;
+}
+
+.divForm h2 {
+    color: green;
+    text-align: center;
+    margin: 0;
+}
+
+.divForm form {
+    display: flex;
+    flex-direction: column;
+}
+
+.input-group {
+    margin-top: .8rem;
+}
+
+.input-group input {
+    width: 100%;
+}
+
+.formButtons {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    gap: 1rem;
+}
+
+.formConfirm {
+    background: green;
+    color: white;
+}
+
+.formCancel {
+    background: red;
+    color: white;
+}
+
+.formDelete {
+    background: black;
+    color: red;
+}
+
+/* ############### Transactions ############### */
+
+#tableTransactions {
+    border-radius: 0.25rem;
+    border-collapse: separate;
+    border-spacing: 0 15px;
+}
+
+.tableClass {
+    display: flex;
+    align-items: center;
+    height: 2.5rem;
+    background: white;
+    color: black;
+    border-radius: 0.25rem;
+}
+
+.tableTransaction:hover {
+    background: var(--this-green);
+    cursor: pointer;
+}
+
+/* tableNames2 temporary */
+#tableNames, #tableNames2 {
+    background-color: var(--this-green);
+    color: white;
+    height: 2rem;
+    font-weight: bold;
+}
+
+#tableNames2 td, #tableNames2 th {
+    text-align: left;
+}
+
+.description {
+    display: inline-block;
+    flex-grow: 1;
+    min-width: 150px;
+    padding-left: 2rem; 
+    overflow: auto;
+}
+
+.value {
+    display: inline-block;
+    width: 150px;
+    min-width: 150px;
+    margin-left: 2rem;
+}
+
+.date {
+    display: inline-block;
+    width: 150px;
+    min-width: 150px;
+}
+
+/* ############# Modal ############## */
+
+/* Obs: check attributes */
+.modal {
+    position: fixed;
+    background-color: rgba(0, 0, 0, 0.6);
+    margin: 0;
+    left: 0;
+    top: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100vw; /*not sure*/
+    height: 100vh; /*not sure*/
+}
+
+
+/* ################################################## */
+/* ################## cryptos.html ###################*/
+/* ################################################## */
+
+#cryptosMenu {
+    width: 730px;
+    margin: auto;
+}
+
+#navCryptos {
+    margin-top: 1rem;
+    padding: .5rem;
+    background-color: green;
+    font-weight: bold;
+    border-radius: 0.25rem;
+}
+
+#loadSheet {
+    cursor: pointer;
+}
+
+#saveSheet {
+    color: white;
+    font-size: .8rem;
+}
+
+#currentSituationTab {
+    width: 100%;
+    margin-top: 1rem;
+}
+
+.newLineClass {
+    background-color: white;
+}
+
+.newLineClass:hover {
+    opacity: .5;
+    cursor: pointer;
+}
+
+h1 {
+    background-color: rgb(6, 83, 6);
+    color: white;
+}
+
+#firstRoll {
+    text-align: center;
+    background-color: green;
+    color: white;
+}
+
+#currentSituationDiv {
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+
+#operationsSec {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+
+#purchasesDiv {
+    width: 50%;
+}
+
+#sellsDiv {
+    width: 50%;
+}
+
+#h2purchases {
+    background-color: green;
+    color: white;
+    text-align: center;
+    width: 100%;
+}
+
+#h2sells {
+    background-color: red;
+    color: white;
+    text-align: center;
+    width: 100%;
+}
+
+.tableHover:hover {
+    font-weight: bold;
+}
+
+#tablesP table, #tablesS table {
+    width: 100%;
+    background-color: white;
+    font-size: 13px;
+    margin-top: 1rem;
+    overflow: auto;
+    table-layout: fixed;
+    text-align: center;
+}
+
+#tablesP table { 
+    border: 1px solid var(--this-green);
+}
+
+#tablesS table {
+    border: 1px solid red;
+}
+
+#tablesS .subTable {
+    margin-top: 0;
+}
+
+.gray-background {
+    background-color: rgb(216, 210, 210);
+}
+
+/* ############################## */
+/* ----- Responsive ------ */
+/* ############################## */
+
+@media (max-width: 730px) {
+    #financeMenu {
+        width: 90vw;
+    }
+    #summaryContainer {
+        flex-direction: column;
+    }
+
+    .summaryBox {
+        width: min(90vw, 730px);
+    }
+
+    #transactionsContainer, main, body, html {
+        width: 100%;
+    }
+
+    #transactionsContainer {
+        overflow: auto;
+    }
+
+    .tableClass {
+        min-width: 450px;
+    }
+
+    #cryptosMenu {
+        width: 90vw;
+    }
+
+    #currentSituationSec {
+        overflow: auto;
+    }
+
+    #operationsSec {
+        flex-direction: column;
+    }
+
+    #purchasesDiv {
+        width: 100%;
+    }
+
+    #sellsDiv {
+        width: 100%;
+    }
 }
