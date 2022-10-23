@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import Navigator from "./Navigator";
 import MainMenu from "./MainMenu";
 import Transactions from "./Transactions";
+import Cryptos from "./Cryptos";
 
 const App = () => {
     const [page, setPage ] = useState('home');
@@ -16,6 +17,14 @@ const App = () => {
                     <footer>Finances Control Project</footer>
                 </div>
             );
+        case('cryptos'):
+            return (
+                <div>
+                    <Navigator setPage={setPage}/>
+                    <Cryptos />
+                    <footer>Finances Control Project</footer>
+                </div>
+            )
         default:
             return (
                 <div>
