@@ -37,6 +37,11 @@ nav a {
     color: white;
 }
 
+.director:hover {
+    color: blue;
+    cursor: pointer;
+}
+
 #logo {
     margin-right: 4rem;;
 }

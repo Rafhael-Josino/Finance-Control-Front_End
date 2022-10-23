@@ -1,13 +1,12 @@
 import React from "react";
 
-import Navigator from "./Navigator";
 import MainMenu from "./MainMenu";
 
-const Home = () => {
+const Home = ({ setPage }) => {
     return (
         <React.Fragment>
-            <Navigator />
             <MainMenu />
+            <footer>Finances Control Project</footer>
         </React.Fragment>
     );
 }
