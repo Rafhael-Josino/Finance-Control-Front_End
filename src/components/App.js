@@ -16,14 +16,14 @@ const App = () => {
     useEffect(() => {
         if (token.token === '') setPage('login')
         else setPage('mainMenu')
-    }, [token])
+    }, [token]);
 
     switch(page) {
         case('transactions'):
             return (
                 <div>
                     <Navigator setPage={setPage} token={token} />
-                    <Transactions token={token.token} />
+                    <Transactions setToken={setToken} token={token.token} />
                     <footer>Finances Control Project</footer>
                 </div>
             );

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 import { requestLogin } from "../actions";
 
-const LoginMenu = ({ setPage, setToken }) => {
+const LoginMenu = ({ setToken }) => {
     const [user, setUser] = useState('');
     const [password, setPassword] = useState('');
     const [invalidLogin, setInvalidLogin] = useState('sr-only');
