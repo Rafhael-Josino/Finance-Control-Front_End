@@ -10,7 +10,7 @@ const Transactions = ({ setToken, token }) => {
     useEffect(() => {
         const transactionsListAction =  async (token)=> {
             const res = await listTransactions(token);
-            if (res === 'Invalid token') setToken('');
+            if (res === 'Invalid token') setToken({  userName: '', token: ''});
             else setTransactionsList(res)
         }
 
