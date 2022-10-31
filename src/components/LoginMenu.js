@@ -12,7 +12,7 @@ const LoginMenu = ({ setToken }) => {
 
         const res = await requestLogin(user, password);
 
-        if (res === 403) setInvalidLogin('invalidLogin')
+        if (res === 'Username or password incorrect') setInvalidLogin('invalidLogin');
 
         else setToken({
             userName: user,
