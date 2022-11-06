@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-import { listTransactions } from "../actions";
+import { listTransactions } from "../../actions";
 import TransactionsList from "./TransactionsList";
 
 const Transactions = ({ setToken, token }) => {
@@ -123,9 +123,8 @@ const Transactions = ({ setToken, token }) => {
 
                 <TransactionsList transactionsList={transactionsList} />
             </section>
-    </section>
-
-    )
+        </section>
+    );
 }
 
 export default Transactions;
