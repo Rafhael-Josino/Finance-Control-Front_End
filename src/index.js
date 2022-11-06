@@ -6,8 +6,10 @@ import {
     Route
 }from 'react-router-dom'
 
+
 import './index.css'
 import App from './components/App';
+import ErrorPage from './error-page';
 
 
 /**
@@ -27,18 +29,20 @@ const store = configureStore({ reducer: reducers})
  */
 
 const router = createBrowserRouter([
-        {
-            path: "/",
-            element: <App />
-        },
-    ]);
+    {
+        path: "/",
+        element: <App />,
+        errorElement: <ErrorPage />,
+    },
+]);
 
 /**
  * 
- <RouterProvider router={router} />
  */
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-    <App />
+    //<App />
+    <RouterProvider router={router} />
+
 );

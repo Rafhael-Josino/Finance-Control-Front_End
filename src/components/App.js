@@ -3,8 +3,8 @@ import React, { useEffect, useState } from "react";
 import Navigator from "./Navigator";
 import LoginMenu from "./LoginMenu";
 import MainMenu from "./MainMenu";
-import Transactions from "./Transactions";
-import Cryptos from "./Cryptos";
+import Transactions from "./transaction/Transactions";
+import Cryptos from "./cryptocoin/Cryptos";
 
 const App = () => {
     const [page, setPage ] = useState('');
@@ -12,6 +12,8 @@ const App = () => {
         userName: '',
         token: '',
     });
+
+  
 
     useEffect(() => {
         if (token.token === '') setPage('login')
