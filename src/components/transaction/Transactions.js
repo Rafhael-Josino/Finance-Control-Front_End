@@ -14,9 +14,9 @@ const Transactions = ({ setToken, token }) => {
             else setTransactionsList(res)
         }
 
-        console.log('useEffect, getting transactions list')
+        console.log('useEffect, getting transactions list\n', token)
         transactionsListAction(token)
-    }, [token, setToken]);
+    }, []);
 
     return (
         <section id="financeMenu">

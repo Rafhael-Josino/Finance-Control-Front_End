@@ -1,15 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import {
-    createBrowserRouter,
-    RouterProvider,
-    Route
-}from 'react-router-dom'
-
+import { createBrowserRouter, redirect, RouterProvider } from 'react-router-dom'
 
 import './index.css'
 import App from './components/App';
-import ErrorPage from './error-page';
 
 
 /**
@@ -28,17 +22,20 @@ const store = configureStore({ reducer: reducers})
     </Provider>
  */
 
+/**
+ loader: async () => {
+     return redirect('/login');
+ }
+ * 
+ */
+
 const router = createBrowserRouter([
     {
-        path: "/",
+        path: "/*",
         element: <App />,
-        errorElement: <ErrorPage />,
     },
 ]);
 
-/**
- * 
- */
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

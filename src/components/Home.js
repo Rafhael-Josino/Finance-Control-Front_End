@@ -2,7 +2,7 @@ import React from "react";
 
 import MainMenu from "./MainMenu";
 
-const Home = ({ setPage }) => {
+const Home = () => {
     return (
         <React.Fragment>
             <MainMenu />

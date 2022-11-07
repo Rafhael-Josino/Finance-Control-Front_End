@@ -9,15 +9,17 @@ const LoginMenu = ({ setToken }) => {
 
     const buttonSubmit = async (event) => {
         event.preventDefault();
-
-        const res = await requestLogin(user, password);
-
-        if (res === 'Username or password incorrect') setInvalidLogin('invalidLogin');
-
-        else setToken({
-            userName: user,
-            token: res,
-        });
+        
+         const res = await requestLogin(user, password);
+ 
+         if (res === 'Username or password incorrect') setInvalidLogin('invalidLogin');
+ 
+         else {
+            console.log(res)
+            setToken({
+                userName: user,
+                token: res,
+            });}
     }
 
     return (
@@ -52,11 +54,13 @@ const LoginMenu = ({ setToken }) => {
                         </div>
                         <div className="formButtons input-group">
                             <button 
-                                type="submit"
                                 className="formConfirm"
+                                type="submit"
                                 id="newConfirm"
                                 onClick={(event) => buttonSubmit(event)}
-                            >Send</button>
+                            >
+                                Login
+                            </button>
                         </div>
                         <div className={invalidLogin}>
                             <span>User or password uncorrect</span>
