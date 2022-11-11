@@ -1,25 +1,35 @@
-import React, { useState } from "react";
+import { useState } from "react";
 
 import { requestLogin } from "../actions";
 
-const LoginMenu = ({ setToken }) => {
+type Props = {
+    setToken: React.Dispatch<React.SetStateAction<{
+        userName: string;
+        token: string;
+    }>>;
+}
+
+const LoginMenu = (props: Props): JSX.Element => {
+    const { setToken } = props;
+
     const [user, setUser] = useState('');
     const [password, setPassword] = useState('');
     const [invalidLogin, setInvalidLogin] = useState('sr-only');
 
-    const buttonSubmit = async (event) => {
+    const buttonSubmit = async (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         event.preventDefault();
         
-         const res = await requestLogin(user, password);
+        const res = await requestLogin(user, password);
  
-         if (res === 'Username or password incorrect') setInvalidLogin('invalidLogin');
+        if (res === 'Username or password incorrect') setInvalidLogin('invalidLogin');
  
-         else {
+        else {
             console.log(res)
             setToken({
                 userName: user,
                 token: res,
-            });}
+            });
+        }
     }
 
     return (
