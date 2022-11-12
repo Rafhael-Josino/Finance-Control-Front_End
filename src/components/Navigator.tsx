@@ -16,7 +16,7 @@ const Navigator = (props: Props): JSX.Element => {
                 <div id="logo">Finances Control Project</div>
                 <div className="subHeader">
                     <div className="director" id="home">
-                        <Link to={`${token.token === '' ? '/login' : '/main-menu'}`}>HOME</Link>
+                        <Link to={'/main-menu'}>HOME</Link>
                     </div>
                     <div id="about">ABOUT</div>
                     <div id="services">SERVICES</div>

@@ -3,7 +3,7 @@ type Props = {
 }
 
 const Cryptos = (props: Props) => {
-    const { token } = props;
+    //const { token } = props;
 
     return (
         <main id="cryptosMenu">
