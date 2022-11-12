@@ -1,7 +1,6 @@
-import React from "react";
 import { Link } from "react-router-dom";
 
-const MainMenu = () => {
+const MainMenu = (): JSX.Element => {
     return (
         <section id="mainMenu">
             <div className="mainMenu">Finances Main Menu</div>

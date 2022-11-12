@@ -3,20 +3,30 @@ import React, { useEffect, useState } from "react";
 import { listTransactions } from "../../actions";
 import TransactionsList from "./TransactionsList";
 
-const Transactions = ({ setToken, token }) => {
-    const [inputType, setInputType ] = useState('text'); //necessary?
+type Props = {
+    token: string,
+    setUserAuth: React.Dispatch<React.SetStateAction<{
+        userName: string;
+        token: string;
+    }>>,
+}
+
+const Transactions = (props: Props) => {
+    const { token, setUserAuth } = props;
+
+    const [inputType, setInputType ] = useState('text'); //necessary? -> test the pop up windows
     const [transactionsList, setTransactionsList] = useState([]);
 
     useEffect(() => {
-        const transactionsListAction =  async (token)=> {
+        const transactionsListAction =  async (token: Props['token']) => {
             const res = await listTransactions(token);
-            if (res === 'Invalid token') setToken({  userName: '', token: ''});
+            if (res === 'Invalid token') setUserAuth({ userName: '', token: '' });
             else setTransactionsList(res)
         }
 
-        console.log('useEffect, getting transactions list\n', token)
-        transactionsListAction(token)
-    }, []);
+        console.log('useEffect, getting transactions list\n', token);
+        transactionsListAction(token);
+    }, []); //this can be a problem
 
     return (
         <section id="financeMenu">
@@ -39,7 +49,7 @@ const Transactions = ({ setToken, token }) => {
                         <div className="input-group">
                             <label className="sr-only">
                                 Date
-                                <input type={inputType} onFocus={setInputType} name="Date" className="dateInput" id="newDate" placeholder="Date" required />                    
+                                <input type={inputType} onFocus={() => setInputType('date')} name="Date" className="dateInput" id="newDate" placeholder="Date" required />                    
                             </label>
                         </div>
                         <input type="hidden" name="transactionID" id="newID" />
@@ -70,7 +80,7 @@ const Transactions = ({ setToken, token }) => {
                         <div className="input-group">
                             <label className="sr-only">
                                 Date
-                                <input type={inputType} onFocus={setInputType} name="Date" className="dateInput" id="editDate" required />
+                                <input type={inputType} onFocus={() => setInputType('date')} name="Date" className="dateInput" id="editDate" required />
                             </label>
                         </div>
                         <input type="hidden" name="transactionsIndex" id="editIndex" />

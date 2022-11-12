@@ -1,7 +1,15 @@
-import React from "react";
 import { Link } from 'react-router-dom'
 
-const Navigator = ({ token }) => {
+type Props = {
+    token: {
+        userName: string;
+        token: string;
+    }
+}
+
+const Navigator = (props: Props): JSX.Element => {
+    const { token } = props;
+
     return (
             <header>
             <nav>

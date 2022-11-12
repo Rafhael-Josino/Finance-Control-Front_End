@@ -3,30 +3,30 @@ import { useState } from "react";
 import { requestLogin } from "../actions";
 
 type Props = {
-    setToken: React.Dispatch<React.SetStateAction<{
+    setUserAuth: React.Dispatch<React.SetStateAction<{
         userName: string;
         token: string;
     }>>;
 }
 
 const LoginMenu = (props: Props): JSX.Element => {
-    const { setToken } = props;
+    const { setUserAuth } = props;
 
-    const [user, setUser] = useState('');
+    const [userName, setUserName] = useState('');
     const [password, setPassword] = useState('');
     const [invalidLogin, setInvalidLogin] = useState('sr-only');
 
     const buttonSubmit = async (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         event.preventDefault();
         
-        const res = await requestLogin(user, password);
+        const res = await requestLogin({ userName, password });
  
         if (res === 'Username or password incorrect') setInvalidLogin('invalidLogin');
  
         else {
             console.log(res)
-            setToken({
-                userName: user,
+            setUserAuth({
+                userName,
                 token: res,
             });
         }
@@ -46,8 +46,8 @@ const LoginMenu = (props: Props): JSX.Element => {
                                     className="userLogin" 
                                     placeholder="User or e-mail"
                                     required 
-                                    value={user}
-                                    onChange={(event) => setUser(event.target.value)}
+                                    value={userName}
+                                    onChange={(event) => setUserName(event.target.value)}
                                     />
                             </label>
                         </div>

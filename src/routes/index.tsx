@@ -5,13 +5,26 @@ import MainMenu from "../components/MainMenu";
 import Transactions from "../components/transaction/Transactions";
 import Cryptos from "../components/cryptocoin/Cryptos";
 
-const AppRoutes = ({ token, setToken }) => {
+type Props = {
+    userAuth: {
+        userName: string;
+        token: string;
+    }
+    setUserAuth: React.Dispatch<React.SetStateAction<{
+        userName: string;
+        token: string;
+    }>>;
+}
+
+const AppRoutes = (props: Props) => {
+    const { userAuth, setUserAuth } = props;
+
     return (
         <Routes>
         <Route path='/login' element={<MainMenu />} />
         <Route path='/main-menu' element={<MainMenu />} />
-        <Route path='/transactions' element={<Transactions setToken={setToken} token={token.token} />} />
-        <Route path='/cryptocoins' element={<Cryptos token={token.token} />} />
+        <Route path='/transactions' element={<Transactions setUserAuth={setUserAuth} token={userAuth.token} />} />
+        <Route path='/cryptocoins' element={<Cryptos token={userAuth.token} />} />
         <Route path='/*' element={
                 <div>
                     <h1>Oops!</h1>

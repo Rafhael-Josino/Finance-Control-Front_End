@@ -1,6 +1,10 @@
-import React from 'react';
+type Props = {
+    token: string;
+}
 
-const Cryptos = () => {
+const Cryptos = (props: Props) => {
+    const { token } = props;
+
     return (
         <main id="cryptosMenu">
             <nav id="navCryptos">
