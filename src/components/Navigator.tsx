@@ -1,14 +1,14 @@
 import { Link } from 'react-router-dom'
 
 type Props = {
-    token: {
+    userAuth: {
         userName: string;
         token: string;
     }
 }
 
 const Navigator = (props: Props): JSX.Element => {
-    const { token } = props;
+    const { userAuth } = props;
 
     return (
             <header>
@@ -21,7 +21,7 @@ const Navigator = (props: Props): JSX.Element => {
                     <div id="about">ABOUT</div>
                     <div id="services">SERVICES</div>
                     <div id="testimonials">TESTIMONIALS</div>
-                    <div id="navUserName">{token.userName === '' ? 'LOGIN' : token.userName}</div>
+                    <div id="navUserName">{userAuth.token === '' ? 'LOGIN' : userAuth.userName}</div>
                     <div id="contact">CONTACT</div>
                 </div>
             </nav>

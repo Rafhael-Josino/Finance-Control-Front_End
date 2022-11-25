@@ -25,10 +25,9 @@ const LoginMenu = (props: Props): JSX.Element => {
  
         else {
             console.log(res)
-            setUserAuth({
-                userName,
-                token: res,
-            });
+            localStorage.setItem('token', res);
+            localStorage.setItem('userName', userName);
+            setUserAuth({ userName, token: res });
         }
     }
 

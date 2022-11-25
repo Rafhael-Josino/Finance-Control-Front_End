@@ -6,14 +6,21 @@ import AppRoutes from "../routes";
 
 
 const App = (): JSX.Element => {
-    const [userAuth, setUserAuth] = useState({
-        userName: '',
-        token: '',
-    });
+    let userName: string, token: string;
+
+    if (localStorage.getItem('userName') && localStorage.getItem('token')) {
+        userName = localStorage.getItem('userName') as string;
+        token = localStorage.getItem('token') as string;
+    } else {
+        userName = '';
+        token = '';
+    }
+
+    const [userAuth, setUserAuth] = useState({ userName, token });
 
     return (
         <React.Fragment>
-            <Navigator token={userAuth} />
+            <Navigator userAuth={userAuth} />
             {
                 //userAuth.token === '' ? 
                 //<LoginMenu setUserAuth={setUserAuth} /> : 
