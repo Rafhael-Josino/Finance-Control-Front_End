@@ -6,6 +6,7 @@
     --background-color: rgb(218, 218, 218);
     --this-green: rgb(6, 83, 6);
     --white-hover: rgb(200, 200, 200);
+    --custom-larger-font: 1.2rem;
 }
 
 * {
@@ -138,6 +139,7 @@ button:hover {
     width: 70vw;
     margin-left: 15vw;
     margin-right: 15vw;
+    font-size: var(--custom-larger-font);
 }
 
 .mainMenu {
@@ -176,6 +178,15 @@ button:hover {
     padding: 1.5rem;
     border-radius: 0.25rem;
     overflow: auto;
+    font-weight: bold;
+}
+
+#entries {
+    color: green;
+}
+
+#outs {
+    color: red;
 }
 
 #total {
@@ -188,7 +199,7 @@ button:hover {
     align-items: center;
     justify-content: space-between;
     margin-bottom: 1rem;
-    font-size: .8rem;
+    font-size: var(--custom-larger-font);
 }
 
 .values {
@@ -286,6 +297,10 @@ button:hover {
     background: white;
     color: black;
     border-radius: 0.25rem;
+}
+
+.tableTransaction {
+    margin-bottom: 0.25rem;
 }
 
 .tableTransaction:hover {
