@@ -11,20 +11,40 @@ type Props = {
     }>>,
 }
 
+type Transaction = {
+    transaction_description: string;
+    transaction_value: number;
+    //transaction_date: `${string}/${string}/${string}`;
+    transaction_date: string;
+}
+
 const Transactions = (props: Props) => {
     const { token, setUserAuth } = props;
 
     const [inputType, setInputType ] = useState('text'); //necessary? -> test the pop up windows
     const [transactionsList, setTransactionsList] = useState([]);
 
+    let income: number = 0;
+    let outcome: number = 0;
+
+    transactionsList.forEach((transaction: Transaction) => {
+        if (transaction.transaction_value > 0) income += transaction.transaction_value; 
+        if (transaction.transaction_value < 0) outcome += transaction.transaction_value; 
+    });
+
     useEffect(() => {
         const transactionsListAction =  async (token: Props['token']) => {
+            // Get from server list of transactions from this user
             const res = await listTransactions(token);
-            if (res === 'Invalid token') setUserAuth({ userName: '', token: '' });
-            else setTransactionsList(res)
+
+            // If token is invalid (ex: user's login time has expired)
+            if (res === 'Invalid token') {
+                setUserAuth({ userName: '', token: '' });
+            } else {
+                setTransactionsList(res);
+            }
         }
 
-        console.log('useEffect, getting transactions list\n', token);
         transactionsListAction(token);
     }, []); //this can be a problem
 
@@ -97,7 +117,7 @@ const Transactions = (props: Props) => {
                 <div id="entries" className="summaryBox">
                     <div className="title">
                         <div>Income</div>
-                        <div>$</div>
+                        <div>{income}</div>
                     </div>
                     <div className="values" id="entriesValue"></div>
                 </div>
@@ -105,7 +125,7 @@ const Transactions = (props: Props) => {
                 <div id="outs" className="summaryBox">
                     <div className="title">
                         <div>Expenses</div>
-                        <div>$</div>
+                        <div>{outcome}</div>
                     </div>
                     <div className="values" id="outsValue"></div>
                 </div>
@@ -113,7 +133,7 @@ const Transactions = (props: Props) => {
                 <div id="total" className="summaryBox">
                     <div className="title">
                         <div>Total</div>
-                        <div>$</div>
+                        <div>{income+outcome}</div>
                     </div>
                     <div className="values" id="totalValue"></div>
                 </div>
