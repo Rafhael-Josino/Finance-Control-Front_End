@@ -1,9 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
-import Navigator from "./Navigator";
+import Navigator from "../pages/Navigator";
 import AppRoutes from "../routes";
-
-
+import { requestUser } from "../actions";
 
 const App = (): JSX.Element => {
     let userName: string, token: string;
@@ -18,14 +17,22 @@ const App = (): JSX.Element => {
 
     const [userAuth, setUserAuth] = useState({ userName, token });
 
+    useEffect(() => {
+        const requestUserAction = async () => {
+            const res = await requestUser(token, userName);
+        
+            if (res === "Restric to administrator") {
+                
+            }
+        }
+        
+
+    })
+
     return (
         <React.Fragment>
             <Navigator userAuth={userAuth} />
-            {
-                //userAuth.token === '' ? 
-                //<LoginMenu setUserAuth={setUserAuth} /> : 
-                <AppRoutes setUserAuth={setUserAuth} userAuth={userAuth} />
-            }
+            <AppRoutes setUserAuth={setUserAuth} userAuth={userAuth} />
         </React.Fragment>
     );
 }

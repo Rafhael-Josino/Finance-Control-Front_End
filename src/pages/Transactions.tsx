@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
-
-import { listTransactions } from "../../actions";
-import TransactionsList from "./TransactionsList";
+import { useNavigate } from "react-router-dom";
+import { listTransactions } from "../actions";
+import TransactionsList from "../components/transaction/TransactionsList";
+import ifLoginDoThing from "../hooks/useIfLoginDoThing";
 
 type Props = {
     token: string,
@@ -21,6 +22,7 @@ type Transaction = {
 const Transactions = (props: Props) => {
     const { token, setUserAuth } = props;
 
+    const navigate = useNavigate();
     const [inputType, setInputType ] = useState('text'); //necessary? -> test the pop up windows
     const [transactionsList, setTransactionsList] = useState([]);
 
@@ -37,12 +39,7 @@ const Transactions = (props: Props) => {
             // Get from server list of transactions from this user
             const res = await listTransactions(token);
 
-            // If token is invalid (ex: user's login time has expired)
-            if (res === 'Invalid token') {
-                setUserAuth({ userName: '', token: '' });
-            } else {
-                setTransactionsList(res);
-            }
+            if (!ifLoginDoThing(res, setUserAuth, setTransactionsList)) navigate('/main-menu')
         }
 
         transactionsListAction(token);

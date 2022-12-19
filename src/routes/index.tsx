@@ -1,10 +1,10 @@
-import React from "react";
-import { Routes, Route } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Routes, Route  } from "react-router-dom";
 
-import MainMenu from "../components/MainMenu";
-import Transactions from "../components/transaction/Transactions";
-import Cryptos from "../components/cryptocoin/Cryptos";
-import LoginMenu from "../components/LoginMenu";
+import MainMenu from "../pages/MainMenu";
+import Transactions from "../pages/Transactions";
+import Cryptos from "../pages/Cryptos";
+import LoginMenu from "../pages/LoginMenu";
 
 type Props = {
     userAuth: {
@@ -19,23 +19,17 @@ type Props = {
 
 const AppRoutes = (props: Props) => {
     const { userAuth, setUserAuth } = props;
-    
+
     //<Route path='/login' element={<MainMenu />} />
     return (
         <Routes>
-            <Route path='/main-menu' element={
+            <Route path='/*' element={
                 userAuth.token === '' ? 
                 <LoginMenu setUserAuth={setUserAuth} /> :
-                <MainMenu />
+                <MainMenu setUserAuth={setUserAuth} userAuth={userAuth}/>
             } />
             <Route path='/transactions' element={<Transactions setUserAuth={setUserAuth} token={userAuth.token} />} />
-            <Route path='/cryptocoins' element={<Cryptos token={userAuth.token} />} />
-            <Route path='/*' element={
-                <div>
-                    <h1>Oops!</h1>
-                    <p>Sorry, the present URL has no correspondent page.</p>
-                </div>
-            } />
+            <Route path='/cryptocoins' element={<Cryptos setUserAuth={setUserAuth} token={userAuth.token} />} />
         </Routes>
     );
 }

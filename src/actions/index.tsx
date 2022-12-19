@@ -1,6 +1,7 @@
 //import { AxiosError } from "axios";
-
 import financeControlAPI from "../apis/financeControlAPI";
+
+/** Login */
 
 type LoginInfo = {
     userName: string;
@@ -8,12 +9,32 @@ type LoginInfo = {
 }
 
 // const requestLogin = () => async dispatch => {
-const requestLogin = async (LoginInfo: LoginInfo) => {
+const requestLogin = async (loginInfo: LoginInfo) => {
     try {
-        const res = await financeControlAPI.post('account/login', LoginInfo);
+        const res = await financeControlAPI.post('account/login', loginInfo);
 
         return res.data.token;
     } catch(err: any) {
+        // make type verification!
+        console.log('error:', err.response.data.message)
+        return err.response.data.message;
+    }
+}
+
+/** Request user information */
+
+const requestUser = async (token: string, username: string) => {
+    try {
+        const res = await financeControlAPI.get('/account', {
+            headers: {
+                Authorization: `Bearer ${token}`,
+                username,
+            }
+        });
+
+        console.log(res);
+        return res.data.user;
+    } catch (err: any) {
         // make type verification!
         console.log('error:', err.response.data.message)
         return err.response.data.message;
@@ -37,7 +58,7 @@ const listTransactions = async (token: string) => {
             }
         });
         
-        console.log(res);
+        //console.log(res);
         return res.data.transactions as Transaction[];
     } catch (err: any) {
         // make type verification!
@@ -46,5 +67,36 @@ const listTransactions = async (token: string) => {
      }
  } 
  
+ const cryptocoinSheets = async (token: string) => {
+    try {
+        const res = await financeControlAPI.get("/cryptocoin/sheets", {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
 
-export { requestLogin, listTransactions }
+        return res.data.sheetList;
+    } catch (err: any) {
+        // make type verification!
+        console.log('error:', err.response.data.message)
+        return err.response.data.message;
+    }
+ }
+
+ const cryptocoinSummary = async (token: string, sheetName: string) => {
+    try {
+        const res = await financeControlAPI.get(`/cryptocoin/sheetSummary${sheetName}`, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
+
+        return res.data.sheetSummary;
+    } catch (err: any) {
+        // make type verification!
+        console.log('error:', err.response.data.message)
+        return err.response.data.message;
+    }
+ }
+
+export { requestLogin, requestUser, listTransactions, cryptocoinSheets, cryptocoinSummary }
