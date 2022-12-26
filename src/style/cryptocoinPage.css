@@ -1,0 +1,63 @@
+:root {
+    --background-color: rgb(218, 218, 218);
+    --this-green: rgb(6, 83, 6);
+    --white-hover: rgb(200, 200, 200);
+    --custom-larger-font: 1.2rem;
+}
+
+#cryptosMenu {
+    width: 730px;
+    margin: auto;
+}
+
+#navCryptos {
+    margin-top: 1rem;
+    padding: .5rem;
+    background-color: green;
+    font-weight: bold;
+    border-radius: 0.25rem;
+}
+
+#loadSheet {
+    cursor: pointer;
+}
+
+#saveSheet {
+    color: white;
+    font-size: .8rem;
+}
+
+.cryptoSummaryTable {
+    width: 100%;
+    color: black;
+}
+
+.cryptoSummaryTable .leftColumn {
+    text-align: left;
+    padding-left: .5rem;
+}
+
+.cryptoSummaryTable .middleColumn {
+    text-align: right;
+}
+.cryptoSummaryTable .rightColumn {
+    padding-right: .5rem;
+    text-align: right;
+}
+
+.cryptoSummaryTable .gray {
+    background-color: azure;
+}
+
+.cryptoSummaryTable th {
+    background-color: green;
+    font-weight: bold;
+    color: white;
+    font-size: large;
+}
+
+.cryptoSummaryTable tr:hover {
+    cursor: pointer;
+    background-color: green;
+    color: white;
+}

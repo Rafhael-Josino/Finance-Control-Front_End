@@ -362,27 +362,6 @@ button:hover {
 /* ################## cryptos.html ###################*/
 /* ################################################## */
 
-#cryptosMenu {
-    width: 730px;
-    margin: auto;
-}
-
-#navCryptos {
-    margin-top: 1rem;
-    padding: .5rem;
-    background-color: green;
-    font-weight: bold;
-    border-radius: 0.25rem;
-}
-
-#loadSheet {
-    cursor: pointer;
-}
-
-#saveSheet {
-    color: white;
-    font-size: .8rem;
-}
 
 #currentSituationTab {
     width: 100%;

@@ -85,7 +85,7 @@ const listTransactions = async (token: string) => {
 
  const cryptocoinSummary = async (token: string, sheetName: string) => {
     try {
-        const res = await financeControlAPI.get(`/cryptocoin/sheetSummary${sheetName}`, {
+        const res = await financeControlAPI.get(`/cryptocoin/sheetSummary/${sheetName}`, {
             headers: {
                 Authorization: `Bearer ${token}`
             }
@@ -99,4 +99,27 @@ const listTransactions = async (token: string) => {
     }
  }
 
-export { requestLogin, requestUser, listTransactions, cryptocoinSheets, cryptocoinSummary }
+ const cryptoAssetOperations = async (token: string, sheetName: string, asset: string) => {
+    try {
+        const res = await financeControlAPI.get(`/cryptocoin/sheet/${sheetName}/${asset}`, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
+
+        return res.data;
+    } catch (err: any) {
+        // make type verification!
+        console.log('error:', err.response.data.message)
+        return err.response.data.message;
+    }
+ }
+
+export { 
+    requestLogin, 
+    requestUser,
+    listTransactions,
+    cryptocoinSheets,
+    cryptocoinSummary,
+    cryptoAssetOperations,
+}

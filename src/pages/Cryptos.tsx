@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { cryptocoinSheets, cryptocoinSummary } from "../actions";
+import { cryptocoinSheets } from "../actions";
 import ifLoginDoThing from "../hooks/useIfLoginDoThing";
+import CryptoSummaryList from "../components/cryptocoin/CryptoSummaryList";
 
 type Props = {
     token: string,
@@ -13,10 +14,8 @@ type Props = {
 
 const Cryptos = (props: Props) => {
     const { token, setUserAuth } = props;
-
     const navigate = useNavigate();
     const [sheetNames, setSheetNames] = useState([]);
-    const [cryptoSumm, setCryptoSumm] = useState([]);
     const [cryptoInfo, setCryptoInfo] = useState([]);
 
     useEffect(() => {
@@ -24,19 +23,14 @@ const Cryptos = (props: Props) => {
             const res = await cryptocoinSheets(token);
 
             if (!ifLoginDoThing(res, setUserAuth, setSheetNames)) navigate('/main-menu')
-
         }
 
         cryptocoinSheetsAction(token);
     }, []);
 
-    useEffect(() => {
-
-    }, [cryptoSumm])
-
     const renderedSheets = sheetNames.map((sheet: string) => {
         return <option key={sheet} value={sheet}>{sheet}</option>
-    })
+    });
 
     return (
         <main id="cryptosMenu">
@@ -51,25 +45,15 @@ const Cryptos = (props: Props) => {
                         <option value="month">Monthly</option>
                         <option value="sell">Per sell</option>
                     </select>
-                    <a href="#" id="saveSheet">Save Sheet</a>
+                    <span>Save sheet (not ready)</span>
                 </div>
             </nav>
 
-        <section id="currentSituationSec">
-                <table id="currentSituationTab"></table>
-            </section>
-
-        <section id="operationsSec">
-                <div id="purchasesDiv">
-                    <h2 id="h2purchases">Purchases</h2>
-                    <div id="tablesP"></div>
-                </div>
-
-                <div id="sellsDiv">
-                    <h2 id="h2sells">Sells</h2>
-                    <div id="tablesS"></div>
-                </div>
-            </section>
+            <CryptoSummaryList 
+                selectedSheet={sheetNames[0]}
+                setUserAuth={setUserAuth} 
+                token={token}
+            />
         </main>
     );
 }
