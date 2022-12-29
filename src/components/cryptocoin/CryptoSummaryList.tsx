@@ -22,7 +22,11 @@ type Props = {
 const CryptoSummaryList = (props: Props) => {
     const { selectedSheet, token, setUserAuth } = props;
     const navigate = useNavigate();
-    const [selectedAsset, setSelectedAsset] = useState('');
+    const [assetOperations, setAssetOperations] = useState({
+        asset: '',
+        purchases: [],
+        sells: [],
+    });
     const [cryptoSumm, setCryptoSumm] = useState([]);
 
     useEffect(() => {
@@ -36,13 +40,17 @@ const CryptoSummaryList = (props: Props) => {
     }, [selectedSheet]);
 
     const renderedSummaryList = cryptoSumm.map((cryptoSummary: CryptoSummaryType, index) => {
-        // implement callback of onClick event listener
-        const backgroundColor = index % 2 ? 'gray' : 'noColor';
+        // Determines element class that shows which asset was selected
+        const backgroundColor = cryptoSummary.asset === assetOperations.asset ?
+            'green' : 
+            (index % 2 ? 'gray' : 'noColor');
 
         const cryptoAssetOperationsAction = async (token: string, sheetName: string, asset: string) => {
-            const res = await cryptoAssetOperations(token, sheetName, asset);
-
-            if (!ifLoginDoThing(res, setUserAuth, setSelectedAsset)) navigate('/main-menu');
+            if (backgroundColor !== 'green') {
+                const res = await cryptoAssetOperations(token, sheetName, asset);
+    
+                if (!ifLoginDoThing(res, setUserAuth, setAssetOperations)) navigate('/main-menu');
+            }
         }
 
         return (
@@ -71,7 +79,10 @@ const CryptoSummaryList = (props: Props) => {
                 {renderedSummaryList}    
             </tbody>
         </table>
-        {selectedAsset === '' ? null : <CryptoOperations />}
+        {assetOperations.asset !== '' ? 
+            <CryptoOperations purchases={assetOperations.purchases} sells={assetOperations.sells} /> : 
+            null
+        }
     </section>
 }
 

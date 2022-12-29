@@ -21,7 +21,7 @@ const MainMenu = (props: Props): JSX.Element => {
         const actionRequestUser = async (userAuth: Props['userAuth']) => {
             const res = await requestUser(userAuth.token, userAuth.userName);
 
-           ifLoginDoThing(res, setUserAuth, () => console.log('at main-menu', res))
+           ifLoginDoThing(res, setUserAuth, () => console.log('logged'))
         }
 
         actionRequestUser(userAuth);

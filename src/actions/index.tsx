@@ -32,7 +32,6 @@ const requestUser = async (token: string, username: string) => {
             }
         });
 
-        console.log(res);
         return res.data.user;
     } catch (err: any) {
         // make type verification!

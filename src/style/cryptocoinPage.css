@@ -13,7 +13,7 @@
 #navCryptos {
     margin-top: 1rem;
     padding: .5rem;
-    background-color: green;
+    background-color: var(--this-green);
     font-weight: bold;
     border-radius: 0.25rem;
 }
@@ -32,15 +32,15 @@
     color: black;
 }
 
-.cryptoSummaryTable .leftColumn {
+.leftColumn {
     text-align: left;
     padding-left: .5rem;
 }
 
-.cryptoSummaryTable .middleColumn {
+.middleColumn {
     text-align: right;
 }
-.cryptoSummaryTable .rightColumn {
+.rightColumn {
     padding-right: .5rem;
     text-align: right;
 }
@@ -49,8 +49,13 @@
     background-color: azure;
 }
 
+.cryptoSummaryTable .green {
+    background-color: var(--this-green);
+    color: white;
+}
+
 .cryptoSummaryTable th {
-    background-color: green;
+    background-color: var(--this-green);
     font-weight: bold;
     color: white;
     font-size: large;
@@ -60,4 +65,19 @@
     cursor: pointer;
     background-color: green;
     color: white;
+}
+
+.sellTableSelected {
+    color: red;
+}
+
+.cryptoOpList {
+    font-size: large;
+    font-weight: bold;
+    width: 100%;
+    margin-bottom: 1rem;
+}
+
+.showSells:hover {
+    cursor: pointer;
 }
