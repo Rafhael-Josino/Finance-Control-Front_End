@@ -98,9 +98,9 @@ const listTransactions = async (token: string) => {
     }
  }
 
- const cryptoAssetOperations = async (token: string, sheetName: string, asset: string) => {
+ const cryptoAssetOperations = async (token: string, sheetName: string, asset: string, resume: string) => {
     try {
-        const res = await financeControlAPI.get(`/cryptocoin/sheet/${sheetName}/${asset}`, {
+        const res = await financeControlAPI.get(`/cryptocoin/sheet/${sheetName}/${asset}/${resume}`, {
             headers: {
                 Authorization: `Bearer ${token}`
             }
