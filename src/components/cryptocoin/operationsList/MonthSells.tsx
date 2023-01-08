@@ -1,4 +1,5 @@
 import { SellTypeMonth, PurchaseSold } from "../../../types";
+import CurrencyFormating from "../../../utils/CurrencyFormating";
 
 type Props = {
     sells:  SellTypeMonth[],
@@ -42,7 +43,7 @@ function MonthSells(props: Props) {
                 </tr>
                 <tr>
                     <td className="leftColumn">Aquisition Value:</td>
-                    <td className="rightColumn">{sell.aquisitionValue}</td>
+                    <td className="rightColumn">{CurrencyFormating(sell.aquisitionValue)}</td>
                 </tr>
                 <tr style={{backgroundColor:"azure"}}>
                     <td className="leftColumn">Quantity Sold:</td>
@@ -50,7 +51,7 @@ function MonthSells(props: Props) {
                 </tr>
                 <tr>
                     <td className="leftColumn">Value Received:</td>
-                    <td className="rightColumn">R$ {sell.receivedValue}</td>
+                    <td className="rightColumn">{CurrencyFormating(sell.receivedValue)}</td>
                 </tr>
             </tbody>
         </table>

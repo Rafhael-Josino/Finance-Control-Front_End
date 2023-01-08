@@ -17,6 +17,7 @@ const Cryptos = (props: Props) => {
     const { token, setUserAuth } = props;
     const [sheetNames, setSheetNames] = useState([]);
     const [showSellMode, setShowSellMode] = useState('month');
+    const [showOrder, setShowOrder] = useState('');
 
     useEffect(() => {
         const cryptocoinSheetsAction = async (token: string) => {
@@ -36,6 +37,10 @@ const Cryptos = (props: Props) => {
         setShowSellMode(event.target.value);
     }
 
+    const setShowOrderHelper = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        setShowOrder(event.target.value);
+    }
+
     return (
         <main id="cryptosMenu">
             <nav id="navCryptos">
@@ -46,9 +51,14 @@ const Cryptos = (props: Props) => {
                         {renderedSheets}
                     </select>
                     <span>Parse sheet (not ready)</span>
-                    <select name="sellsTimeSpan" id="sellsTimeSpan" onChange={(e) => setShowSellHelper(e)}>
+                    <select name="sellsTimeSpan" onChange={(e) => setShowSellHelper(e)}>
                         <option value="month">Monthly</option>
                         <option value="individual">Per sell</option>
+                    </select>
+                    <select onChange={(e) => setShowOrderHelper(e)}>
+                        <option value='asset'>Asset name</option>
+                        <option value='quantity'>Quantity</option>
+                        <option value='totalValue'>Total value</option>
                     </select>
                 </div>
             </nav>
@@ -58,6 +68,7 @@ const Cryptos = (props: Props) => {
                 setUserAuth={setUserAuth} 
                 token={token}
                 showSellMode={showSellMode}
+                showOrder={showOrder}
             />
         </main>
     );

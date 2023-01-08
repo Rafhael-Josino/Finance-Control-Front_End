@@ -1,12 +1,5 @@
-type PurchaseType = {
-    purchase_id: string,
-    purchase_date: string,
-    purchase_local: string,
-    total_bought: number,
-    purchase_medium_price: number,
-    tax: number,
-    remain_quant: number,
-}
+import { PurchaseType } from "../../../types";
+import CurrencyFormating from "../../../utils/CurrencyFormating";
 
 type Props = {
     purchases: PurchaseType[],
@@ -37,7 +30,7 @@ function PurchasesList (props: Props) {
                 </tr>
                 <tr>
                     <td className="leftColumn">Purchase Medium Price:</td>
-                    <td className="rightColumn">{`R$ ${purchase.purchase_medium_price}`}</td>
+                    <td className="rightColumn">{CurrencyFormating(purchase.purchase_medium_price)}</td>
                 </tr>
                 <tr style={{backgroundColor:"azure"}}>
                     <td className="leftColumn">Total Bought:</td>

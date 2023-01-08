@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { cryptocoinSummary, cryptoAssetOperations } from "../../actions";
 import ifLoginDoThing from "../../hooks/useIfLoginDoThing";
 import OperationsSec from "./OperationsSec";
+import CurrencyFormating from "../../utils/CurrencyFormating";
 
 type CryptoSummaryType = {
     asset: string,
@@ -18,10 +19,11 @@ type Props = {
         token: string;
     }>>,
     showSellMode: string,
+    showOrder: string,
 }
 
 const CryptoSummaryList = (props: Props) => {
-    const { selectedSheet, token, setUserAuth, showSellMode } = props;
+    const { selectedSheet, token, setUserAuth, showSellMode, showOrder } = props;
     const navigate = useNavigate();
     const [assetOperations, setAssetOperations] = useState({
         asset: '',
@@ -44,7 +46,19 @@ const CryptoSummaryList = (props: Props) => {
         setAssetOperations({asset: '', purchases: [], sells: [] });
     }, [showSellMode])
 
-    const renderedSummaryList = cryptoSumm.map((cryptoSummary: CryptoSummaryType, index) => {
+    let cryptoSummOrdered: CryptoSummaryType[];
+
+    if (showOrder === 'asset') {
+        cryptoSummOrdered = cryptoSumm.sort((a: any, b: any) => (a.asset < b.asset) ? -1 : 1);
+    } else if (showOrder === 'quantity') {
+        cryptoSummOrdered = cryptoSumm.sort((a: any, b: any) => a.total_quant - b.total_quant);
+    } else if (showOrder === 'totalValue') {
+        cryptoSummOrdered = cryptoSumm.sort((a: any, b: any) => a.total_value - b.total_value);
+    } else {
+        cryptoSummOrdered = cryptoSumm;
+    }
+
+    const renderedSummaryList = cryptoSummOrdered.map((cryptoSummary: CryptoSummaryType, index) => {
         // Determines element class that shows which asset was selected
         const backgroundColor = cryptoSummary.asset === assetOperations.asset ?
             'green' : 
@@ -67,7 +81,7 @@ const CryptoSummaryList = (props: Props) => {
             >
                 <td className="leftColumn">{cryptoSummary.asset}</td>
                 <td className="middleColumn">{cryptoSummary.total_quant}</td>
-                <td className="rightColumn">{`R$ ${cryptoSummary.total_value}`}</td>
+                <td className="rightColumn">{CurrencyFormating(cryptoSummary.total_value)}</td>
             </tr>
         );
     });
