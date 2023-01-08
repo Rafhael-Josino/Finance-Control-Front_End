@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { cryptocoinSummary, cryptoAssetOperations } from "../../actions";
 import ifLoginDoThing from "../../hooks/useIfLoginDoThing";
-import CryptoOperations from "./CryptoOperations";
+import OperationsSec from "./OperationsSec";
 
 type CryptoSummaryType = {
     asset: string,
@@ -17,10 +17,11 @@ type Props = {
         userName: string;
         token: string;
     }>>,
+    showSellMode: string,
 }
 
 const CryptoSummaryList = (props: Props) => {
-    const { selectedSheet, token, setUserAuth } = props;
+    const { selectedSheet, token, setUserAuth, showSellMode } = props;
     const navigate = useNavigate();
     const [assetOperations, setAssetOperations] = useState({
         asset: '',
@@ -39,16 +40,21 @@ const CryptoSummaryList = (props: Props) => {
         cryptocoinSummaryAction(token, selectedSheet);
     }, [selectedSheet]);
 
+    useEffect(() => {
+        setAssetOperations({asset: '', purchases: [], sells: [] });
+    }, [showSellMode])
+
     const renderedSummaryList = cryptoSumm.map((cryptoSummary: CryptoSummaryType, index) => {
         // Determines element class that shows which asset was selected
         const backgroundColor = cryptoSummary.asset === assetOperations.asset ?
             'green' : 
             (index % 2 ? 'gray' : 'noColor');
 
+        //Request of the respective asset's operations
         const cryptoAssetOperationsAction = async (token: string, sheetName: string, asset: string) => {
             if (backgroundColor !== 'green') {
-                const res = await cryptoAssetOperations(token, sheetName, asset);
-    
+                const res = await cryptoAssetOperations(token, sheetName, asset, showSellMode);
+
                 if (!ifLoginDoThing(res, setUserAuth, setAssetOperations)) navigate('/main-menu');
             }
         }
@@ -67,22 +73,25 @@ const CryptoSummaryList = (props: Props) => {
     });
 
     return <section>
-        <table className='cryptoSummaryTable'>
-            <thead>
-                <tr>
-                    <th className="leftColumn">Asset</th>
-                    <th className="middleColumn">Quantity</th>
-                    <th className="rightColumn">Total Value</th>
-                </tr>
-            </thead>
-            <tbody>
-                {renderedSummaryList}    
-            </tbody>
-        </table>
-        {assetOperations.asset !== '' ? 
-            <CryptoOperations purchases={assetOperations.purchases} sells={assetOperations.sells} /> : 
-            null
-        }
+        <section>
+            <table className='cryptoSummaryTable'>
+                <thead>
+                    <tr>
+                        <th className="leftColumn">Asset</th>
+                        <th className="middleColumn">Quantity</th>
+                        <th className="rightColumn">Total Value</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {renderedSummaryList}    
+                </tbody>
+            </table>
+        </section>
+        <OperationsSec 
+            purchases={assetOperations.purchases}
+            sells={assetOperations.sells}
+            showSellMode={showSellMode}
+        />
     </section>
 }
 

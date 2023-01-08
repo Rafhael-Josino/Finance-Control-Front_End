@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react";
+import { useState } from "react";
 
 type PurchaseType = {
     purchase_id: string,
@@ -33,7 +33,6 @@ function CryptoOperations(props: Props) {
         sellSelected: '',
         purchasesSold: [] as SellType['purchases_sold']
     });
- 
     
     const renderedPurchases = purchases.map((purchase, index) => {
         let quantitySoldTableRoll = null;
@@ -57,6 +56,10 @@ function CryptoOperations(props: Props) {
                 <tr>
                     <td className="leftColumn">Purchase Local:</td>
                     <td className="rightColumn">{purchase.purchase_local}</td>
+                </tr>
+                <tr>
+                    <td className="leftColumn">Purchase Medium Price:</td>
+                    <td className="rightColumn">{`R$ ${purchase.purchase_medium_price}`}</td>
                 </tr>
                 <tr>
                     <td className="leftColumn">Total Bought:</td>
@@ -109,19 +112,22 @@ function CryptoOperations(props: Props) {
                 </tr>
             </tbody>
         </table>
-    })
+    });
 
-    return <section id="operationsSec">
-        <div id="purchasesDiv">
-            <h2 id="h2purchases">Purchases</h2>
-            {renderedPurchases}
-        </div>
+    return <section>
+        <div id="operationsSec">
+            <div id="purchasesDiv">
+                <h2 id="h2purchases">Purchases</h2>
+                {renderedPurchases}
+            </div>
 
-        <div id="sellsDiv">
-            <h2 id="h2sells">Sells</h2>
-            {renderedSells}
+            <div id="sellsDiv">
+                <h2 id="h2sells">Sells</h2>
+                {renderedSells}
+            </div>
         </div>
-    </section>
+    </section> 
+    
 
 }
 
