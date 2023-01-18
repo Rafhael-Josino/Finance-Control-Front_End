@@ -4,6 +4,7 @@ import MainMenu from "../pages/MainMenu";
 import Transactions from "../pages/Transactions";
 import Cryptos from "../pages/Cryptos";
 import LoginMenu from "../pages/LoginMenu";
+import SignUp from "../pages/SignUp";
 
 type Props = {
     userAuth: {
@@ -27,6 +28,7 @@ const AppRoutes = (props: Props) => {
                 <LoginMenu setUserAuth={setUserAuth} /> :
                 <MainMenu setUserAuth={setUserAuth} userAuth={userAuth}/>
             } />
+            <Route path='/sign-up' element={<SignUp setUserAuth={setUserAuth} />} />
             <Route path='/transactions' element={<Transactions setUserAuth={setUserAuth} token={userAuth.token} />} />
             <Route path='/cryptocoins' element={<Cryptos setUserAuth={setUserAuth} token={userAuth.token} />} />
         </Routes>

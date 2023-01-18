@@ -1,5 +1,4 @@
 import { useState } from "react";
-
 import { requestLogin } from "../actions";
 
 type Props = {
@@ -21,7 +20,7 @@ const LoginMenu = (props: Props): JSX.Element => {
         
         const res = await requestLogin({ userName, password });
  
-        if (res === 'Username or password incorrect') setInvalidLogin('invalidLogin');
+        if (res === 'Username or password incorrect') setInvalidLogin('sign-error');
  
         else {
             console.log(res)
@@ -33,12 +32,11 @@ const LoginMenu = (props: Props): JSX.Element => {
 
     return (
         <main id="mainMenu">
-            <div className="mainMenu">Finances Main Menu</div>
             <div className="divLogin">
                 <div className="divForm">
-                    <h2>Login</h2>
                     <form action="./newTransaction" method="post" id="newForm">
                         <div className="input-group">
+                            <div>Username:</div>
                             <label>
                                 <input 
                                     type='text' 
@@ -51,6 +49,7 @@ const LoginMenu = (props: Props): JSX.Element => {
                             </label>
                         </div>
                         <div className="input-group">
+                            <div>Password:</div>
                             <label>
                                 <input 
                                     type="password"
@@ -67,12 +66,10 @@ const LoginMenu = (props: Props): JSX.Element => {
                                 type="submit"
                                 id="newConfirm"
                                 onClick={(event) => buttonSubmit(event)}
-                            >
-                                Login
-                            </button>
+                            >Login</button>
                         </div>
                         <div className={invalidLogin}>
-                            <span>User or password uncorrect</span>
+                            <span>User or password incorrect</span>
                         </div>
                     </form>
                 </div>

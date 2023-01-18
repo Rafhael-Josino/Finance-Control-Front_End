@@ -31,7 +31,7 @@ const App = (): JSX.Element => {
 
     return (
         <React.Fragment>
-            <Navigator userAuth={userAuth} />
+            <Navigator userAuth={userAuth} setUserAuth={setUserAuth} />
             <AppRoutes setUserAuth={setUserAuth} userAuth={userAuth} />
         </React.Fragment>
     );

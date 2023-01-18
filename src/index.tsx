@@ -3,6 +3,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 
 import './style/index.css';
 import './style/cryptocoinPage.css'
+import './style/signMenus.css'
 import App from './components/App';
 
 

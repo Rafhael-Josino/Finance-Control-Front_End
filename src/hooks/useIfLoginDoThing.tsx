@@ -1,4 +1,3 @@
-
 function useIfLoginDoThing<actionResType> (
     actionRes: actionResType,
     authFunc: React.Dispatch<React.SetStateAction<{

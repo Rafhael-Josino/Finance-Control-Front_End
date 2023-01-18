@@ -40,6 +40,18 @@ const requestUser = async (token: string, username: string) => {
     }
 }
 
+const createUser =async (loginInfo: LoginInfo) => {
+    try {
+        const res = await financeControlAPI.post('/account', loginInfo);
+
+        return res;
+    } catch(err: any) {
+        // make type verification!
+        console.log('error:', err.response.data.message)
+        return err.response.data.message;
+    }
+}
+
 /** List Transactions */
 
 type Transaction = {
@@ -117,6 +129,7 @@ const listTransactions = async (token: string) => {
 export { 
     requestLogin, 
     requestUser,
+    createUser,
     listTransactions,
     cryptocoinSheets,
     cryptocoinSummary,

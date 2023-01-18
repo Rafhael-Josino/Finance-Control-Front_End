@@ -1,0 +1,22 @@
+.divLogin {
+    background-color: var(--background-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: .5rem;
+}
+
+.sign-error, .sign-up-error, .password-mismatch {
+    color: red;
+    margin: .4rem;
+    display: flex;
+    justify-content: center;
+}
+
+.diffPassword {
+    color: red;
+}
+
+.sign-out {
+    text-decoration: underline;
+}
