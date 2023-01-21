@@ -44,7 +44,7 @@ const CryptoSummaryList = (props: Props) => {
 
     useEffect(() => {
         setAssetOperations({asset: '', purchases: [], sells: [] });
-    }, [showSellMode])
+    }, [showSellMode, cryptoSumm]);
 
     let cryptoSummOrdered: CryptoSummaryType[];
 

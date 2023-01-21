@@ -1,5 +1,6 @@
 //import { AxiosError } from "axios";
 import financeControlAPI from "../apis/financeControlAPI";
+import axios from "axios";
 
 /** Login */
 
@@ -126,6 +127,26 @@ const listTransactions = async (token: string) => {
     }
  }
 
+ const sendCryptoSheet = async (rawData: FormData, token: string) => {
+    try {
+        const res = await axios({
+            method: 'post',
+            url: 'http://localhost:8000/cryptocoin/saveSheet2/yes',
+            data: { rawData },
+            headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "multipart/form-data",
+            }
+        });
+
+        console.log(res);
+    } catch(err: any) {
+        // make type verification!
+        console.log('error:', err.response.data.message)
+        return err.response.data.message;
+    }
+ }
+
 export { 
     requestLogin, 
     requestUser,
@@ -134,4 +155,5 @@ export {
     cryptocoinSheets,
     cryptocoinSummary,
     cryptoAssetOperations,
+    sendCryptoSheet,
 }

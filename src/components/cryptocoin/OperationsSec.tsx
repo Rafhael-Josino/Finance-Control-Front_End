@@ -11,14 +11,14 @@ type Props = {
 
 function OperationsSec(props: Props) {
     const { purchases, sells, showSellMode } = props;
-    const [highlightedOps, setHighlightedOps] = useState([])
+    const [highlightedOps, setHighlightedOps] = useState<string[]>([])
     
     useEffect(() => {
         setHighlightedOps([]);
-    }, [showSellMode]);
+    }, [showSellMode, purchases, sells]);
 
     const setHighlightedOpsHelper = (idsList: string[]) => {
-        setHighlightedOps(idsList as SetStateAction<never[]>);
+        setHighlightedOps(idsList);
     }
 
     const RenderedSells = showSellMode === 'month' ? 

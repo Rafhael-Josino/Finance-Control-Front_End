@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { cryptocoinSheets } from "../actions";
 import ifLoginDoThing from "../hooks/useIfLoginDoThing";
 import CryptoSummaryList from "../components/cryptocoin/CryptoSummaryList";
+import UploadSheet from "../components/cryptocoin/UploadSheet";
 
 type Props = {
     token: string,
@@ -15,12 +16,14 @@ type Props = {
 const Cryptos = (props: Props) => {
     const navigate = useNavigate();
     const { token, setUserAuth } = props;
-    const [sheetNames, setSheetNames] = useState([]);
-    const [showSellMode, setShowSellMode] = useState('month');
-    const [showOrder, setShowOrder] = useState('');
+    const [sheetNames, setSheetNames] = useState<string[]>([]);
+    const [sheetIndex, setSheetIndex] = useState<number>(-1);
+    const [showSellMode, setShowSellMode] = useState<string>('month');
+    const [showOrder, setShowOrder] = useState<string>('');
 
     useEffect(() => {
         const cryptocoinSheetsAction = async (token: string) => {
+            // Get the names of the sheets parsed
             const res = await cryptocoinSheets(token);
 
             if (!ifLoginDoThing(res, setUserAuth, setSheetNames)) navigate('/main-menu')
@@ -29,9 +32,13 @@ const Cryptos = (props: Props) => {
         cryptocoinSheetsAction(token);
     }, []);
 
-    const renderedSheets = sheetNames.map((sheet: string) => {
-        return <option key={sheet} value={sheet}>{sheet}</option>
+    const renderedSheets = sheetNames.map((sheet: string, index: number) => {
+        return <option key={index} value={index}>{sheet}</option>
     });
+
+    const handleOnChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        if (event.target.value !== '-1') setSheetIndex(Number(event.target.value));
+    }
 
     const setShowSellHelper = (event: React.ChangeEvent<HTMLSelectElement>) => {
         setShowSellMode(event.target.value);
@@ -46,15 +53,24 @@ const Cryptos = (props: Props) => {
             <nav id="navCryptos">
                 <div>Cryptos Operations Log</div>
                 <div className="subHeader">
-                    <span>Sheet parsed:</span>
-                    <select name="loadSheet" id="loadSheet">
+                    <select 
+                        name="loadSheet" 
+                        id="loadSheet"
+                        onChange={event=>handleOnChange(event)}
+                    >
+                        <option value={-1}>Select a sheet</option>
                         {renderedSheets}
                     </select>
-                    <span>Parse sheet (not ready)</span>
+
+                    <span>or</span>
+                    <UploadSheet setUserAuth={setUserAuth} token={token} />
+                    
+                    <span>/</span>
                     <select name="sellsTimeSpan" onChange={(e) => setShowSellHelper(e)}>
                         <option value="month">Monthly</option>
                         <option value="individual">Per sell</option>
                     </select>
+                    
                     <select onChange={(e) => setShowOrderHelper(e)}>
                         <option value='asset'>Asset name</option>
                         <option value='quantity'>Quantity</option>
@@ -64,7 +80,7 @@ const Cryptos = (props: Props) => {
             </nav>
 
             <CryptoSummaryList 
-                selectedSheet={sheetNames[0]}
+                selectedSheet={sheetNames[sheetIndex]}
                 setUserAuth={setUserAuth} 
                 token={token}
                 showSellMode={showSellMode}
