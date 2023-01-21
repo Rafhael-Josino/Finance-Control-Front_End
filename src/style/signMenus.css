@@ -6,6 +6,15 @@
     padding: .5rem;
 }
 
+.sign-button {
+    width: 100%;
+    height: 50px;
+    border: none;
+    padding: 0;
+    border-radius: .25rem;
+    cursor: pointer;
+}
+
 .sign-error, .sign-up-error, .password-mismatch {
     color: red;
     margin: .4rem;

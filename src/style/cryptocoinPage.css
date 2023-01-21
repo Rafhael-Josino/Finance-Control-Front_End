@@ -27,6 +27,12 @@
     font-size: .8rem;
 }
 
+.upload-crypto-button {
+    background-color: green;
+    color: white;
+    font-weight: bold;
+}
+
 .cryptoSummaryTable {
     width: 100%;
     color: black;
