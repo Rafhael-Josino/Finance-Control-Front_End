@@ -9,13 +9,12 @@ type Props = {
 function PurchasesList (props: Props) {
     const { purchases, highlightedOps } = props;
     
-    let tableClass: string;
-
+    
     const renderedPurchases = purchases.map((purchase) => {
+        let tableClass: string = 'cryptoOpList';
+        
         if (highlightedOps.includes(purchase.purchase_id)) {
-            tableClass = 'cryptoOpList highlighted';
-        } else {
-            tableClass = 'cryptoOpList';
+            tableClass = 'cryptoOpSelected';
         }
 
         return <table className={tableClass} key={purchase.purchase_id}>

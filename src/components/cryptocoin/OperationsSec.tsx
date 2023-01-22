@@ -1,35 +1,40 @@
-import { useState, useEffect, SetStateAction } from "react";
+import { useState, useEffect } from "react";
 import PurchasesList from "./operationsList/Purchases";
 import MonthSells from "./operationsList/MonthSells";
-import { PurchaseType, PurchaseSold, SellType, SellTypeMonth } from "../../types";
+import IndividualSells from "./operationsList/IndividualSells";
+import { PurchaseType, SellType, SellTypeMonth } from "../../types";
 
 type Props = {
     purchases: PurchaseType[],
-    sells: SellType[] | SellTypeMonth[],
+    individualSells: SellType[],
+    monthlySells: SellTypeMonth[],
     showSellMode: string,
 }
 
 function OperationsSec(props: Props) {
-    const { purchases, sells, showSellMode } = props;
+    const { purchases, individualSells, monthlySells, showSellMode } = props;
     const [highlightedOps, setHighlightedOps] = useState<string[]>([])
     
     useEffect(() => {
         setHighlightedOps([]);
-    }, [showSellMode, purchases, sells]);
+    }, [showSellMode, purchases]);
 
     const setHighlightedOpsHelper = (idsList: string[]) => {
         setHighlightedOps(idsList);
     }
 
-    const RenderedSells = showSellMode === 'month' ? 
-        <MonthSells 
-            sells={sells as SellTypeMonth[]}
-            highlightedOps={highlightedOps}
-            setHighlightedOpsHelper={setHighlightedOpsHelper}
-        /> 
-        :
-        0 //temp
-
+    const RenderedSells = showSellMode === 'individual' ?   
+    <IndividualSells 
+        sells={individualSells}
+        highlightedOps={highlightedOps}
+        setHighlightedOpsHelper={setHighlightedOpsHelper}
+    /> :
+    <MonthSells 
+        sells={monthlySells}
+        highlightedOps={highlightedOps}
+        setHighlightedOpsHelper={setHighlightedOpsHelper}
+    /> 
+        
     return <section id="operationsSec">
         <PurchasesList 
             purchases={purchases}

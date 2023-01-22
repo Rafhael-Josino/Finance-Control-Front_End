@@ -90,12 +90,18 @@
     border: .1rem inset;
 }
 
-.cryptoOpList.highlighted {
+.cryptoOpSelected {
+    font-weight: bold;
+    width: 100%;
+    margin-bottom: 1rem;
+    border: .1rem solid;
     border-color: red;
 }
 
-/* delete */
-.showSells:hover {
+.cryptoOpSelected:hover {
     cursor: pointer;
 }
 
+.purchase_sold_table {
+    width: 100%;
+}

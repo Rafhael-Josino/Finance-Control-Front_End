@@ -1,3 +1,9 @@
+type CryptoSummaryType = {
+    asset: string,
+    total_quant: number,
+    total_value: number,
+}
+
 type PurchaseType = {
     purchase_id: string,
     purchase_date: string,
@@ -21,6 +27,7 @@ type SellType = {
     sell_local: string,
     quant_sold: number,
     received: number,
+    aquisitionValue: number,
     purchases_sold: PurchaseSold[],
 }
 
@@ -33,4 +40,22 @@ type SellTypeMonth = {
     purchasesSold: PurchaseSold[],
 }
 
-export type { PurchaseType, PurchaseSold, SellType, SellTypeMonth }
+/**
+ * Responses types
+ */
+
+// Asset operations (individual sells)
+type res1 = {
+    asset: string, 
+    purchases: PurchaseType[],
+    sells: SellType[],
+}
+
+// Asset operations (monthly sells)
+type res2 = {
+    asset: string, 
+    purchases: PurchaseType[],
+    sells: SellTypeMonth[],
+}
+
+export type { CryptoSummaryType, PurchaseType, PurchaseSold, SellType, SellTypeMonth, res1, res2 }

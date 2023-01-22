@@ -23,13 +23,13 @@ function MonthSells(props: Props) {
 
     const renderedSells = sells.map((sell, index) => {
         const purchaseDate = sell.purchasesSold[0].purchase_date.slice(0,7);
+        let className: string = 'cryptoOpList sell';
 
-        let className: string;
+        // The first element of the hightlighted ids list is of the sell selected
+        // If this is the one, updates the class name that is highlighted by the CSS
         if (highlightedOps[0] === String(index)) {
-            className='cryptoOpList sell highlighted';
-        } else {
-            className='cryptoOpList sell';
-        }
+            className='cryptoOpSelected';
+        } 
 
         return <table className={className} key={index} onClick={()=>activateHighlight(sell.purchasesSold, String(index))}>
             <tbody>

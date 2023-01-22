@@ -4,12 +4,8 @@ import { cryptocoinSummary, cryptoAssetOperations } from "../../actions";
 import ifLoginDoThing from "../../hooks/useIfLoginDoThing";
 import OperationsSec from "./OperationsSec";
 import CurrencyFormating from "../../utils/CurrencyFormating";
-
-type CryptoSummaryType = {
-    asset: string,
-    total_quant: number,
-    total_value: number,
-}
+import { CryptoSummaryType, PurchaseType, res1, res2, SellType, SellTypeMonth } from "../../types";
+import IndividualSells from "./operationsList/IndividualSells";
 
 type Props = {
     selectedSheet: string,
@@ -25,13 +21,24 @@ type Props = {
 const CryptoSummaryList = (props: Props) => {
     const { selectedSheet, token, setUserAuth, showSellMode, showOrder } = props;
     const navigate = useNavigate();
-    const [assetOperations, setAssetOperations] = useState({
+    const [assetOperations, setAssetOperations] = useState<{
+        asset: string,
+        purchases: PurchaseType[],
+        individualSells: SellType[],
+        monthlySells: SellTypeMonth[],
+    }>({
         asset: '',
         purchases: [],
-        sells: [],
+        individualSells: [],
+        monthlySells: [],
     });
     const [cryptoSumm, setCryptoSumm] = useState([]);
 
+    /**
+     * Use effect
+     */
+
+    // Get the summary list of crytocoins in this account
     useEffect(() => {
         const cryptocoinSummaryAction = async (token: string, sheetName: string) => {
             const res = await cryptocoinSummary(token, sheetName);
@@ -42,20 +49,56 @@ const CryptoSummaryList = (props: Props) => {
         cryptocoinSummaryAction(token, selectedSheet);
     }, [selectedSheet]);
 
+    // Resets the lists of operations displayed
     useEffect(() => {
-        setAssetOperations({asset: '', purchases: [], sells: [] });
+        setAssetOperations({
+            asset: '', 
+            purchases: [], 
+            individualSells: [],
+            monthlySells: [],
+        });
     }, [showSellMode, cryptoSumm]);
+
+    /**
+     * Sets the order by which the rows of each cryptocoin summary are displayed
+     */
 
     let cryptoSummOrdered: CryptoSummaryType[];
 
+    // Alphabetical
     if (showOrder === 'asset') {
         cryptoSummOrdered = cryptoSumm.sort((a: any, b: any) => (a.asset < b.asset) ? -1 : 1);
+    // Decreasingly quantity of each cryptocoin
     } else if (showOrder === 'quantity') {
-        cryptoSummOrdered = cryptoSumm.sort((a: any, b: any) => a.total_quant - b.total_quant);
+        cryptoSummOrdered = cryptoSumm.sort((a: any, b: any) => b.total_quant - a.total_quant);
+    // Deacresingly total value of each cryptocoin
     } else if (showOrder === 'totalValue') {
-        cryptoSummOrdered = cryptoSumm.sort((a: any, b: any) => a.total_value - b.total_value);
+        cryptoSummOrdered = cryptoSumm.sort((a: any, b: any) => b.total_value - a.total_value);
+    // No order, the list is displayed as it was received
     } else {
         cryptoSummOrdered = cryptoSumm;
+    }
+
+    /**
+     * The renderenring of the (ordered) summary list
+     */
+
+    const setAssetOperationsHandler1 = (res: res1) => {
+        setAssetOperations({
+            asset: res.asset,
+            purchases: res.purchases,
+            individualSells: res.sells,
+            monthlySells: assetOperations.monthlySells
+        });
+    }
+
+    const setAssetOperationsHandler2 = (res: res2) => {
+        setAssetOperations({
+            asset: res.asset,
+            purchases: res.purchases,
+            individualSells: assetOperations.individualSells,
+            monthlySells: res.sells
+        });
     }
 
     const renderedSummaryList = cryptoSummOrdered.map((cryptoSummary: CryptoSummaryType, index) => {
@@ -69,7 +112,12 @@ const CryptoSummaryList = (props: Props) => {
             if (backgroundColor !== 'green') {
                 const res = await cryptoAssetOperations(token, sheetName, asset, showSellMode);
 
-                if (!ifLoginDoThing(res, setUserAuth, setAssetOperations)) navigate('/main-menu');
+                if (showSellMode === 'individual') {
+                    if (!ifLoginDoThing(res, setUserAuth, setAssetOperationsHandler1)) navigate('/main-menu');
+                } else if(showSellMode === 'month') {
+                    if (!ifLoginDoThing(res, setUserAuth, setAssetOperationsHandler2)) navigate('/main-menu');
+                }
+                //if (!ifLoginDoThing(res, setUserAuth, setAssetOperations)) navigate('/main-menu');
             }
         }
 
@@ -103,7 +151,8 @@ const CryptoSummaryList = (props: Props) => {
         </section>
         <OperationsSec 
             purchases={assetOperations.purchases}
-            sells={assetOperations.sells}
+            individualSells={assetOperations.individualSells}
+            monthlySells={assetOperations.monthlySells}
             showSellMode={showSellMode}
         />
     </section>

@@ -40,7 +40,7 @@ const Cryptos = (props: Props) => {
         if (event.target.value !== '-1') setSheetIndex(Number(event.target.value));
     }
 
-    const setShowSellHelper = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const setShowSellModeHelper = (event: React.ChangeEvent<HTMLSelectElement>) => {
         setShowSellMode(event.target.value);
     }
 
@@ -66,7 +66,7 @@ const Cryptos = (props: Props) => {
                     <UploadSheet setUserAuth={setUserAuth} token={token} />
                     
                     <span>/</span>
-                    <select name="sellsTimeSpan" onChange={(e) => setShowSellHelper(e)}>
+                    <select name="sellsTimeSpan" onChange={(e) => setShowSellModeHelper(e)}>
                         <option value="month">Monthly</option>
                         <option value="individual">Per sell</option>
                     </select>
