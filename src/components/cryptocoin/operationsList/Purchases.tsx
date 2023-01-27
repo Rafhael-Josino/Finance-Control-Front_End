@@ -14,7 +14,7 @@ function PurchasesList (props: Props) {
         let tableClass: string = 'cryptoOpList';
         
         if (highlightedOps.includes(purchase.purchase_id)) {
-            tableClass = 'cryptoOpSelected';
+            tableClass = 'purchaseSelected';
         }
 
         return <table className={tableClass} key={purchase.purchase_id}>

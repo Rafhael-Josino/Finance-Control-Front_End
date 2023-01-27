@@ -35,15 +35,15 @@ function IndividualSells(props: Props) {
             className='cryptoOpSelected';
 
             purchases_sold_rendered = sell.purchases_sold.map((purchase_sold, index) => {
-                return <table className={className} key={index}>
+                return <table className={'purchaseSold'} key={index}>
                     <tbody>
                         <tr style={{backgroundColor:"azure"}}>
                             <td className="leftColumn">Purchase Date:</td>
-                            <td className="rightColumn">{purchase_sold.purchase_date}</td>
+                            <td className="rightColumn">{purchase_sold.purchase_date.slice(0, 10)}</td>
                         </tr>
                         <tr>
                             <td className="leftColumn">Purchase Price:</td>
-                            <td className="rightColumn">{purchase_sold.purchase_medium_price}</td>
+                            <td className="rightColumn">{CurrencyFormating(purchase_sold.purchase_medium_price)}</td>
                         </tr>
                         <tr style={{backgroundColor:"azure"}}>
                             <td className="leftColumn">Quantity Sold:</td>
@@ -58,12 +58,12 @@ function IndividualSells(props: Props) {
             <table className={className} key={sell.sell_id} onClick={()=>activateHighlight(sell.purchases_sold, String(index))}>
                 <tbody>
                     <tr>
-                        <td className="leftColumn">Month of S.:</td>
-                        <td className="rightColumn">{sell.sell_date}</td>
+                        <td className="leftColumn">Date:</td>
+                        <td className="rightColumn">{sell.sell_date.slice(0, 10)}</td>
                     </tr>
                     <tr style={{backgroundColor:"azure"}}>
-                        <td className="leftColumn">Month of P.:</td>
-                        <td className="rightColumn">{purchaseDate}</td>
+                        <td className="leftColumn">Medium Price::</td>
+                        <td className="rightColumn">{CurrencyFormating(sell.received / sell.quant_sold)}</td>
                     </tr>
                     <tr>
                         <td className="leftColumn">Aquisition Value:</td>
@@ -84,7 +84,7 @@ function IndividualSells(props: Props) {
     });
 
     return <div id="sellsDiv">
-        <h2 id="h2sells">Sells</h2>
+        <h2 id="h2sells">Sells / Taxes</h2>
         {renderedSells}
     </div>
 }
