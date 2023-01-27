@@ -21,19 +21,24 @@ function UploadSheet(props: Props) {
     const handleOnSubmit = async (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         event.preventDefault();
 
-        const formData = new FormData();
-        formData.append("sheet", file as File);
-
-        console.log(file);
-
-        const res = await sendCryptoSheet(formData, token);
-
-        console.log(res);
+        if (file) {
+            const formData = new FormData();
+            formData.append("sheet", file as File);
+    
+            console.log(file);
+    
+            const res = await sendCryptoSheet(formData, token);
+    
+            ifLoginDoThing(res, setUserAuth, () => console.log('File uploaded'));
+        } else {
+            console.log('no file was selected')
+        }
     }
 
     return <form encType='multipart/form-data'>
         <input 
             type='file'
+            accept='.xlsx'
             name='sheet'
             className="sr-onl"
             onChange={event => handleOnChange(event)}    
@@ -47,11 +52,3 @@ function UploadSheet(props: Props) {
 }
 
 export default UploadSheet;
-
-/**
- * 
- *              type='file' 
-                accept='.csv' 
-                className="sr-only"
-                onChange={event => handleOnChange(event)}    
- */

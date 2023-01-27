@@ -51,31 +51,38 @@ const Cryptos = (props: Props) => {
     return (
         <main id="cryptosMenu">
             <nav id="navCryptos">
-                <div>Cryptos Operations Log</div>
                 <div className="subHeader">
-                    <select 
-                        name="loadSheet" 
-                        id="loadSheet"
-                        onChange={event=>handleOnChange(event)}
-                    >
-                        <option value={-1}>Select a sheet</option>
-                        {renderedSheets}
-                    </select>
+                    <div>
+                        <div>Sheet: {sheetNames[sheetIndex]}</div>
+                        <select 
+                            name="loadSheet" 
+                            id="loadSheet"
+                            onChange={event=>handleOnChange(event)}
+                        >
+                            <option value={-1}>Select a sheet</option>
+                            {renderedSheets}
+                        </select>
+                    </div>
 
                     <span>or</span>
                     <UploadSheet setUserAuth={setUserAuth} token={token} />
                     
-                    <span>/</span>
-                    <select name="sellsTimeSpan" onChange={(e) => setShowSellModeHelper(e)}>
-                        <option value="month">Monthly</option>
-                        <option value="individual">Per sell</option>
-                    </select>
+                    <div>
+                        <div>Sell's type:</div>
+                        <select name="sellsTimeSpan" onChange={(e) => setShowSellModeHelper(e)}>
+                            <option value="month">Monthly</option>
+                            <option value="individual">Per sell</option>
+                        </select>
+                    </div>
                     
-                    <select onChange={(e) => setShowOrderHelper(e)}>
-                        <option value='asset'>Asset name</option>
-                        <option value='quantity'>Quantity</option>
-                        <option value='totalValue'>Total value</option>
-                    </select>
+                    <div>
+                        <div>Order by:</div>
+                        <select onChange={(e) => setShowOrderHelper(e)}>
+                            <option value='asset'>Asset name</option>
+                            <option value='quantity'>Quantity</option>
+                            <option value='totalValue'>Total value</option>
+                        </select>
+                    </div>
                 </div>
             </nav>
 

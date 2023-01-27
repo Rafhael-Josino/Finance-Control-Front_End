@@ -1,5 +1,5 @@
 //import { AxiosError } from "axios";
-import financeControlAPI from "../apis/financeControlAPI";
+import financeControlAPI, { baseURL } from "../apis/financeControlAPI";
 import axios from "axios";
 
 /** Login */
@@ -129,15 +129,11 @@ const listTransactions = async (token: string) => {
 
  const sendCryptoSheet = async (rawData: FormData, token: string) => {
     try {
-        const res = await axios({
-            method: 'post',
-            url: 'http://localhost:8000/cryptocoin/saveSheet2/yes',
-            data: { rawData },
+        const res = await axios.post(`${baseURL}cryptocoin/saveSheet/yes`, rawData, {
             headers: {
-                Authorization: `Bearer ${token}`,
-                "Content-Type": "multipart/form-data",
+                Authorization: `Bearer ${token}`
             }
-        });
+        })
 
         console.log(res);
     } catch(err: any) {
