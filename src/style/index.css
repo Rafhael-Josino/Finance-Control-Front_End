@@ -111,20 +111,57 @@ button:hover {
 /* ################# index.html ##################### */
 /* ################################################## */
 
-#mainMenu {
-    margin-top: 1rem;
-    font-weight: bold;
+main.mainMenu {
+    margin-top: 2rem;
     width: 70vw;
     margin-left: 15vw;
     margin-right: 15vw;
     font-size: var(--custom-larger-font);
 }
 
-.mainMenu {
+div.mainMenu {
     padding: .5rem;
     border-radius: .25rem;
-    background-color: green;
+    background-color: var(--this-green);
     color: white;
+    margin-bottom: 1rem;
+}
+
+.mainMenuBody {
+    display: flex;
+    justify-content: space-around;
+}
+
+.mainMenuList {
+    display: flex;
+    flex-direction: column;
+    width: 25%;
+}
+
+.mainMenuDescription {
+    width: 40%;
+    font-size: medium;
+}
+
+.mainMenuDescription .description {
+    border: .1rem dotted;
+    border-radius: .25rem;
+    padding: .1rem;
+}
+
+.mainMenuList a:-webkit-any-link {
+    border-radius: .25rem;
+    background-color: var(--this-green);
+    color: white;
+    margin-bottom: .5rem;
+    text-decoration: none;
+    text-align: center;
+    padding: 0rem 1rem 0rem 1rem;
+    border: .1rem inset;
+}
+
+.mainMenuList a:-webkit-any-link:hover {
+    border-color: blueviolet;
 }
 
 #mainMenu a:hover {
