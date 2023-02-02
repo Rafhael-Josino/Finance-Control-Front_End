@@ -1,17 +1,13 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { sendCryptoSheet } from '../../actions';
-import ifLoginDoThing from "../../hooks/useIfLoginDoThing";
 
 type Props = {
     token: string,
-    setUserAuth: React.Dispatch<React.SetStateAction<{
-        userName: string;
-        token: string;
-    }>>,
+    verifyAuth: (res: any, next: (res: any) => void) => void
 }
 
 function UploadSheet(props: Props) {
-    const { token, setUserAuth } = props;
+    const { token, verifyAuth } = props;
     const [file, setFile] = useState<File>();
 
     const handleOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -29,7 +25,7 @@ function UploadSheet(props: Props) {
     
             const res = await sendCryptoSheet(formData, token);
     
-            ifLoginDoThing(res, setUserAuth, () => console.log('File uploaded'));
+            verifyAuth(res, (res) => console.log('File uploaded:\n', res))
         } else {
             console.log('no file was selected')
         }

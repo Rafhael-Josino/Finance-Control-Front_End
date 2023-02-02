@@ -1,15 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { listTransactions } from "../actions";
 import TransactionsList from "../components/transaction/TransactionsList";
-import ifLoginDoThing from "../hooks/useIfLoginDoThing";
 
 type Props = {
     token: string,
-    setUserAuth: React.Dispatch<React.SetStateAction<{
-        userName: string;
-        token: string;
-    }>>,
+    verifyAuth: (res: any, next: (res: any) => void) => void
 }
 
 type Transaction = {
@@ -20,9 +15,7 @@ type Transaction = {
 }
 
 const Transactions = (props: Props) => {
-    const { token, setUserAuth } = props;
-
-    const navigate = useNavigate();
+    const { token, verifyAuth } = props;
     const [inputType, setInputType ] = useState('text'); //necessary? -> test the pop up windows
     const [transactionsList, setTransactionsList] = useState([]);
 
@@ -39,11 +32,11 @@ const Transactions = (props: Props) => {
             // Get from server list of transactions from this user
             const res = await listTransactions(token);
 
-            if (!ifLoginDoThing(res, setUserAuth, setTransactionsList)) navigate('/main-menu')
+            verifyAuth(res, setTransactionsList);
         }
 
         transactionsListAction(token);
-    }, []); //this can be a problem
+    }, [token, verifyAuth]);
 
     return (
         <section id="financeMenu">

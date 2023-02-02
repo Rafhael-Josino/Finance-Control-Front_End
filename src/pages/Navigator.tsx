@@ -1,25 +1,20 @@
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 type Props = {
     userAuth: {
         userName: string;
         token: string;
     }, 
-    setUserAuth: React.Dispatch<React.SetStateAction<{
-        userName: string;
-        token: string;
-    }>>;
+   verifyAuth: (res: any) => void
 }
 
 function Navigator(props: Props): JSX.Element {
-    const { userAuth, setUserAuth } = props;
-    const navigate = useNavigate();
+    const { userAuth, verifyAuth } = props;
 
     const unauthenticate = () => {
         localStorage.removeItem('userName');
         localStorage.removeItem('token');
-        setUserAuth({userName: '', token: ''});
-        navigate('/main-menu')
+        verifyAuth('Invalid token')
     }
 
     const sign = userAuth.token === '' ?

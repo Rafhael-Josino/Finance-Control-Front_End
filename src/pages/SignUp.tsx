@@ -3,14 +3,11 @@ import { useNavigate } from "react-router-dom";
 import { createUser, requestLogin } from "../actions";
 
 type Props = {
-    setUserAuth: React.Dispatch<React.SetStateAction<{
-        userName: string;
-        token: string;
-    }>>;
+    authenticateUser: (userName: string, token: string) => void,
 }
 
 function SignUp(props: Props) {
-    const { setUserAuth } = props;
+    const { authenticateUser } = props;
     const navigate = useNavigate();
 
     const [newUserName, setNewUserName] = useState('');
@@ -35,15 +32,12 @@ function SignUp(props: Props) {
             });
 
             if (resCreateUser !== `Account ${newUserName} already exists`){
-                const resLogin = await requestLogin({
+                const token = await requestLogin({
                     userName: newUserName,
                     password: newPassword,
                 });
 
-                console.log(resLogin)
-                localStorage.setItem('token', resLogin);
-                localStorage.setItem('userName', newUserName);
-                setUserAuth({ userName: newUserName, token: resLogin });
+                authenticateUser(newUserName, token)
                 navigate('/main-menu');
             } else {
                 setSignUpError('sign-error-existing-account');

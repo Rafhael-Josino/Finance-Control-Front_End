@@ -2,14 +2,11 @@ import { useState } from "react";
 import { requestLogin } from "../actions";
 
 type Props = {
-    setUserAuth: React.Dispatch<React.SetStateAction<{
-        userName: string;
-        token: string;
-    }>>;
+    authenticateUser: (userName: string, token: string) => void,
 }
 
 const LoginMenu = (props: Props): JSX.Element => {
-    const { setUserAuth } = props;
+    const { authenticateUser } = props;
 
     const [userName, setUserName] = useState('');
     const [password, setPassword] = useState('');
@@ -20,13 +17,10 @@ const LoginMenu = (props: Props): JSX.Element => {
         
         const res = await requestLogin({ userName, password });
  
-        if (res === 'Username or password incorrect') setInvalidLogin('sign-error');
- 
-        else {
-            console.log(res)
-            localStorage.setItem('token', res);
-            localStorage.setItem('userName', userName);
-            setUserAuth({ userName, token: res });
+        if (res === 'Username or password incorrect') {
+            setInvalidLogin('sign-error');
+        } else {
+            authenticateUser(userName, res);
         }
     }
 

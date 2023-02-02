@@ -1,21 +1,15 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import { cryptocoinSheets } from "../actions";
-import ifLoginDoThing from "../hooks/useIfLoginDoThing";
 import CryptoSummaryList from "../components/cryptocoin/CryptoSummaryList";
 import UploadSheet from "../components/cryptocoin/UploadSheet";
 
 type Props = {
     token: string,
-    setUserAuth: React.Dispatch<React.SetStateAction<{
-        userName: string;
-        token: string;
-    }>>,
+    verifyAuth: (res: any, next: (res: any) => void) => void
 }
 
 const Cryptos = (props: Props) => {
-    const navigate = useNavigate();
-    const { token, setUserAuth } = props;
+    const { token, verifyAuth } = props;
     const [sheetNames, setSheetNames] = useState<string[]>([]);
     const [sheetIndex, setSheetIndex] = useState<number>(-1);
     const [showSellMode, setShowSellMode] = useState<string>('month');
@@ -26,11 +20,12 @@ const Cryptos = (props: Props) => {
             // Get the names of the sheets parsed
             const res = await cryptocoinSheets(token);
 
-            if (!ifLoginDoThing(res, setUserAuth, setSheetNames)) navigate('/main-menu')
+            //if (!ifLoginDoThing(res, setUserAuth, setSheetNames)) navigate('/main-menu')
+            verifyAuth(res, setSheetNames);
         }
 
         cryptocoinSheetsAction(token);
-    }, []);
+    }, [token, verifyAuth]);
 
     const renderedSheets = sheetNames.map((sheet: string, index: number) => {
         return <option key={index} value={index}>{sheet}</option>
@@ -65,7 +60,7 @@ const Cryptos = (props: Props) => {
                     </div>
 
                     <span>or</span>
-                    <UploadSheet setUserAuth={setUserAuth} token={token} />
+                    <UploadSheet token={token} verifyAuth={verifyAuth} />
                     
                     <div>
                         <div>Sell's type:</div>
@@ -87,9 +82,9 @@ const Cryptos = (props: Props) => {
             </nav>
 
             <CryptoSummaryList 
-                selectedSheet={sheetNames[sheetIndex]}
-                setUserAuth={setUserAuth} 
                 token={token}
+                verifyAuth={verifyAuth}
+                selectedSheet={sheetNames[sheetIndex]}
                 showSellMode={showSellMode}
                 showOrder={showOrder}
             />

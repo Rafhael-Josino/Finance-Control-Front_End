@@ -1,21 +1,17 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState,  } from 'react';
 import { Link } from "react-router-dom";
 import { requestUser } from '../actions';
-import ifLoginDoThing from '../hooks/useIfLoginDoThing';
 
 type Props = {
     userAuth: {
         userName: string;
         token: string;
     },
-    setUserAuth: React.Dispatch<React.SetStateAction<{
-        userName: string;
-        token: string;
-    }>>,
+    verifyAuth: (res: any) => void
 }
 
 const MainMenu = (props: Props): JSX.Element => {
-    const { userAuth, setUserAuth } = props;
+    const { userAuth, verifyAuth } = props;
     const [description, setDescription] = useState<number>(0)
 
     const descriptionsArray: string[] = [
@@ -28,11 +24,11 @@ const MainMenu = (props: Props): JSX.Element => {
         const actionRequestUser = async (userAuth: Props['userAuth']) => {
             const res = await requestUser(userAuth.token, userAuth.userName);
 
-           ifLoginDoThing(res, setUserAuth, () => console.log('logged'))
+           verifyAuth(res);
         }
 
         actionRequestUser(userAuth);
-    }, []);
+    }, [userAuth, verifyAuth]);
 
     const setDescriptionHandler =(newIndex: number) => {
         setDescription(newIndex);

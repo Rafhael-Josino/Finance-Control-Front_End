@@ -1,26 +1,19 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import { cryptocoinSummary, cryptoAssetOperations } from "../../actions";
-import ifLoginDoThing from "../../hooks/useIfLoginDoThing";
 import OperationsSec from "./OperationsSec";
 import CurrencyFormating from "../../utils/CurrencyFormating";
 import { CryptoSummaryType, PurchaseType, res1, res2, SellType, SellTypeMonth } from "../../types";
-import IndividualSells from "./operationsList/IndividualSells";
 
 type Props = {
-    selectedSheet: string,
     token: string,
-    setUserAuth: React.Dispatch<React.SetStateAction<{
-        userName: string;
-        token: string;
-    }>>,
+    verifyAuth: (res: any, next: (res: any) => void) => void
+    selectedSheet: string,
     showSellMode: string,
     showOrder: string,
 }
 
 const CryptoSummaryList = (props: Props) => {
-    const { selectedSheet, token, setUserAuth, showSellMode, showOrder } = props;
-    const navigate = useNavigate();
+    const { selectedSheet, token, showSellMode, showOrder, verifyAuth } = props;
     const [assetOperations, setAssetOperations] = useState<{
         asset: string,
         purchases: PurchaseType[],
@@ -43,11 +36,11 @@ const CryptoSummaryList = (props: Props) => {
         const cryptocoinSummaryAction = async (token: string, sheetName: string) => {
             const res = await cryptocoinSummary(token, sheetName);
 
-            if (!ifLoginDoThing(res, setUserAuth, setCryptoSumm)) navigate('/main-menu');
+            verifyAuth(res, setCryptoSumm);
         }
 
         cryptocoinSummaryAction(token, selectedSheet);
-    }, [selectedSheet]);
+    }, [selectedSheet, token, verifyAuth]);
 
     // Resets the lists of operations displayed
     useEffect(() => {
@@ -113,9 +106,11 @@ const CryptoSummaryList = (props: Props) => {
                 const res = await cryptoAssetOperations(token, sheetName, asset, showSellMode);
 
                 if (showSellMode === 'individual') {
-                    if (!ifLoginDoThing(res, setUserAuth, setAssetOperationsHandler1)) navigate('/main-menu');
+                    //if (!ifLoginDoThing(res, setUserAuth, setAssetOperationsHandler1)) navigate('/main-menu');
+                    verifyAuth(res, setAssetOperationsHandler1);
                 } else if(showSellMode === 'month') {
-                    if (!ifLoginDoThing(res, setUserAuth, setAssetOperationsHandler2)) navigate('/main-menu');
+                    //if (!ifLoginDoThing(res, setUserAuth, setAssetOperationsHandler2)) navigate('/main-menu');
+                    verifyAuth(res, setAssetOperationsHandler2);
                 }
                 //if (!ifLoginDoThing(res, setUserAuth, setAssetOperations)) navigate('/main-menu');
             }
