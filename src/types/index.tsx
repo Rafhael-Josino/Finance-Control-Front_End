@@ -1,3 +1,8 @@
+type SheetList = {
+    sheet_name: string;
+    created_at: string;
+}
+
 type CryptoSummaryType = {
     asset: string,
     total_quant: number,
@@ -58,4 +63,4 @@ type res2 = {
     sells: SellTypeMonth[],
 }
 
-export type { CryptoSummaryType, PurchaseType, PurchaseSold, SellType, SellTypeMonth, res1, res2 }
+export type { SheetList, CryptoSummaryType, PurchaseType, PurchaseSold, SellType, SellTypeMonth, res1, res2 }

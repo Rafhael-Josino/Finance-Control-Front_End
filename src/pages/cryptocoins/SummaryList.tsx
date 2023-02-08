@@ -1,19 +1,21 @@
 import { useState, useEffect } from "react";
+import { SlArrowLeft } from 'react-icons/sl';
 import { cryptocoinSummary, cryptoAssetOperations } from "../../actions";
-import OperationsSec from "./OperationsSec";
+import OperationsSec from "../../components/cryptocoin/OperationsSec";
 import CurrencyFormating from "../../utils/CurrencyFormating";
 import { CryptoSummaryType, PurchaseType, res1, res2, SellType, SellTypeMonth } from "../../types";
+import { Link } from "react-router-dom";
 
 type Props = {
     token: string,
     verifyAuth: (res: any, next: (res: any) => void) => void
-    selectedSheet: string,
-    showSellMode: string,
-    showOrder: string,
+    loadedSheet: string,
 }
 
 const CryptoSummaryList = (props: Props) => {
-    const { selectedSheet, token, showSellMode, showOrder, verifyAuth } = props;
+    const { loadedSheet, token, verifyAuth } = props;
+    const [showSellMode, setShowSellMode] = useState('individual');
+    const [showOrder, setShowOrder] = useState('');
     const [assetOperations, setAssetOperations] = useState<{
         asset: string,
         purchases: PurchaseType[],
@@ -27,6 +29,8 @@ const CryptoSummaryList = (props: Props) => {
     });
     const [cryptoSumm, setCryptoSumm] = useState([]);
 
+    console.log(loadedSheet)
+
     /**
      * Use effect
      */
@@ -39,8 +43,8 @@ const CryptoSummaryList = (props: Props) => {
             verifyAuth(res, setCryptoSumm);
         }
 
-        cryptocoinSummaryAction(token, selectedSheet);
-    }, [selectedSheet, token, verifyAuth]);
+        cryptocoinSummaryAction(token, loadedSheet);
+    }, [loadedSheet, token, verifyAuth]);
 
     // Resets the lists of operations displayed
     useEffect(() => {
@@ -120,7 +124,7 @@ const CryptoSummaryList = (props: Props) => {
             <tr 
                 key={index} 
                 className={backgroundColor} 
-                onClick={() => cryptoAssetOperationsAction(token, selectedSheet, cryptoSummary.asset)}
+                onClick={() => cryptoAssetOperationsAction(token, loadedSheet, cryptoSummary.asset)}
             >
                 <td className="leftColumn">{cryptoSummary.asset}</td>
                 <td className="middleColumn">{cryptoSummary.total_quant}</td>
@@ -129,7 +133,30 @@ const CryptoSummaryList = (props: Props) => {
         );
     });
 
-    return <section>
+    return <main className="mainMenu">
+        <nav className="navCryptos">
+            <div>
+                <Link to='/cryptocoins'><SlArrowLeft /></Link>
+            </div>
+
+            <div>
+                <div>Sell's type:</div>
+                <select onChange={(e) => setShowSellMode(e.target.value)}>
+                    <option value="individual">Per sell</option>
+                    <option value="month">Monthly</option>
+                </select>
+            </div>
+            
+            <div>
+                <div>Order by:</div>
+                <select onChange={(e) => setShowOrder(e.target.value)}>
+                    <option value='asset'>Asset name</option>
+                    <option value='quantity'>Quantity</option>
+                    <option value='totalValue'>Total value</option>
+                </select>
+            </div>
+        </nav>
+
         <section>
             <table className='cryptoSummaryTable'>
                 <thead>
@@ -150,7 +177,7 @@ const CryptoSummaryList = (props: Props) => {
             monthlySells={assetOperations.monthlySells}
             showSellMode={showSellMode}
         />
-    </section>
+    </main>
 }
 
 export default CryptoSummaryList;

@@ -5,15 +5,45 @@
     --custom-larger-font: 1.2rem;
 }
 
-#cryptosMenu {
-    width: 730px;
-    margin: auto;
-}
-
-#navCryptos {
+.navCryptos {
     margin-top: 1rem;
     padding: .5rem;
     background-color: var(--this-green);
+    color: white;
+    font-weight: bold;
+    border-radius: 0.25rem;
+}
+
+.navSheetsList {
+    display: flex;
+    justify-content: space-between;
+}
+
+.sheetsTable {
+    width: 100%;
+    text-align: center;
+}
+
+.sheetsTable thead td {
+    background-color: var(--this-green);
+    color: white;
+}
+
+.sheetsTable tbody tr {
+    background-color: var(--background-color);    
+}
+
+.sheetsTable tbody tr:hover {
+    background-color: green;
+    color: white;
+    cursor: pointer;
+}
+
+.cryptoAccordion {
+    margin-top: .5rem;
+    padding: 0 .5rem 0 .5rem;
+    background-color: white;
+    color: var(--this-green);
     font-weight: bold;
     border-radius: 0.25rem;
 }

@@ -1,7 +1,6 @@
 import { SellType, PurchaseSold } from "../../../types";
 import CurrencyFormating from "../../../utils/CurrencyFormating";
 
-
 type Props = {
     sells:  SellType[],
     highlightedOps: string[],
@@ -26,8 +25,6 @@ function IndividualSells(props: Props) {
     }
 
     const renderedSells = sells.map((sell, index) => {
-        const purchaseDate = sell.purchases_sold[0].purchase_date.slice(0,7);
-
         let className: string = 'cryptoOpList sell';
         let purchases_sold_rendered: JSX.Element[] | null = null;
         

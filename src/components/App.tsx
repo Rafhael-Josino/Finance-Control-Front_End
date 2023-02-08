@@ -34,7 +34,16 @@ const App = (): JSX.Element => {
     const verifyAuth = (res: any, next = (res: any) => {}) => {
         if (res === 'Invalid token') {
             setUserAuth({ userName: '', token: ''});
+
+            // Test if when an user is no longer authenticated, the application will
+            // redirect to the login page, that is, if the command bellow will even be called
+
+            // This test will be made by waiting loggout time
+            // To be faster, decrease the timeout value in the backend while testing
             navigate('/main-menu');
+
+            // In the negative case, refactor the AppRoutes element to always return
+            // the login page when the token attribute be ''
         } else {
             next(res);
         }
