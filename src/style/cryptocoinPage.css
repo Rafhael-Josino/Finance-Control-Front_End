@@ -63,44 +63,17 @@
     font-weight: bold;
 }
 
+/* ################################################## */
+                    /* Tables */
+/* ################################################## */
+
+.cryptoSummaryTable th {
+    width: 33%;
+}
+
 .cryptoSummaryTable {
     width: 100%;
     color: black;
-}
-
-.leftColumn {
-    text-align: left;
-    padding-left: .5rem;
-}
-
-.middleColumn {
-    text-align: right;
-}
-.rightColumn {
-    padding-right: .5rem;
-    text-align: right;
-}
-
-.cryptoSummaryTable .gray {
-    background-color: azure;
-}
-
-.cryptoSummaryTable .green {
-    background-color: var(--this-green);
-    color: white;
-}
-
-.cryptoSummaryTable th {
-    background-color: var(--this-green);
-    font-weight: bold;
-    color: white;
-    font-size: large;
-}
-
-.cryptoSummaryTable tr:hover {
-    cursor: pointer;
-    background-color: green;
-    color: white;
 }
 
 .sellTableSelected {

@@ -356,22 +356,61 @@ div.mainMenu {
     min-width: 150px;
 }
 
-/* ############# Modal ############## */
+/* ################################################## */
+                    /* Tables */
+/* ################################################## */
 
-/* Obs: check attributes */
-.modal {
-    position: fixed;
-    background-color: rgba(0, 0, 0, 0.6);
-    margin: 0;
-    left: 0;
-    top: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100vw; /*not sure*/
-    height: 100vh; /*not sure*/
+/* Rows */
+
+th {
+    background-color: var(--this-green);
+    font-weight: bold;
+    color: white;
+    font-size: large;
 }
 
+tr:hover {
+    cursor: pointer;
+    background-color: green;
+    color: white;
+}
+
+/* Cells */
+
+.leftColumn {
+    text-align: left;
+    padding-left: .5rem;
+}
+
+.middleColumn {
+    text-align: right;
+    padding-right: .5rem;
+}
+.rightColumn {
+    padding-right: .5rem;
+    text-align: right;
+}
+
+.back-gray {
+    background-color: azure;
+}
+
+.back-green {
+    background-color: green;
+    color: white;
+}
+
+/* The span inside a cell is made to align itens */
+th span {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+}
+
+th.middleColumn span,
+th.rightColumn span {
+    justify-content: end;
+}
 
 /* ################################################## */
 /* ################## cryptos.html ###################*/

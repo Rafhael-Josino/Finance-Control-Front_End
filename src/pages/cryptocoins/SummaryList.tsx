@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { SlArrowLeft } from 'react-icons/sl';
+import { SlArrowLeft, SlArrowDown } from 'react-icons/sl';
 import { cryptocoinSummary, cryptoAssetOperations } from "../../actions";
 import OperationsSec from "../../components/cryptocoin/OperationsSec";
 import CurrencyFormating from "../../utils/CurrencyFormating";
@@ -15,7 +15,6 @@ type Props = {
 const CryptoSummaryList = (props: Props) => {
     const { loadedSheet, token, verifyAuth } = props;
     const [showSellMode, setShowSellMode] = useState('individual');
-    const [showOrder, setShowOrder] = useState('');
     const [assetOperations, setAssetOperations] = useState<{
         asset: string,
         purchases: PurchaseType[],
@@ -28,8 +27,13 @@ const CryptoSummaryList = (props: Props) => {
         monthlySells: [],
     });
     const [cryptoSumm, setCryptoSumm] = useState([]);
-
-    console.log(loadedSheet)
+    
+    const [showOrder, setShowOrder] = useState('');
+    
+    // The arrows that indicate by which parameter the cryptcoins list is ordered
+    let assetArrowDown = null;
+    let quantityArrowDown = null;
+    let totalValueArrowDown = null;
 
     /**
      * Use effect
@@ -65,15 +69,23 @@ const CryptoSummaryList = (props: Props) => {
     // Alphabetical
     if (showOrder === 'asset') {
         cryptoSummOrdered = cryptoSumm.sort((a: any, b: any) => (a.asset < b.asset) ? -1 : 1);
+        assetArrowDown = <SlArrowDown />;
     // Decreasingly quantity of each cryptocoin
     } else if (showOrder === 'quantity') {
         cryptoSummOrdered = cryptoSumm.sort((a: any, b: any) => b.total_quant - a.total_quant);
+        quantityArrowDown = <SlArrowDown />;
     // Deacresingly total value of each cryptocoin
     } else if (showOrder === 'totalValue') {
         cryptoSummOrdered = cryptoSumm.sort((a: any, b: any) => b.total_value - a.total_value);
+        totalValueArrowDown = <SlArrowDown />;
     // No order, the list is displayed as it was received
     } else {
         cryptoSummOrdered = cryptoSumm;
+        assetArrowDown = <SlArrowDown />;
+    }
+
+    const setShowOrderHandler = (newShowOrder: 'asset' | 'quantity' | 'totalValue') => {
+        setShowOrder(newShowOrder);
     }
 
     /**
@@ -101,22 +113,19 @@ const CryptoSummaryList = (props: Props) => {
     const renderedSummaryList = cryptoSummOrdered.map((cryptoSummary: CryptoSummaryType, index) => {
         // Determines element class that shows which asset was selected
         const backgroundColor = cryptoSummary.asset === assetOperations.asset ?
-            'green' : 
-            (index % 2 ? 'gray' : 'noColor');
+            'back-green' : 
+            (index % 2 ? 'back-gray' : 'noColor');
 
         //Request of the respective asset's operations
         const cryptoAssetOperationsAction = async (token: string, sheetName: string, asset: string) => {
-            if (backgroundColor !== 'green') {
+            if (backgroundColor !== 'back-green') {
                 const res = await cryptoAssetOperations(token, sheetName, asset, showSellMode);
 
                 if (showSellMode === 'individual') {
-                    //if (!ifLoginDoThing(res, setUserAuth, setAssetOperationsHandler1)) navigate('/main-menu');
                     verifyAuth(res, setAssetOperationsHandler1);
                 } else if(showSellMode === 'month') {
-                    //if (!ifLoginDoThing(res, setUserAuth, setAssetOperationsHandler2)) navigate('/main-menu');
                     verifyAuth(res, setAssetOperationsHandler2);
                 }
-                //if (!ifLoginDoThing(res, setUserAuth, setAssetOperations)) navigate('/main-menu');
             }
         }
 
@@ -135,6 +144,10 @@ const CryptoSummaryList = (props: Props) => {
 
     return <main className="mainMenu">
         <nav className="navCryptos">
+            Displaying log from XLSX sheet: {loadedSheet}
+        </nav>
+
+        <nav className="navCryptos">
             <div>
                 <Link to='/cryptocoins'><SlArrowLeft /></Link>
             </div>
@@ -146,24 +159,21 @@ const CryptoSummaryList = (props: Props) => {
                     <option value="month">Monthly</option>
                 </select>
             </div>
-            
-            <div>
-                <div>Order by:</div>
-                <select onChange={(e) => setShowOrder(e.target.value)}>
-                    <option value='asset'>Asset name</option>
-                    <option value='quantity'>Quantity</option>
-                    <option value='totalValue'>Total value</option>
-                </select>
-            </div>
         </nav>
 
         <section>
             <table className='cryptoSummaryTable'>
                 <thead>
                     <tr>
-                        <th className="leftColumn">Asset</th>
-                        <th className="middleColumn">Quantity</th>
-                        <th className="rightColumn">Total Value</th>
+                        <th className="leftColumn" onClick={() => setShowOrderHandler('asset')}>
+                            <span>Asset {assetArrowDown}</span>
+                        </th>
+                        <th className="middleColumn" onClick={() => setShowOrderHandler('quantity')}>
+                            <span>Quantity {quantityArrowDown}</span>
+                        </th>
+                        <th className="rightColumn" onClick={() => setShowOrderHandler('totalValue')}>
+                            <span>Total Value {totalValueArrowDown}</span>
+                        </th>
                     </tr>
                 </thead>
                 <tbody>
