@@ -1,17 +1,31 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { deleteCryptoSheet } from '../../actions';
+import Spinner from '../Spinner';
 
 type Props = {
-    closeModalHandler: () => void,
     selectedSheet: string,
     token: string,
     verifyAuth: (res: any, next: (res: any) => void) => void,
+    setRestartHandler: () => void,
 }
 
 function ModalBody(props: Props) {
-    const { closeModalHandler, selectedSheet, token } = props;
+    const { selectedSheet, token, verifyAuth, setRestartHandler } = props;
     const [showDeleteBox, setShowDeleteBox] = useState(false);
+    const [awaitDeleteSheet, setAwaitDeleteSheet] = useState(false);
+
+    useEffect(() => {
+        const deleteCryptoSheetHandler = async () => {
+            const res = await deleteCryptoSheet(selectedSheet, token);
+
+            // it's not updating the sheet list
+            // we have to test this handler function in this argument
+            verifyAuth(res, res => setRestartHandler());
+        }
+
+        if (awaitDeleteSheet) deleteCryptoSheetHandler();
+    }, [awaitDeleteSheet, selectedSheet, token, verifyAuth, setRestartHandler]);
 
     const deleteButton = () => {
         setShowDeleteBox(true);
@@ -22,7 +36,7 @@ function ModalBody(props: Props) {
     }
 
     const confirmDelete = () => {
-
+        setAwaitDeleteSheet(true);
     }
 
     const deleteBox = <div className='modalBox'>
@@ -31,7 +45,7 @@ function ModalBody(props: Props) {
         </div>
         <br/>
         <div className='modalButtonsDiv'>
-            <button className='deleteButton'>Yes, Delete!</button>
+            <button className='deleteButton' onClick={confirmDelete}>Yes, Delete!</button>
             <button onClick={cancelDelete}>Cancel</button>
         </div>
     </div>
@@ -49,7 +63,10 @@ function ModalBody(props: Props) {
         </div>
     </div>
 
-    return showDeleteBox ? deleteBox : optionsBox;
+    return awaitDeleteSheet ? 
+        <Spinner /> 
+    :
+        showDeleteBox ? deleteBox : optionsBox;
 }
 
 export default ModalBody;

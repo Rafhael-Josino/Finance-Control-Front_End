@@ -9,7 +9,6 @@ type LoginInfo = {
     password: string;
 }
 
-// const requestLogin = () => async dispatch => {
 const requestLogin = async (loginInfo: LoginInfo) => {
     try {
         const res = await financeControlAPI.post('account/login', loginInfo);
@@ -22,7 +21,9 @@ const requestLogin = async (loginInfo: LoginInfo) => {
     }
 }
 
-/** Request user information */
+/** 
+ * Request user information 
+ * */
 
 const requestUser = async (token: string, username: string) => {
     try {
@@ -41,6 +42,10 @@ const requestUser = async (token: string, username: string) => {
     }
 }
 
+/**
+ * Creates user
+ */
+
 const createUser =async (loginInfo: LoginInfo) => {
     try {
         const res = await financeControlAPI.post('/account', loginInfo);
@@ -53,7 +58,9 @@ const createUser =async (loginInfo: LoginInfo) => {
     }
 }
 
-/** List Transactions */
+/** 
+ * List Transactions 
+ * */
 
 type Transaction = {
     transaction_description: string;
@@ -79,7 +86,11 @@ const listTransactions = async (token: string) => {
      }
  } 
  
- const cryptocoinSheets = async (token: string) => {
+/**
+ * Returns list of sheets saved from XLSX files uploaded
+ */
+
+const cryptocoinSheets = async (token: string) => {
     try {
         const res = await financeControlAPI.get("/cryptocoin/sheets", {
             headers: {
@@ -95,6 +106,10 @@ const listTransactions = async (token: string) => {
     }
  }
 
+/**
+ * Returns the summary of the user's cryptocoins 
+ */
+
  const cryptocoinSummary = async (token: string, sheetName: string) => {
     try {
         const res = await financeControlAPI.get(`/cryptocoin/sheetSummary/${sheetName}`, {
@@ -109,9 +124,13 @@ const listTransactions = async (token: string) => {
         console.log('error:', err.response.data.message)
         return err.response.data.message;
     }
- }
+}
 
- const cryptoAssetOperations = async (token: string, sheetName: string, asset: string, resume: string) => {
+/**
+ * Returns the operations made with the selected cryptocoin
+ */
+
+const cryptoAssetOperations = async (token: string, sheetName: string, asset: string, resume: string) => {
     try {
         const res = await financeControlAPI.get(`/cryptocoin/sheet/${sheetName}/${asset}/${resume}`, {
             headers: {
@@ -127,9 +146,13 @@ const listTransactions = async (token: string) => {
     }
  }
 
- const sendCryptoSheet = async (rawData: FormData, token: string) => {
+ const sendCryptoSheet = async (
+    rawData: FormData, 
+    overwriteOption: 'yes' | 'no', 
+    token: string
+) => {
     try {
-        const res = await axios.post(`${baseURL}cryptocoin/saveSheet/yes`, rawData, {
+        const res = await axios.post(`${baseURL}cryptocoin/saveSheet/${overwriteOption}`, rawData, {
             headers: {
                 Authorization: `Bearer ${token}`
             }
@@ -145,7 +168,11 @@ const listTransactions = async (token: string) => {
 
  const deleteCryptoSheet = async (sheetName: string, token: string) => {
     try {
-        await financeControlAPI.delete(`/cryptocoin/deleteSheet/${sheetName}`);
+        await financeControlAPI.delete(`/cryptocoin/deleteSheet/${sheetName}`, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
     } catch(err: any) {
         // make type verification!
         console.log('error:', err.response.data.message)

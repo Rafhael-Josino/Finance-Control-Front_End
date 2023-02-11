@@ -18,29 +18,45 @@ const MainMenu = (props: Props) => {
     const [selectedSheet, setSelectedSheet] = useState('');
     const [sheetList, setSheetList] = useState([]);
     const [visible, setVisible] = useState<boolean>(false);
+    const [restart, setRestart] = useState<boolean>();
 
+
+    // Use Effect
     useEffect(() => {
         const cryptocoinSheetsAction = async (token: string) => {
-            // Get the names of the sheets parsed
+            // Get the names of the XLSX sheets saved
             const res = await cryptocoinSheets(token);
 
             verifyAuth(res, setSheetList);
         }
 
         cryptocoinSheetsAction(token);
-    }, [token, verifyAuth]);
+    }, [token, verifyAuth, restart]);
 
+    useEffect(() => {
+        setSelectedSheet('');
+    }, [restart])
+    
     useEffect(() => {
         if (selectedSheet !== '') setLoadedSheetHandler(selectedSheet)
     }, [selectedSheet, setLoadedSheetHandler]);
-
+    
+    
+    // Handler functions
     const setSelectedSheetHandler = (selectedSheetName: string) => {
         setSelectedSheet(selectedSheetName);
     }
+    
+    const setRestartHandler = () => setRestart(!restart)
+    
+    
     // Modal
     const closeModalHandler = () => setSelectedSheetHandler('');
 
     const renderBackdrop = (props: ModalProps) => <div className="backdrop" {...props} />
+    
+
+
 
     const buttonImage = visible? <SlArrowUp /> : <SlArrowDown />
 
@@ -59,7 +75,11 @@ const MainMenu = (props: Props) => {
 
         <div className="navCryptos">
             <div>Or load a new XLSX file:</div> 
-            <UploadSheet token={token} verifyAuth={verifyAuth} />
+            <UploadSheet 
+                token={token} 
+                verifyAuth={verifyAuth} 
+                setRestartHandler={setRestartHandler}
+            />
         </div>
 
         <Modal
@@ -69,10 +89,10 @@ const MainMenu = (props: Props) => {
             renderBackdrop={renderBackdrop}
         >
             <ModalBody 
-                closeModalHandler={closeModalHandler}
                 selectedSheet={selectedSheet}
                 token={token}
                 verifyAuth={verifyAuth}
+                setRestartHandler={setRestartHandler}
             />
         </Modal>
     </main>

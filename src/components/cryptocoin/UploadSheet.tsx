@@ -3,18 +3,19 @@ import { sendCryptoSheet } from '../../actions';
 
 type Props = {
     token: string,
-    verifyAuth: (res: any, next: (res: any) => void) => void
+    verifyAuth: (res: any, next: (res: any) => void) => void,
+    setRestartHandler: () => void,
 }
 
 function UploadSheet(props: Props) {
-    const { token, verifyAuth } = props;
+    const { token, verifyAuth, setRestartHandler } = props;
     const [file, setFile] = useState<File>();
 
-    const handleOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const onChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (event.target.files) setFile(event.target.files[0]);
     }
 
-    const handleOnSubmit = async (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    const onSubmitHandler = async (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         event.preventDefault();
 
         if (file) {
@@ -23,9 +24,9 @@ function UploadSheet(props: Props) {
     
             console.log(file);
     
-            const res = await sendCryptoSheet(formData, token);
+            const res = await sendCryptoSheet(formData, 'yes' ,token);
     
-            verifyAuth(res, (res) => console.log('File uploaded:\n', res))
+            verifyAuth(res, (res) => setRestartHandler());
         } else {
             console.log('no file was selected')
         }
@@ -37,11 +38,11 @@ function UploadSheet(props: Props) {
             accept='.xlsx'
             name='sheet'
             className="sr-onl"
-            onChange={event => handleOnChange(event)}    
+            onChange={event => onChangeHandler(event)}    
         />
         <button
             className='upload-crypto-button'
-            onClick={event => handleOnSubmit(event)}
+            onClick={event => onSubmitHandler(event)}
         >Upload sheet
         </button>
     </form>
