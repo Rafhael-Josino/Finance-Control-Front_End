@@ -143,6 +143,16 @@ const listTransactions = async (token: string) => {
     }
  }
 
+ const deleteCryptoSheet = async (sheetName: string, token: string) => {
+    try {
+        await financeControlAPI.delete(`/cryptocoin/deleteSheet/${sheetName}`);
+    } catch(err: any) {
+        // make type verification!
+        console.log('error:', err.response.data.message)
+        return err.response.data.message;
+    }
+ }
+
 export { 
     requestLogin, 
     requestUser,
@@ -152,4 +162,5 @@ export {
     cryptocoinSummary,
     cryptoAssetOperations,
     sendCryptoSheet,
+    deleteCryptoSheet,
 }

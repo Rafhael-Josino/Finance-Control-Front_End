@@ -71,6 +71,8 @@ const MainMenu = (props: Props) => {
             <ModalBody 
                 closeModalHandler={closeModalHandler}
                 selectedSheet={selectedSheet}
+                token={token}
+                verifyAuth={verifyAuth}
             />
         </Modal>
     </main>

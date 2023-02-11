@@ -63,17 +63,14 @@
     font-weight: bold;
 }
 
-/* ################################################## */
-                    /* Tables */
-/* ################################################## */
-
-.cryptoSummaryTable th {
-    width: 33%;
-}
-
 .cryptoSummaryTable {
     width: 100%;
     color: black;
+    border-spacing: 0 2px;
+}
+
+.cryptoSummaryTable th {
+    width: 33%;
 }
 
 .sellTableSelected {
@@ -86,6 +83,7 @@
     margin-bottom: 1rem;
     border: .1rem solid;
     border-color: var(--this-green);
+    border-spacing: 0 2px;
 }
 
 .cryptoOpList.sell:hover {
@@ -100,6 +98,7 @@
     margin-bottom: 1rem;
     border: .1rem solid;
     border-color: red;
+    border-spacing: 0 2px;
 }
 
 .cryptoOpSelected {
@@ -108,6 +107,7 @@
     margin-bottom: 1rem;
     border: .1rem solid;
     border-color: red;
+    border-spacing: 0 2px;
 }
 
 .cryptoOpSelected:hover {

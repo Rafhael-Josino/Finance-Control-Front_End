@@ -90,6 +90,12 @@ footer {
     padding: 4rem 0 2rem;
 }
 
+.divSpinner {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
 .sr-only {
     position: absolute;
     width: 1px;
@@ -366,10 +372,10 @@ th {
     background-color: var(--this-green);
     font-weight: bold;
     color: white;
-    font-size: large;
+    padding: .2rem 0 .2rem 0;
 }
 
-tr:hover {
+tr.selectable:hover {
     cursor: pointer;
     background-color: green;
     color: white;

@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
 import { SlArrowLeft, SlArrowDown } from 'react-icons/sl';
+import { Link } from "react-router-dom";
+import { CryptoSummaryType, PurchaseType, res1, res2, SellType, SellTypeMonth } from "../../types";
 import { cryptocoinSummary, cryptoAssetOperations } from "../../actions";
 import OperationsSec from "../../components/cryptocoin/OperationsSec";
 import CurrencyFormating from "../../utils/CurrencyFormating";
-import { CryptoSummaryType, PurchaseType, res1, res2, SellType, SellTypeMonth } from "../../types";
-import { Link } from "react-router-dom";
+import Spinner from "../../components/Spinner";
 
 type Props = {
     token: string,
@@ -26,7 +27,7 @@ const CryptoSummaryList = (props: Props) => {
         individualSells: [],
         monthlySells: [],
     });
-    const [cryptoSumm, setCryptoSumm] = useState([]);
+    const [cryptoSummary, setCryptoSumm] = useState([]);
     
     const [showOrder, setShowOrder] = useState('');
     
@@ -58,7 +59,7 @@ const CryptoSummaryList = (props: Props) => {
             individualSells: [],
             monthlySells: [],
         });
-    }, [showSellMode, cryptoSumm]);
+    }, [showSellMode, cryptoSummary]);
 
     /**
      * Sets the order by which the rows of each cryptocoin summary are displayed
@@ -68,19 +69,19 @@ const CryptoSummaryList = (props: Props) => {
 
     // Alphabetical
     if (showOrder === 'asset') {
-        cryptoSummOrdered = cryptoSumm.sort((a: any, b: any) => (a.asset < b.asset) ? -1 : 1);
+        cryptoSummOrdered = cryptoSummary.sort((a: any, b: any) => (a.asset < b.asset) ? -1 : 1);
         assetArrowDown = <SlArrowDown />;
     // Decreasingly quantity of each cryptocoin
     } else if (showOrder === 'quantity') {
-        cryptoSummOrdered = cryptoSumm.sort((a: any, b: any) => b.total_quant - a.total_quant);
+        cryptoSummOrdered = cryptoSummary.sort((a: any, b: any) => b.total_quant - a.total_quant);
         quantityArrowDown = <SlArrowDown />;
     // Deacresingly total value of each cryptocoin
     } else if (showOrder === 'totalValue') {
-        cryptoSummOrdered = cryptoSumm.sort((a: any, b: any) => b.total_value - a.total_value);
+        cryptoSummOrdered = cryptoSummary.sort((a: any, b: any) => b.total_value - a.total_value);
         totalValueArrowDown = <SlArrowDown />;
     // No order, the list is displayed as it was received
     } else {
-        cryptoSummOrdered = cryptoSumm;
+        cryptoSummOrdered = cryptoSummary;
         assetArrowDown = <SlArrowDown />;
     }
 
@@ -113,12 +114,12 @@ const CryptoSummaryList = (props: Props) => {
     const renderedSummaryList = cryptoSummOrdered.map((cryptoSummary: CryptoSummaryType, index) => {
         // Determines element class that shows which asset was selected
         const backgroundColor = cryptoSummary.asset === assetOperations.asset ?
-            'back-green' : 
-            (index % 2 ? 'back-gray' : 'noColor');
+            'back-green selectable' : 
+            (index % 2 ? 'back-gray selectable' : 'selectable');
 
         //Request of the respective asset's operations
         const cryptoAssetOperationsAction = async (token: string, sheetName: string, asset: string) => {
-            if (backgroundColor !== 'back-green') {
+            if (backgroundColor !== 'back-green selectable') {
                 const res = await cryptoAssetOperations(token, sheetName, asset, showSellMode);
 
                 if (showSellMode === 'individual') {
@@ -144,16 +145,16 @@ const CryptoSummaryList = (props: Props) => {
 
     return <main className="mainMenu">
         <nav className="navCryptos">
-            Displaying log from XLSX sheet: {loadedSheet}
-        </nav>
-
-        <nav className="navCryptos">
             <div>
                 <Link to='/cryptocoins'><SlArrowLeft /></Link>
             </div>
 
             <div>
-                <div>Sell's type:</div>
+                XLSX Sheet: {loadedSheet}
+            </div>
+
+            <div>
+                <span>Sell's type: </span>
                 <select onChange={(e) => setShowSellMode(e.target.value)}>
                     <option value="individual">Per sell</option>
                     <option value="month">Monthly</option>
@@ -162,24 +163,26 @@ const CryptoSummaryList = (props: Props) => {
         </nav>
 
         <section>
-            <table className='cryptoSummaryTable'>
-                <thead>
-                    <tr>
-                        <th className="leftColumn" onClick={() => setShowOrderHandler('asset')}>
-                            <span>Asset {assetArrowDown}</span>
-                        </th>
-                        <th className="middleColumn" onClick={() => setShowOrderHandler('quantity')}>
-                            <span>Quantity {quantityArrowDown}</span>
-                        </th>
-                        <th className="rightColumn" onClick={() => setShowOrderHandler('totalValue')}>
-                            <span>Total Value {totalValueArrowDown}</span>
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {renderedSummaryList}    
-                </tbody>
-            </table>
+            {cryptoSummary.length ? 
+                <table className='cryptoSummaryTable'>
+                    <thead>
+                        <tr className="selectable">
+                            <th className="leftColumn" onClick={() => setShowOrderHandler('asset')}>
+                                <span>Asset {assetArrowDown}</span>
+                            </th>
+                            <th className="middleColumn" onClick={() => setShowOrderHandler('quantity')}>
+                                <span>Quantity {quantityArrowDown}</span>
+                            </th>
+                            <th className="rightColumn" onClick={() => setShowOrderHandler('totalValue')}>
+                                <span>Total Value {totalValueArrowDown}</span>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>{renderedSummaryList}</tbody>
+                </table>
+            :
+                <Spinner />
+            }
         </section>
         <OperationsSec 
             purchases={assetOperations.purchases}
