@@ -2,14 +2,13 @@ import { SheetList } from "../../types";
 
 type Props = {
     sheetList: SheetList[];
-    visible: boolean;
     setSelectedSheetHandler: (selectedSheetName: string) => void;
 }
 
 function SheetListAccordion (props: Props) {
-    const { sheetList, visible, setSelectedSheetHandler } = props;
+    const { sheetList, setSelectedSheetHandler } = props;
 
-    const renderedList = sheetList.length ? <table className='sheetsTable'>
+    return sheetList.length ? <table className='sheetsTable'>
         <thead>
             <tr className='cryptoAccordion'>
                 <td>Name:</td>
@@ -31,8 +30,6 @@ function SheetListAccordion (props: Props) {
     </table>    
     :
     <div className='cryptoAccordion'>There is no saved data</div>
-
-    return visible ? renderedList : null;
 }
 
 export default SheetListAccordion;

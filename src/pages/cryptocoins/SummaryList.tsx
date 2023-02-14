@@ -10,11 +10,11 @@ import Spinner from "../../components/Spinner";
 type Props = {
     token: string,
     verifyAuth: (res: any, next: (res: any) => void) => void
-    loadedSheet: string,
+    selectedSheet: string,
 }
 
 const CryptoSummaryList = (props: Props) => {
-    const { loadedSheet, token, verifyAuth } = props;
+    const { selectedSheet, token, verifyAuth } = props;
     const [showSellMode, setShowSellMode] = useState('individual');
     const [assetOperations, setAssetOperations] = useState<{
         asset: string,
@@ -48,8 +48,8 @@ const CryptoSummaryList = (props: Props) => {
             verifyAuth(res, setCryptoSumm);
         }
 
-        cryptocoinSummaryAction(token, loadedSheet);
-    }, [loadedSheet, token, verifyAuth]);
+        cryptocoinSummaryAction(token, selectedSheet);
+    }, [selectedSheet, token, verifyAuth]);
 
     // Resets the lists of operations displayed
     useEffect(() => {
@@ -134,7 +134,7 @@ const CryptoSummaryList = (props: Props) => {
             <tr 
                 key={index} 
                 className={backgroundColor} 
-                onClick={() => cryptoAssetOperationsAction(token, loadedSheet, cryptoSummary.asset)}
+                onClick={() => cryptoAssetOperationsAction(token, selectedSheet, cryptoSummary.asset)}
             >
                 <td className="leftColumn">{cryptoSummary.asset}</td>
                 <td className="middleColumn">{cryptoSummary.total_quant}</td>
@@ -150,7 +150,7 @@ const CryptoSummaryList = (props: Props) => {
             </div>
 
             <div>
-                XLSX Sheet: {loadedSheet}
+                XLSX Sheet: {selectedSheet}
             </div>
 
             <div>

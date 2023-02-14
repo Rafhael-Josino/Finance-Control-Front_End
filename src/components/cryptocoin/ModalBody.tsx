@@ -7,11 +7,11 @@ type Props = {
     selectedSheet: string,
     token: string,
     verifyAuth: (res: any, next: (res: any) => void) => void,
-    setRestartHandler: () => void,
+    setSelectedSheetHandler: (sheetName: string) => void,
 }
 
 function ModalBody(props: Props) {
-    const { selectedSheet, token, verifyAuth, setRestartHandler } = props;
+    const { selectedSheet, token, verifyAuth, setSelectedSheetHandler } = props;
     const [showDeleteBox, setShowDeleteBox] = useState(false);
     const [awaitDeleteSheet, setAwaitDeleteSheet] = useState(false);
 
@@ -21,11 +21,17 @@ function ModalBody(props: Props) {
 
             // it's not updating the sheet list
             // we have to test this handler function in this argument
-            verifyAuth(res, res => setRestartHandler());
+            console.log('modalBody use effect\n', selectedSheet)
+            
+            verifyAuth(res, res => setSelectedSheetHandler('*'));
+            //verifyAuth(res, res => setRestartHandler());
         }
 
         if (awaitDeleteSheet) deleteCryptoSheetHandler();
-    }, [awaitDeleteSheet, selectedSheet, token, verifyAuth, setRestartHandler]);
+    }, [awaitDeleteSheet, selectedSheet, token, verifyAuth, setSelectedSheetHandler]);
+
+    console.log('modalBody\n', selectedSheet)
+
 
     const deleteButton = () => {
         setShowDeleteBox(true);

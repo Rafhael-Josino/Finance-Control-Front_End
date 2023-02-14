@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { SlArrowDown, SlArrowUp } from 'react-icons/sl';
 import Modal from 'react-overlays/Modal';
 import { ModalProps } from "react-overlays/cjs/Modal";
 import { cryptocoinSheets } from "../../actions";
@@ -10,66 +9,64 @@ import ModalBody from "../../components/cryptocoin/ModalBody";
 type Props = {
     token: string,
     verifyAuth: (res: any, next: (res: any) => void) => void,
-    setLoadedSheetHandler: (sheetName: string) => void,
+    selectedSheet: string,
+    setSelectedSheetHandler: (sheetName: string) => void,
 }
 
-const MainMenu = (props: Props) => {
-    const { token, verifyAuth, setLoadedSheetHandler } = props;
-    const [selectedSheet, setSelectedSheet] = useState('');
-    const [sheetList, setSheetList] = useState([]);
-    const [visible, setVisible] = useState<boolean>(false);
-    const [restart, setRestart] = useState<boolean>();
 
+/**
+ * selectedSheet can have three "types" of values:
+ * 
+ * '*': the initial, is used when the page is rerendered and the component bellow
+ * must get again the list of saved sheets from the server.
+ * The components that load this value are delete sheet and upload sheet, that is,
+ * the features that change the list of parsed sheet. The modal window should be closed
+ * 
+ * '<SHEET NAME>: when a sheet name from the list is selected, the modal window pops up
+ * with the options of this sheet: be loaded or be deleted
+ * 
+ * '': this value is loaded to the state when a modal windows is closed. The page is
+ * rerendered with the modal closed, but the component bellow will not get again the lists
+ * of sheets from the server, once the list was not modified
+ */
+
+
+
+const MainMenu = (props: Props) => {
+    const { token, verifyAuth, setSelectedSheetHandler, selectedSheet } = props;
+    const [sheetList, setSheetList] = useState([]);
 
     // Use Effect
+    
     useEffect(() => {
         const cryptocoinSheetsAction = async (token: string) => {
             // Get the names of the XLSX sheets saved
             const res = await cryptocoinSheets(token);
-
+            
             verifyAuth(res, setSheetList);
         }
+        
+        console.log('mainMenu useEffect 1\n', selectedSheet)
 
-        cryptocoinSheetsAction(token);
-    }, [token, verifyAuth, restart]);
+        if (selectedSheet === '*') cryptocoinSheetsAction(token);
+    }, [token, verifyAuth, selectedSheet]);
 
-    useEffect(() => {
-        setSelectedSheet('');
-    }, [restart])
-    
-    useEffect(() => {
-        if (selectedSheet !== '') setLoadedSheetHandler(selectedSheet)
-    }, [selectedSheet, setLoadedSheetHandler]);
-    
-    
-    // Handler functions
-    const setSelectedSheetHandler = (selectedSheetName: string) => {
-        setSelectedSheet(selectedSheetName);
-    }
-    
-    const setRestartHandler = () => setRestart(!restart)
-    
-    
+    console.log('main menu body\n', selectedSheet, sheetList)
+        
     // Modal
     const closeModalHandler = () => setSelectedSheetHandler('');
 
     const renderBackdrop = (props: ModalProps) => <div className="backdrop" {...props} />
     
 
-
-
-    const buttonImage = visible? <SlArrowUp /> : <SlArrowDown />
-
     // TO DO: Add the option to overwrite sheets of same name
     return <main className="mainMenu">
-        <div className="navCryptos navSheetsList director" onClick={() => setVisible(!visible)}>
+        <div className="navCryptos navSheetsList director">
             <span>Select a saved log sheet</span>
-            {buttonImage}
         </div>
 
         <SheetListAccordion 
             sheetList={sheetList} 
-            visible={visible} 
             setSelectedSheetHandler={setSelectedSheetHandler}
         />
 
@@ -78,13 +75,13 @@ const MainMenu = (props: Props) => {
             <UploadSheet 
                 token={token} 
                 verifyAuth={verifyAuth} 
-                setRestartHandler={setRestartHandler}
+                setSelectedSheetHandler={setSelectedSheetHandler}
             />
         </div>
 
         <Modal
             className="modal"
-            show={selectedSheet !== ''}
+            show={(selectedSheet !== '*') && (selectedSheet !== '')}
             onHide={closeModalHandler}
             renderBackdrop={renderBackdrop}
         >
@@ -92,7 +89,7 @@ const MainMenu = (props: Props) => {
                 selectedSheet={selectedSheet}
                 token={token}
                 verifyAuth={verifyAuth}
-                setRestartHandler={setRestartHandler}
+                setSelectedSheetHandler={setSelectedSheetHandler}
             />
         </Modal>
     </main>

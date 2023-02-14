@@ -4,11 +4,11 @@ import { sendCryptoSheet } from '../../actions';
 type Props = {
     token: string,
     verifyAuth: (res: any, next: (res: any) => void) => void,
-    setRestartHandler: () => void,
+    setSelectedSheetHandler: (sheetName: string) => void,
 }
 
 function UploadSheet(props: Props) {
-    const { token, verifyAuth, setRestartHandler } = props;
+    const { token, verifyAuth, setSelectedSheetHandler } = props;
     const [file, setFile] = useState<File>();
 
     const onChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -26,7 +26,7 @@ function UploadSheet(props: Props) {
     
             const res = await sendCryptoSheet(formData, 'yes' ,token);
     
-            verifyAuth(res, (res) => setRestartHandler());
+            verifyAuth(res, (res) => setSelectedSheetHandler('*'));
         } else {
             console.log('no file was selected')
         }

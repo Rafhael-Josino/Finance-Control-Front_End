@@ -6,26 +6,27 @@ import ErrorBoundary from "../error-page";
 type Props = {
     token: string,
     verifyAuth: (res: any, next: (res: any) => void) => void,
-    loadedSheet: string,
-    setLoadedSheetHandler: (sheetName: string) => void,
+    selectedSheet: string,
+    setSelectedSheetHandler: (sheetName: string) => void,
 }
 
 
 function CryptocoinRoutes(props: Props) {
-    const { token, verifyAuth, loadedSheet, setLoadedSheetHandler } = props;
+    const { token, verifyAuth, selectedSheet, setSelectedSheetHandler } = props;
     
     return <Routes>
         <Route path='/*' errorElement={<ErrorBoundary />} element={
             <MainMenu 
                 token={token}
                 verifyAuth={verifyAuth}
-                setLoadedSheetHandler={setLoadedSheetHandler}
+                selectedSheet={selectedSheet}
+                setSelectedSheetHandler={setSelectedSheetHandler}
         />} />
         <Route path='/summary' errorElement={<ErrorBoundary />} element={
             <CryptoSummaryList 
                 token={token}
                 verifyAuth={verifyAuth}
-                loadedSheet={loadedSheet}
+                selectedSheet={selectedSheet}
         />} />
     </Routes>
     

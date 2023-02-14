@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import CryptocoinRoutes from "../../routes/CryptocoinRoutes";
 
 type Props = {
@@ -8,19 +8,19 @@ type Props = {
 
 const Cryptocoins = (props: Props) => {
     const { token, verifyAuth } = props;
-    const [loadedSheet, setLoadedSheet] = useState<string>('');
+    const [selectedSheet, setSelectedSheet] = useState<string>('*');
 
-    console.log('index', loadedSheet)
+    const setSelectedSheetHandler = useCallback((sheetName: string) => {
+        setSelectedSheet(sheetName);
+    }, []);
 
-    const setLoadedSheetHandler = (sheetName: string) => {
-        setLoadedSheet(sheetName);
-    }
+    console.log('index body')
 
     return <CryptocoinRoutes 
         token={token} 
         verifyAuth={verifyAuth} 
-        loadedSheet={loadedSheet} 
-        setLoadedSheetHandler={setLoadedSheetHandler}
+        selectedSheet={selectedSheet} 
+        setSelectedSheetHandler={setSelectedSheetHandler}
     />
 }
 
