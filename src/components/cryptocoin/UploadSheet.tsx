@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { sendCryptoSheet } from '../../actions';
 
 type Props = {
@@ -10,6 +10,12 @@ type Props = {
 function UploadSheet(props: Props) {
     const { token, verifyAuth, setSelectedSheetHandler } = props;
     const [file, setFile] = useState<File>();
+
+    useEffect(() => {
+        if (file) {
+            setSelectedSheetHandler('');
+        }
+    }, [file, setSelectedSheetHandler]);
 
     const onChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (event.target.files) setFile(event.target.files[0]);
