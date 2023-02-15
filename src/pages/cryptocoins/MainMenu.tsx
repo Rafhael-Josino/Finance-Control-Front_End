@@ -11,6 +11,7 @@ type Props = {
     verifyAuth: (res: any, next: (res: any) => void) => void,
     selectedSheet: string,
     setSelectedSheetHandler: (sheetName: string) => void,
+    setLoadedSheetHandler: (sheetName: string) => void,
 }
 
 
@@ -33,7 +34,13 @@ type Props = {
 
 
 const MainMenu = (props: Props) => {
-    const { token, verifyAuth, setSelectedSheetHandler, selectedSheet } = props;
+    const { 
+        token, 
+        verifyAuth, 
+        selectedSheet, 
+        setSelectedSheetHandler,
+        setLoadedSheetHandler,    
+    } = props;
     const [sheetList, setSheetList] = useState([]);
 
     // Use Effect
@@ -90,6 +97,7 @@ const MainMenu = (props: Props) => {
                 token={token}
                 verifyAuth={verifyAuth}
                 setSelectedSheetHandler={setSelectedSheetHandler}
+                setLoadedSheetHandler={setLoadedSheetHandler}
             />
         </Modal>
     </main>

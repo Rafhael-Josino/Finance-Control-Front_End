@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import { deleteCryptoSheet } from '../../actions';
 import Spinner from '../Spinner';
 
@@ -8,10 +7,17 @@ type Props = {
     token: string,
     verifyAuth: (res: any, next: (res: any) => void) => void,
     setSelectedSheetHandler: (sheetName: string) => void,
+    setLoadedSheetHandler: (sheetName: string) => void,
 }
 
 function ModalBody(props: Props) {
-    const { selectedSheet, token, verifyAuth, setSelectedSheetHandler } = props;
+    const { 
+        token, 
+        verifyAuth, 
+        selectedSheet, 
+        setSelectedSheetHandler, 
+        setLoadedSheetHandler 
+    } = props;
     const [showDeleteBox, setShowDeleteBox] = useState(false);
     const [awaitDeleteSheet, setAwaitDeleteSheet] = useState(false);
 
@@ -32,6 +38,9 @@ function ModalBody(props: Props) {
 
     console.log('modalBody\n', selectedSheet)
 
+    const loadButton = () => {
+        setLoadedSheetHandler(selectedSheet)    
+    }
 
     const deleteButton = () => {
         setShowDeleteBox(true);
@@ -62,9 +71,7 @@ function ModalBody(props: Props) {
         </div>
         <br/>
         <div className='modalButtonsDiv'>
-            <Link to='summary'>
-                <button>Load</button>
-            </Link>
+            <button onClick={loadButton}>Load</button>
             <button className='deleteButton' onClick={deleteButton}>Delete</button>
         </div>
     </div>

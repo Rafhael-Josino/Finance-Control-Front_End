@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { SlArrowLeft, SlArrowDown } from 'react-icons/sl';
-import { Link } from "react-router-dom";
 import { CryptoSummaryType, PurchaseType, res1, res2, SellType, SellTypeMonth } from "../../types";
 import { cryptocoinSummary, cryptoAssetOperations } from "../../actions";
 import OperationsSec from "../../components/cryptocoin/OperationsSec";
@@ -10,11 +9,12 @@ import Spinner from "../../components/Spinner";
 type Props = {
     token: string,
     verifyAuth: (res: any, next: (res: any) => void) => void
-    selectedSheet: string,
+    loadedSheet: string,
+    setLoadedSheetHandler: (sheetName: string) => void,
 }
 
 const CryptoSummaryList = (props: Props) => {
-    const { selectedSheet, token, verifyAuth } = props;
+    const { token, verifyAuth, loadedSheet, setLoadedSheetHandler } = props;
     const [showSellMode, setShowSellMode] = useState('individual');
     const [assetOperations, setAssetOperations] = useState<{
         asset: string,
@@ -29,7 +29,7 @@ const CryptoSummaryList = (props: Props) => {
     });
     const [cryptoSummary, setCryptoSumm] = useState([]);
     
-    const [showOrder, setShowOrder] = useState('');
+    const [showOrder, setShowOrder] = useState('asset');
     
     // The arrows that indicate by which parameter the cryptcoins list is ordered
     let assetArrowDown = null;
@@ -48,8 +48,8 @@ const CryptoSummaryList = (props: Props) => {
             verifyAuth(res, setCryptoSumm);
         }
 
-        cryptocoinSummaryAction(token, selectedSheet);
-    }, [selectedSheet, token, verifyAuth]);
+        cryptocoinSummaryAction(token, loadedSheet);
+    }, [loadedSheet, token, verifyAuth]);
 
     // Resets the lists of operations displayed
     useEffect(() => {
@@ -134,7 +134,7 @@ const CryptoSummaryList = (props: Props) => {
             <tr 
                 key={index} 
                 className={backgroundColor} 
-                onClick={() => cryptoAssetOperationsAction(token, selectedSheet, cryptoSummary.asset)}
+                onClick={() => cryptoAssetOperationsAction(token, loadedSheet, cryptoSummary.asset)}
             >
                 <td className="leftColumn">{cryptoSummary.asset}</td>
                 <td className="middleColumn">{cryptoSummary.total_quant}</td>
@@ -145,12 +145,12 @@ const CryptoSummaryList = (props: Props) => {
 
     return <main className="mainMenu">
         <nav className="navCryptos">
-            <div>
-                <Link to='/cryptocoins'><SlArrowLeft /></Link>
+            <div className="director" onClick={() => setLoadedSheetHandler('')}>
+                <SlArrowLeft />
             </div>
 
             <div>
-                XLSX Sheet: {selectedSheet}
+                XLSX Sheet: {loadedSheet}
             </div>
 
             <div>
