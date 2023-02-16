@@ -5,6 +5,7 @@ import { cryptocoinSheets } from "../../actions";
 import SheetListAccordion from "../../components/cryptocoin/SheetsAccordion";
 import UploadSheet from "../../components/cryptocoin/UploadSheet";
 import ModalBody from "../../components/cryptocoin/ModalBody";
+import Spinner from "../../components/Spinner";
 
 type Props = {
     token: string,
@@ -42,21 +43,32 @@ const MainMenu = (props: Props) => {
         setLoadedSheetHandler,    
     } = props;
     const [sheetList, setSheetList] = useState([]);
+    const [awaitCryptocoins, setAwaitCryptocoins] = useState(true);
 
     // Use Effect
     
     useEffect(() => {
-        const cryptocoinSheetsAction = async (token: string) => {
-            // Get the names of the XLSX sheets saved
-            const res = await cryptocoinSheets(token);
-            
-            verifyAuth(res, setSheetList);
-        }
+        if (selectedSheet === '*') setAwaitCryptocoins(true);
+    }, [selectedSheet]);
+    
+    useEffect(() => {
+        if (awaitCryptocoins) {
+            const cryptocoinSheetsAction = async (token: string) => {
+                // Get the names of the XLSX sheets saved
+                const res = await cryptocoinSheets(token);
+                
+                verifyAuth(res, setSheetList);
+            }
         
-        console.log('mainMenu useEffect 1\n', selectedSheet)
+            cryptocoinSheetsAction(token);
+        }
+    }, [token, verifyAuth, awaitCryptocoins]);
 
-        if (selectedSheet === '*') cryptocoinSheetsAction(token);
-    }, [token, verifyAuth, selectedSheet]);
+    useEffect(() => {
+        setAwaitCryptocoins(false)
+    }, [sheetList])
+
+
 
     console.log('main menu body\n', selectedSheet, sheetList)
         
@@ -72,10 +84,14 @@ const MainMenu = (props: Props) => {
             <span>Select a saved log sheet</span>
         </div>
 
-        <SheetListAccordion 
-            sheetList={sheetList} 
-            setSelectedSheetHandler={setSelectedSheetHandler}
-        />
+        {awaitCryptocoins ? 
+            <Spinner /> 
+        : 
+            <SheetListAccordion 
+                sheetList={sheetList} 
+                setSelectedSheetHandler={setSelectedSheetHandler}
+            />
+        }
 
         <div className="navCryptos">
             <div>Or load a new XLSX file:</div> 
