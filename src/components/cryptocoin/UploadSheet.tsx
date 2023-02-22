@@ -1,41 +1,19 @@
-import { useEffect, useState } from 'react'
-import { sendCryptoSheet } from '../../actions';
-
 type Props = {
-    token: string,
-    verifyAuth: (res: any, next: (res: any) => void) => void,
-    setSelectedSheetHandler: (sheetName: string) => void,
+    setAwaitResponseHandler: (responseState: 0|1|2|3) => void,
+    setFileHandler: (file: File) => void, 
 }
 
 function UploadSheet(props: Props) {
-    const { token, verifyAuth, setSelectedSheetHandler } = props;
-    const [file, setFile] = useState<File>();
-
-    useEffect(() => {
-        if (file) {
-            setSelectedSheetHandler('');
-        }
-    }, [file, setSelectedSheetHandler]);
+    const { setFileHandler, setAwaitResponseHandler } = props;
 
     const onChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
-        if (event.target.files) setFile(event.target.files[0]);
+        if (event.target.files) setFileHandler(event.target.files[0]);
     }
 
     const onSubmitHandler = async (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         event.preventDefault();
 
-        if (file) {
-            const formData = new FormData();
-            formData.append("sheet", file as File);
-    
-            console.log(file);
-    
-            const res = await sendCryptoSheet(formData, 'yes' ,token);
-    
-            verifyAuth(res, (res) => setSelectedSheetHandler('*'));
-        } else {
-            console.log('no file was selected')
-        }
+        setAwaitResponseHandler(3);
     }
 
     return <form encType='multipart/form-data'>

@@ -33,8 +33,6 @@ const Cryptocoins = (props: Props) => {
         setLoadedSheet(sheetName);
     }
 
-    console.log('index body')
-
     return (selectedSheet === '*' || loadedSheet === '') ? 
         <MainMenu 
             token={token} 

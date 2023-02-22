@@ -1,45 +1,17 @@
-import { useState, useEffect } from 'react';
-import { deleteCryptoSheet } from '../../actions';
-import Spinner from '../Spinner';
+import { useState } from 'react';
 
 type Props = {
     selectedSheet: string,
-    token: string,
-    verifyAuth: (res: any, next: (res: any) => void) => void,
-    setSelectedSheetHandler: (sheetName: string) => void,
+    setAwaitResponseHandler: (responseState: 0|1|2|3) => void,
     setLoadedSheetHandler: (sheetName: string) => void,
 }
 
 function ModalBody(props: Props) {
-    const { 
-        token, 
-        verifyAuth, 
-        selectedSheet, 
-        setSelectedSheetHandler, 
-        setLoadedSheetHandler 
-    } = props;
+    const { selectedSheet, setAwaitResponseHandler, setLoadedSheetHandler, } = props;
     const [showDeleteBox, setShowDeleteBox] = useState(false);
-    const [awaitDeleteSheet, setAwaitDeleteSheet] = useState(false);
-
-    useEffect(() => {
-        const deleteCryptoSheetHandler = async () => {
-            const res = await deleteCryptoSheet(selectedSheet, token);
-
-            // it's not updating the sheet list
-            // we have to test this handler function in this argument
-            console.log('modalBody use effect\n', selectedSheet)
-            
-            verifyAuth(res, res => setSelectedSheetHandler('*'));
-            //verifyAuth(res, res => setRestartHandler());
-        }
-
-        if (awaitDeleteSheet) deleteCryptoSheetHandler();
-    }, [awaitDeleteSheet, selectedSheet, token, verifyAuth, setSelectedSheetHandler]);
-
-    console.log('modalBody\n', selectedSheet)
 
     const loadButton = () => {
-        setLoadedSheetHandler(selectedSheet)    
+        setLoadedSheetHandler(selectedSheet)
     }
 
     const deleteButton = () => {
@@ -51,7 +23,7 @@ function ModalBody(props: Props) {
     }
 
     const confirmDelete = () => {
-        setAwaitDeleteSheet(true);
+        setAwaitResponseHandler(2);
     }
 
     const deleteBox = <div className='modalBox'>
@@ -76,10 +48,7 @@ function ModalBody(props: Props) {
         </div>
     </div>
 
-    return awaitDeleteSheet ? 
-        <Spinner /> 
-    :
-        showDeleteBox ? deleteBox : optionsBox;
+    return showDeleteBox ? deleteBox : optionsBox;
 }
 
 export default ModalBody;

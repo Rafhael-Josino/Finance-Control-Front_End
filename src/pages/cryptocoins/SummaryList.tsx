@@ -53,7 +53,7 @@ const CryptoSummaryList = (props: Props) => {
 
     // Resets the lists of operations displayed
     useEffect(() => {
-        setAssetOperations({
+        return () => setAssetOperations({
             asset: '', 
             purchases: [], 
             individualSells: [],
@@ -181,7 +181,7 @@ const CryptoSummaryList = (props: Props) => {
                     <tbody>{renderedSummaryList}</tbody>
                 </table>
             :
-                <Spinner />
+                <Spinner message=''/>
             }
         </section>
         <OperationsSec 
