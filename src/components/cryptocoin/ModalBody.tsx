@@ -2,16 +2,16 @@ import { useState } from 'react';
 
 type Props = {
     selectedSheet: string,
-    setAwaitResponseHandler: (responseState: 0|1|2|3) => void,
-    setLoadedSheetHandler: (sheetName: string) => void,
+    setPageDisplayedHandler: (responseState: 0|1|2|3|4) => void,
 }
 
 function ModalBody(props: Props) {
-    const { selectedSheet, setAwaitResponseHandler, setLoadedSheetHandler, } = props;
+    const { selectedSheet, setPageDisplayedHandler } = props;
     const [showDeleteBox, setShowDeleteBox] = useState(false);
 
     const loadButton = () => {
-        setLoadedSheetHandler(selectedSheet)
+        //setLoadedSheetHandler(selectedSheet)
+        setPageDisplayedHandler(4);
     }
 
     const deleteButton = () => {
@@ -23,7 +23,7 @@ function ModalBody(props: Props) {
     }
 
     const confirmDelete = () => {
-        setAwaitResponseHandler(2);
+        setPageDisplayedHandler(2);
     }
 
     const deleteBox = <div className='modalBox'>

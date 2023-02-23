@@ -1,7 +1,7 @@
 import { Routes, Route  } from "react-router-dom";
 import MainMenu from "../pages/MainMenu";
 import Transactions from "../pages/Transactions";
-import Cryptos from "../pages/cryptocoins";
+import Cryptocoins from "../pages/cryptocoins";
 import LoginMenu from "../pages/LoginMenu";
 import SignUp from "../pages/SignUp";
 import ErrorBoundary from "../error-page";
@@ -33,8 +33,8 @@ const AppRoutes = (props: Props) => {
                 <Transactions token={userAuth.token} verifyAuth={verifyAuth} />
             } />
 
-            <Route path='/cryptocoins/*' errorElement={<ErrorBoundary />} element={
-                <Cryptos token={userAuth.token} verifyAuth={verifyAuth} />
+            <Route path='/cryptocoins' errorElement={<ErrorBoundary />} element={
+                <Cryptocoins token={userAuth.token} verifyAuth={verifyAuth} />
             } />
         </Routes>
 }

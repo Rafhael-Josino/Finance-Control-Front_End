@@ -10,11 +10,12 @@ type Props = {
     token: string,
     verifyAuth: (res: any, next: (res: any) => void) => void
     loadedSheet: string,
-    setLoadedSheetHandler: (sheetName: string) => void,
+    setPageDisplayedHandler: (responseState: 0|1|2|3|4) => void,
+    setRestartPageHandler: () => void,
 }
 
 const CryptoSummaryList = (props: Props) => {
-    const { token, verifyAuth, loadedSheet, setLoadedSheetHandler } = props;
+    const { token, verifyAuth, loadedSheet, setRestartPageHandler } = props;
     const [showSellMode, setShowSellMode] = useState('individual');
     const [assetOperations, setAssetOperations] = useState<{
         asset: string,
@@ -145,7 +146,7 @@ const CryptoSummaryList = (props: Props) => {
 
     return <main className="mainMenu">
         <nav className="navCryptos">
-            <div className="director" onClick={() => setLoadedSheetHandler('')}>
+            <div className="director" onClick={setRestartPageHandler}>
                 <SlArrowLeft />
             </div>
 
