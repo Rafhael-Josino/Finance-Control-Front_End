@@ -28,7 +28,7 @@ function MonthSells(props: Props) {
         // The first element of the hightlighted ids list is of the sell selected
         // If this is the one, updates the class name that is highlighted by the CSS
         if (highlightedOps[0] === String(index)) {
-            className='cryptoOpSelected';
+            className='cryptoSellSelected';
         } 
 
         return <table className={className} key={index} onClick={()=>activateHighlight(sell.purchasesSold, String(index))}>
@@ -59,7 +59,14 @@ function MonthSells(props: Props) {
 
     return <div id="sellsDiv">
         <h2 id="h2sells">Sells</h2>
-        {renderedSells}
+        {
+            renderedSells.length > 1 ?
+                <div className="opsContainer">
+                    {renderedSells}
+                </div>
+            :
+                renderedSells
+        }
     </div>
 }
 

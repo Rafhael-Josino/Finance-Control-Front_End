@@ -14,9 +14,11 @@ function IndividualSells(props: Props) {
         // If this sell was already selected, undo the current hightlight
         if (highlightedOps[0] === thisSellId) {
             setHighlightedOpsHelper([]);
-        } else {
+        } 
+        else {
             // List of purchases_id that shall be hightlighted
             const highlightedIds = purchases_sold.map(p => p.purchase_id);
+
             // Adds the selected sell_id so it will also be highlighted
             highlightedIds.unshift(thisSellId);
 
@@ -29,7 +31,7 @@ function IndividualSells(props: Props) {
         let purchases_sold_rendered: JSX.Element[] | null = null;
         
         if (highlightedOps[0] === String(index)) {
-            className='cryptoOpSelected';
+            className='cryptoSellSelected';
 
             purchases_sold_rendered = sell.purchases_sold.map((purchase_sold, index) => {
                 return <table className={'purchaseSold'} key={index}>
@@ -51,7 +53,7 @@ function IndividualSells(props: Props) {
             });
         }
 
-        return <div>
+        return <div className="individualSellTable">
             <table className={className} key={sell.sell_id} onClick={()=>activateHighlight(sell.purchases_sold, String(index))}>
                 <tbody>
                     <tr>
@@ -82,7 +84,14 @@ function IndividualSells(props: Props) {
 
     return <div id="sellsDiv">
         <h2 id="h2sells">Sells / Taxes</h2>
-        {renderedSells}
+        {
+            renderedSells.length > 1 ?
+                <div className="opsContainer">
+                    {renderedSells}
+                </div>
+            :
+                renderedSells
+        }
     </div>
 }
 
