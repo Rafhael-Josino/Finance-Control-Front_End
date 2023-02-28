@@ -83,7 +83,7 @@ function IndividualSells(props: Props) {
     });
 
     return <div id="sellsDiv">
-        <h2 id="h2sells">Sells / Taxes</h2>
+        <h2 className="cryptoOpsHeader">Sells / Taxes</h2>
         {
             renderedSells.length > 1 ?
                 <div className="opsContainer">

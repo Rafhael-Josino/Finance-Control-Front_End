@@ -48,7 +48,7 @@ function PurchasesList (props: Props) {
     });
 
     return <div id="purchasesDiv">
-        <h2 id="h2purchases">Purchases</h2>
+        <h2 className="cryptoOpsHeader">Purchases</h2>
         {
             renderedPurchases.length > 1 ?
                 <div className="opsContainer">

@@ -71,7 +71,8 @@ tr.cryptoAccordion td:last-child {
 .navSheetLoaded {
     display: flex;
     gap: 1rem;
-    width: var(--cryptoSummaryList-elementWidth);
+    /* width: var(--cryptoSummaryList-elementWidth); */
+    width: 100%;
 }
 
 #loadSheet {
@@ -89,7 +90,8 @@ tr.cryptoAccordion td:last-child {
 }
 
 .cryptoSummaryTable {
-    width: var(--cryptoSummaryList-elementWidth);
+    /* width: var(--cryptoSummaryList-elementWidth); */
+    width: 100%;
     color: black;
     border-spacing: 0 2px;
     margin-bottom: 2rem;
@@ -105,24 +107,23 @@ tr.cryptoAccordion td:last-child {
     gap: 1rem;
 }
 
-#h2purchases {
-    background-color: green;
-    color: white;
-    text-align: center;
-    width: 100%;
-    margin-top: 0;
-}
-
-#h2sells {
-    background-color: red;
-    color: white;
-    text-align: center;
-    width: 100%;
-    margin-top: 0;
-}
-
 #purchasesDiv, #sellsDiv {
     width: 50%;
+}
+
+.cryptoOpsHeader {
+    color: white;
+    text-align: center;
+    width: 100%;
+    margin-top: 0;
+}
+
+#purchasesDiv h2 {
+    background-color: green;
+}
+
+#sellsDiv h2 {
+    background-color: red;
 }
 
 .opsContainer {
@@ -140,7 +141,7 @@ tr.cryptoAccordion td:last-child {
     color: red;
 }
 
-.cryptoOpList { font-weight: bold;
+.cryptoOpList {
     width: 100%;
     border: .1rem solid;
     border-color: var(--custom-green);
@@ -152,9 +153,7 @@ tr.cryptoAccordion td:last-child {
     border: .1rem inset;
 }
 
-.purchaseSelected,
-.purchaseSold { 
-    font-weight: bold;
+.purchaseSelected, .purchaseSold { 
     width: 100%;
     margin: 1rem 0 1rem 0;
     border: .1rem solid;
@@ -167,7 +166,6 @@ tr.cryptoAccordion td:last-child {
 }
 
 .cryptoSellSelected { 
-    font-weight: bold;
     width: 100%;
     margin: 1rem 0 1rem 0;
     border: .1rem solid;
@@ -214,11 +212,7 @@ tr.cryptoAccordion td:last-child {
         gap: 0;
     }
 
-    #purchasesDiv {
-        width: 100%;
-    }
-
-    #sellsDiv {
+    #purchasesDiv, #sellsDiv {
         width: 100%;
     }
 }
