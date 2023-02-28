@@ -4,9 +4,15 @@
 
 :root {
     --background-color: rgb(218, 218, 218);
-    --this-green: rgb(6, 83, 6);
+    --custom-green: rgb(6, 83, 6);
+    --selectable-green: rgb(49, 139, 49);
     --white-hover: rgb(200, 200, 200);
     --custom-larger-font: 1.2rem;
+
+    --mainMenu-width: 70vw;
+    --mainMenuHeader-width: 100%;
+    --mainMenuList-width: 25%;
+    --mainMenuDescription-width: 40%;
 }
 
 * {
@@ -23,12 +29,12 @@ body {
 header {
     padding: 10px;
     padding-bottom: 100px;
-    background-color: var(--this-green);
+    background-color: var(--custom-green);
 }
 
 nav {
     color: white;
-    background-color: var(--this-green);
+    background-color: var(--custom-green);
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -70,7 +76,7 @@ button a {
 }
 
 select {
-    background-color: green;
+    background-color: var(--selectable-green);
     color: white;
     font-weight: bold;
 }
@@ -85,7 +91,7 @@ select {
 
 footer {
     width: 100%;
-    color: var(--this-green);
+    color: var(--custom-green);
     text-align: center;
     padding: 4rem 0 2rem;
 }
@@ -110,27 +116,30 @@ footer {
     white-space: nowrap;
     border-width: 0;
 }
-
+/* ####################### */
 /* ## Links and Buttons ## */
+/* ####################### */
 
 button:hover {
     background-color: var(--white-hover);
     cursor: pointer;
-    color: green;
+    color: var(--selectable-green)
 }
 
 main.mainMenu {
-    margin-top: 2rem;
-    width: 70vw;
-    margin-left: 15vw;
-    margin-right: 15vw;
+    padding: 2rem 15vw 0 15vw;
     font-size: var(--custom-larger-font);
 }
 
-div.mainMenu {
+section.mainMenu {
+    width: var(--mainMenu-width);
+}
+
+.mainMenuHeader {
+    width: var(--mainMenuHeader-width);
     padding: .5rem;
     border-radius: .25rem;
-    background-color: var(--this-green);
+    background-color: var(--custom-green);
     color: white;
     margin-bottom: 1rem;
 }
@@ -143,11 +152,11 @@ div.mainMenu {
 .mainMenuList {
     display: flex;
     flex-direction: column;
-    width: 25%;
+    width: var(--mainMenuList-width);
 }
 
 .mainMenuDescription {
-    width: 40%;
+    width: var(--mainMenuDescription-width);
     font-size: medium;
 }
 
@@ -159,7 +168,7 @@ div.mainMenu {
 
 .mainMenuList a:-webkit-any-link {
     border-radius: .25rem;
-    background-color: var(--this-green);
+    background-color: var(--selectable-green);
     color: white;
     margin-bottom: .5rem;
     text-decoration: none;
@@ -169,7 +178,7 @@ div.mainMenu {
 }
 
 .mainMenuList a:-webkit-any-link:hover {
-    border-color: blueviolet;
+    border-color: var(--custom-green)
 }
 
 #mainMenu a:hover {
@@ -260,7 +269,7 @@ div.mainMenu {
     width: 400px;
     padding: 0.5rem;
     background-color: var(--background-color);
-    border: 3px solid var(--this-green);
+    border: 3px solid var(--custom-green);
     border-radius: 6px;
 }
 
@@ -327,13 +336,13 @@ div.mainMenu {
 }
 
 .tableTransaction:hover {
-    background: var(--this-green);
+    background: var(--custom-green);
     cursor: pointer;
 }
 
 /* tableNames2 temporary */
 #tableNames, #tableNames2 {
-    background-color: var(--this-green);
+    background-color: var(--custom-green);
     color: white;
     height: 2rem;
     font-weight: bold;
@@ -371,7 +380,7 @@ div.mainMenu {
 /* Rows */
 
 th {
-    background-color: var(--this-green);
+    background-color: var(--custom-green);
     font-weight: bold;
     color: white;
     padding: .2rem 0 .2rem 0;
@@ -455,132 +464,28 @@ h1 {
     margin-top: 10px;
 }
 
-#operationsSec {
-    display: flex;
-    justify-content: center;
-    gap: 1rem;
-}
-
-#purchasesDiv {
-    width: 50%;
-}
-
-#sellsDiv {
-    width: 50%;
-}
-
-#h2purchases {
-    background-color: green;
-    color: white;
-    text-align: center;
-    width: 100%;
-}
-
-#h2sells {
-    background-color: red;
-    color: white;
-    text-align: center;
-    width: 100%;
-}
-
-.tableHover:hover {
-    font-weight: bold;
-}
-
-#tablesP table, #tablesS table {
-    width: 100%;
-    background-color: white;
-    font-size: 13px;
-    margin-top: 1rem;
-    overflow: auto;
-    table-layout: fixed;
-    text-align: center;
-}
-
-#tablesP table { 
-    border: 1px solid var(--this-green);
-}
-
-#tablesS table {
-    border: 1px solid red;
-}
-
-#tablesS .subTable {
-    margin-top: 0;
-}
-
 .gray-background {
     background-color: rgb(216, 210, 210);
 }
 
-/* ############################## */
-/* ----- Responsive ------ */
-/* ############################## */
-
-@media (max-width: 730px) {
-    #financeMenu {
-        width: 90vw;
-    }
-    #summaryContainer {
-        flex-direction: column;
-    }
-
-    .summaryBox {
-        width: min(90vw, 730px);
-    }
-
-    #transactionsContainer, main, body, html {
-        width: 100%;
-    }
-
-    #transactionsContainer {
-        overflow: auto;
-    }
-
-    .tableClass {
-        min-width: 450px;
-    }
-
-    #cryptosMenu {
-        width: 90vw;
-    }
-
-    #currentSituationSec {
-        overflow: auto;
-    }
-
-    #operationsSec {
-        flex-direction: column;
-    }
-
-    #purchasesDiv {
-        width: 100%;
-    }
-
-    #sellsDiv {
-        width: 100%;
-    }
-}
 
 /* Modal */
 
-
 .modal {
     position: fixed;
-    width: 30%;
+    width: 200px;
     height: auto;
     z-index: 1040;
     top: 30%;
-    left: 35%;
+    left: calc(50% - 100px);
     background-color: var(--background-color);
-    border: 2px solid var(--this-green);
+    border: 2px solid var(--custom-green);
     border-radius: .5rem;
     font-size: large;
     padding: .5rem;
 }
 
 .modalBox {
-    width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -602,4 +507,65 @@ h1 {
     right: 0;
     background-color: #000;
     opacity: 0.5;
+    
+}
+
+
+/* ############################## */
+/* ----- Responsive ------ */
+/* ############################## */
+
+@media (max-width: 750px) {
+    :root {
+        --mainMenuList-width: 132px;
+        --mainMenuDescription-width: 212px;
+    }
+
+    #financeMenu {
+        width: 90vw;
+    }
+
+    #summaryContainer {
+        flex-direction: column;
+    }
+
+    .summaryBox {
+        width: min(90vw, 730px);
+    }
+
+    #transactionsContainer, main, body, html {
+        width: 100%;
+    }
+
+    #transactionsContainer {
+        overflow: auto;
+    }
+
+    .tableClass {
+        min-width: 450px;
+    }
+}
+
+@media (max-width: 500px) {
+    :root {
+        --mainMenuList-width: 100%;
+        --mainMenuDescription-width: 100%;
+    }
+    
+    .mainMenuBody {
+        display: flex;
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 330px) {
+    :root {
+        --mainMenuHeader-width: 232px;
+        --mainMenuList-width: 232px;
+        --mainMenuDescription-width: 232px;
+    }
+
+    section.mainMenu {
+        overflow-y: auto;
+    }
 }

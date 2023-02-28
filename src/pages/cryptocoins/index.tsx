@@ -136,36 +136,38 @@ const Cryptocoins = (props: Props) => {
             />
         default:
             return <main className="mainMenu">
-            <div className="navCryptos navSheetsList director">
-                <span>Select a saved log sheet</span>
-            </div>
-    
-            <SheetListAccordion 
-                sheetList={sheetList} 
-                setSelectedSheetHandler={setSelectedSheetHandler}
-            />
-    
-            <div className="navCryptos">
-                <div>Or load a new XLSX file:</div> 
-                
-                <UploadSheet 
-                    setPageDisplayedHandler={setPageDisplayedHandler}
-                    setFileHandler={setFileHandler}
-                />
-            </div>
-    
-            <Modal
-                className="modal"
-                show={(!pageDisplayed) && (selectedSheet !== '*') && (selectedSheet !== '')}
-                onHide={closeModalHandler}
-                renderBackdrop={renderBackdrop}
-            >
-                <ModalBody 
-                    selectedSheet={selectedSheet}
-                    setPageDisplayedHandler={setPageDisplayedHandler}
-                />
-            </Modal>
-        </main>
+                <section className="cryptopageMainMenu">
+                    <div className="navCryptos navSheetsList director">
+                        <span>Select a saved log sheet</span>
+                    </div>
+            
+                    <SheetListAccordion 
+                        sheetList={sheetList} 
+                        setSelectedSheetHandler={setSelectedSheetHandler}
+                    />
+            
+                    <div className="navCryptos">
+                        <div>Or load a new XLSX file:</div> 
+                        
+                        <UploadSheet 
+                            setPageDisplayedHandler={setPageDisplayedHandler}
+                            setFileHandler={setFileHandler}
+                        />
+                    </div>
+            
+                    <Modal
+                        className="modal"
+                        show={(!pageDisplayed) && (selectedSheet !== '*') && (selectedSheet !== '')}
+                        onHide={closeModalHandler}
+                        renderBackdrop={renderBackdrop}
+                    >
+                        <ModalBody 
+                            selectedSheet={selectedSheet}
+                            setPageDisplayedHandler={setPageDisplayedHandler}
+                        />
+                    </Modal>
+                </section>
+            </main>
     }
 
   

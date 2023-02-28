@@ -35,7 +35,7 @@ function OperationsSec(props: Props) {
         setHighlightedOpsHelper={setHighlightedOpsHelper}
     /> 
         
-    return <section id="operationsSec">
+    return <section className="operationsSec">
         <PurchasesList 
             purchases={purchases}
             highlightedOps={highlightedOps} 

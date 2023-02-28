@@ -34,9 +34,9 @@ const MainMenu = (props: Props): JSX.Element => {
         setDescription(newIndex);
     }
 
-    return (
-        <main className="mainMenu">
-            <div className="mainMenu">Choose one of our services:</div>
+    return <main className="mainMenu">
+        <section className='mainMenu'>
+            <div className="mainMenuHeader">Choose one of our services:</div>
             <div className='mainMenuBody'>
                 <div className='mainMenuList'>
                     <Link to='/transactions' 
@@ -52,8 +52,8 @@ const MainMenu = (props: Props): JSX.Element => {
                     <span className='description'>{descriptionsArray[description]}</span>
                 </div>
             </div>
-        </main>
-    );
+        </section>
+    </main>
 }
 
 export default MainMenu;

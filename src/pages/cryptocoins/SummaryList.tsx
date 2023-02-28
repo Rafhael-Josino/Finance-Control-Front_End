@@ -145,52 +145,54 @@ const CryptoSummaryList = (props: Props) => {
     });
 
     return <main className="mainMenu">
-        <nav className="navCryptos">
-            <div className="director" onClick={setRestartPageHandler}>
-                <SlArrowLeft />
-            </div>
+        <section className="cryptopageMainMenu">
+            <nav className="navCryptos navSheetLoaded">
+                <div className="director" onClick={setRestartPageHandler}>
+                    <SlArrowLeft />
+                </div>
 
-            <div>
-                XLSX Sheet: {loadedSheet}
-            </div>
+                <div>
+                    XLSX Sheet: {loadedSheet}
+                </div>
 
-            <div>
-                <span>Sell's type: </span>
-                <select onChange={(e) => setShowSellMode(e.target.value)}>
-                    <option value="individual">Per sell</option>
-                    <option value="month">Monthly</option>
-                </select>
-            </div>
-        </nav>
+                <div>
+                    <span>Sell's type: </span>
+                    <select onChange={(e) => setShowSellMode(e.target.value)}>
+                        <option value="individual">Per sell</option>
+                        <option value="month">Monthly</option>
+                    </select>
+                </div>
+            </nav>
 
-        <section>
-            {cryptoSummary.length ? 
-                <table className='cryptoSummaryTable'>
-                    <thead>
-                        <tr className="selectable">
-                            <th className="leftColumn" onClick={() => setShowOrderHandler('asset')}>
-                                <span>Asset {assetArrowDown}</span>
-                            </th>
-                            <th className="middleColumn" onClick={() => setShowOrderHandler('quantity')}>
-                                <span>Quantity {quantityArrowDown}</span>
-                            </th>
-                            <th className="rightColumn" onClick={() => setShowOrderHandler('totalValue')}>
-                                <span>Total Value {totalValueArrowDown}</span>
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>{renderedSummaryList}</tbody>
-                </table>
-            :
-                <Spinner message=''/>
-            }
+            <section>
+                {cryptoSummary.length ? 
+                    <table className='cryptoSummaryTable'>
+                        <thead>
+                            <tr className="selectable">
+                                <th className="leftColumn" onClick={() => setShowOrderHandler('asset')}>
+                                    <span>Asset {assetArrowDown}</span>
+                                </th>
+                                <th className="middleColumn" onClick={() => setShowOrderHandler('quantity')}>
+                                    <span>Quantity {quantityArrowDown}</span>
+                                </th>
+                                <th className="rightColumn" onClick={() => setShowOrderHandler('totalValue')}>
+                                    <span>Total Value {totalValueArrowDown}</span>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>{renderedSummaryList}</tbody>
+                    </table>
+                :
+                    <Spinner message=''/>
+                }
+            </section>
+            <OperationsSec 
+                purchases={assetOperations.purchases}
+                individualSells={assetOperations.individualSells}
+                monthlySells={assetOperations.monthlySells}
+                showSellMode={showSellMode}
+            />
         </section>
-        <OperationsSec 
-            purchases={assetOperations.purchases}
-            individualSells={assetOperations.individualSells}
-            monthlySells={assetOperations.monthlySells}
-            showSellMode={showSellMode}
-        />
     </main>
 }
 

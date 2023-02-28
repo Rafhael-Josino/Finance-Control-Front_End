@@ -1,16 +1,24 @@
 :root {
     --background-color: rgb(218, 218, 218);
-    --this-green: rgb(6, 83, 6);
+    --custom-green: rgb(6, 83, 6);
+    --selectable-green: rgb(49, 139, 49);
     --white-hover: rgb(200, 200, 200);
-    --custom-larger-font: 1.2rem;
+    --custom-font-size: 1.2rem;
+
+    --cryptopageMainMenu-ElementsWidth: 70vw;
+    --cryptoSummaryList-elementWidth: 70vw;
+}
+
+.cryptopageMainMenu {
+    font-size: var(--custom-font-size);
 }
 
 .navCryptos {
+    width: var(--cryptopageMainMenu-ElementsWidth);
     margin-top: 1rem;
     padding: .5rem;
-    background-color: var(--this-green);
+    background-color: var(--custom-green);
     color: white;
-    font-weight: bold;
     border-radius: 0.25rem;
 }
 
@@ -20,12 +28,14 @@
 }
 
 .sheetsTable {
-    width: 100%;
+    width: var(--cryptopageMainMenu-ElementsWidth);
     text-align: center;
+    border-spacing: 0 2px;
+
 }
 
 .sheetsTable thead td {
-    background-color: var(--this-green);
+    background-color: var(--custom-green);
     color: white;
 }
 
@@ -34,7 +44,7 @@
 }
 
 .sheetsTable tbody tr:hover {
-    background-color: green;
+    background-color: var(--selectable-green);
     color: white;
     cursor: pointer;
 }
@@ -43,9 +53,25 @@
     margin-top: .5rem;
     padding: 0 .5rem 0 .5rem;
     background-color: white;
-    color: var(--this-green);
-    font-weight: bold;
-    border-radius: 0.25rem;
+    color: var(--custom-green);
+}
+
+tr.cryptoAccordion td:first-child {
+    border-radius: 0.25rem 0 0 0.25rem;
+}
+
+tr.cryptoAccordion td:last-child {
+    border-radius: 0 0.25rem 0.25rem 0;
+}
+
+/* ############################################ */
+/* Summary List Page */
+/* ############################################ */
+
+.navSheetLoaded {
+    display: flex;
+    gap: 1rem;
+    width: var(--cryptoSummaryList-elementWidth);
 }
 
 #loadSheet {
@@ -53,18 +79,17 @@
 }
 
 #saveSheet {
-    color: white;
-    font-size: .8rem;
+    color: white; font-size: .8rem;
 }
 
 .upload-crypto-button {
     background-color: green;
-    color: white;
-    font-weight: bold;
+    color: white; font-weight: bold;
+    width: 50%;
 }
 
 .cryptoSummaryTable {
-    width: 100%;
+    width: var(--cryptoSummaryList-elementWidth);
     color: black;
     border-spacing: 0 2px;
 }
@@ -73,16 +98,65 @@
     width: 33%;
 }
 
+.operationsSec {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+
+#h2purchases {
+    background-color: green;
+    color: white;
+    text-align: center;
+    width: 100%;
+}
+
+#h2sells {
+    background-color: red;
+    color: white;
+    text-align: center;
+    width: 100%;
+}
+
+#purchasesDiv, #sellsDiv {
+    width: 50%;;
+}
+
+.tableHover:hover {
+    font-weight: bold;
+}
+
+#tablesP table, #tablesS table {
+    width: 100%;
+    background-color: white;
+    font-size: 13px;
+    margin-top: 1rem;
+    overflow: auto;
+    table-layout: fixed;
+    text-align: center;
+}
+
+#tablesP table { 
+    border: 1px solid var(--custom-green);
+}
+
+#tablesS table {
+    border: 1px solid red;
+}
+
+#tablesS .subTable {
+    margin-top: 0;
+}
+
 .sellTableSelected {
     color: red;
 }
 
-.cryptoOpList {
-    font-weight: bold;
+.cryptoOpList { font-weight: bold;
     width: 100%;
     margin-bottom: 1rem;
     border: .1rem solid;
-    border-color: var(--this-green);
+    border-color: var(--custom-green);
     border-spacing: 0 2px;
 }
 
@@ -92,8 +166,7 @@
 }
 
 .purchaseSelected,
-.purchaseSold {
-    font-weight: bold;
+.purchaseSold { font-weight: bold;
     width: 100%;
     margin-bottom: 1rem;
     border: .1rem solid;
@@ -101,8 +174,7 @@
     border-spacing: 0 2px;
 }
 
-.cryptoOpSelected {
-    font-weight: bold;
+.cryptoOpSelected { font-weight: bold;
     width: 100%;
     margin-bottom: 1rem;
     border: .1rem solid;
@@ -116,4 +188,49 @@
 
 .purchase_sold_table {
     width: 100%;
+}
+
+
+/* ############################## */
+/* ----- Responsive ------ */
+/* ############################## */
+
+@media (max-width: 750px) {
+    #cryptosMenu {
+        width: 90vw;
+    }
+
+    #currentSituationSec {
+        overflow: auto;
+    }
+
+    .operationsSec {
+        flex-direction: column;
+    }
+
+    #purchasesDiv {
+        width: 100%;
+    }
+
+    #sellsDiv {
+        width: 100%;
+    }
+}
+
+@media (max-width: 460px) {
+    :root {
+        --cryptopageMainMenu-ElementsWidth: 300px;
+        --custom-font-size: 0.8rem;
+    }
+
+    section.cryptopageMainMenu {
+        overflow-y: auto;
+    }
+
+    .navSheetLoaded {
+        display: flex;
+        gap: .5rem;
+        flex-direction: column;
+        align-items: center;
+    }
 }
