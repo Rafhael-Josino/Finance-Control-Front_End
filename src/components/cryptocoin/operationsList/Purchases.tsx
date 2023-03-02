@@ -1,13 +1,15 @@
 import { PurchaseType } from "../../../types";
 import CurrencyFormating from "../../../utils/CurrencyFormating";
+import Spinner from "../../Spinner";
 
 type Props = {
     purchases: PurchaseType[],
+    awaitAsset: string,
     highlightedOps: string[],
 }
 
 function PurchasesList (props: Props) {
-    const { purchases, highlightedOps } = props;
+    const { purchases, awaitAsset, highlightedOps } = props;
     
     
     const renderedPurchases = purchases.map((purchase) => {
@@ -50,12 +52,15 @@ function PurchasesList (props: Props) {
     return <div id="purchasesDiv">
         <h2 className="cryptoOpsHeader">Purchases</h2>
         {
-            renderedPurchases.length > 1 ?
-                <div className="opsContainer">
-                    {renderedPurchases}
-                </div>
+            awaitAsset !== '' ?
+                <Spinner message='' />
             :
-                renderedPurchases
+                renderedPurchases.length > 1 ?
+                    <div className="opsContainer">
+                        {renderedPurchases}
+                    </div>
+                :
+                    renderedPurchases
         }
 
     </div>

@@ -1,17 +1,21 @@
 import { SellType, PurchaseSold } from "../../../types";
 import CurrencyFormating from "../../../utils/CurrencyFormating";
+import Spinner from "../../Spinner";
 
 type Props = {
     sells:  SellType[],
+    awaitAsset: string,
     highlightedOps: string[],
     setHighlightedOpsHelper: (idsList: string[]) => void,
 }
 
 function IndividualSells(props: Props) {
-    const { sells, highlightedOps, setHighlightedOpsHelper } = props;
+    const { sells, awaitAsset, highlightedOps, setHighlightedOpsHelper } = props;
 
+    // saves which operations (the clicked sell and respective purchases) will be highlighted
     const activateHighlight = (purchases_sold: PurchaseSold[], thisSellId: string) => {
         // If this sell was already selected, undo the current hightlight
+        // The first element is always the selected sell
         if (highlightedOps[0] === thisSellId) {
             setHighlightedOpsHelper([]);
         } 
@@ -19,7 +23,7 @@ function IndividualSells(props: Props) {
             // List of purchases_id that shall be hightlighted
             const highlightedIds = purchases_sold.map(p => p.purchase_id);
 
-            // Adds the selected sell_id so it will also be highlighted
+            // Adds the selected sell_id (as the first element) so it will also be highlighted
             highlightedIds.unshift(thisSellId);
 
             setHighlightedOpsHelper(highlightedIds);
@@ -85,12 +89,15 @@ function IndividualSells(props: Props) {
     return <div id="sellsDiv">
         <h2 className="cryptoOpsHeader">Sells / Taxes</h2>
         {
-            renderedSells.length > 1 ?
-                <div className="opsContainer">
-                    {renderedSells}
-                </div>
+            awaitAsset !== '' ?
+                <Spinner message='' />
             :
-                renderedSells
+                renderedSells.length > 1 ?
+                    <div className="opsContainer">
+                        {renderedSells}
+                    </div>
+                :
+                    renderedSells
         }
     </div>
 }

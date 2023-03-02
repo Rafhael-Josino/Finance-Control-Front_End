@@ -1,14 +1,16 @@
 import { SellTypeMonth, PurchaseSold } from "../../../types";
 import CurrencyFormating from "../../../utils/CurrencyFormating";
+import Spinner from "../../Spinner";
 
 type Props = {
     sells:  SellTypeMonth[],
+    awaitAsset: string,
     highlightedOps: string[],
     setHighlightedOpsHelper: (idsList: string[]) => void,
 }
 
 function MonthSells(props: Props) {
-    const { sells, highlightedOps, setHighlightedOpsHelper } = props;
+    const { sells, awaitAsset, highlightedOps, setHighlightedOpsHelper } = props;
 
     const activateHighlight = (purchasesSold: PurchaseSold[], thisSellId: string) => {
         // If this sell was already selected, undo the current hightlight
@@ -60,12 +62,15 @@ function MonthSells(props: Props) {
     return <div id="sellsDiv">
         <h2 className="cryptoOpsHeader">Sells</h2>
         {
-            renderedSells.length > 1 ?
-                <div className="opsContainer">
-                    {renderedSells}
-                </div>
+            awaitAsset !== '' ?
+                <Spinner message='' />
             :
-                renderedSells
+                renderedSells.length > 1 ?
+                    <div className="opsContainer">
+                        {renderedSells}
+                    </div>
+                :
+                    renderedSells
         }
     </div>
 }

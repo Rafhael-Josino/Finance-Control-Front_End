@@ -8,15 +8,17 @@ type Props = {
     purchases: PurchaseType[],
     individualSells: SellType[],
     monthlySells: SellTypeMonth[],
+    awaitAsset: string,
     showSellMode: string,
 }
 
 function OperationsSec(props: Props) {
-    const { purchases, individualSells, monthlySells, showSellMode } = props;
+    const { purchases, individualSells, monthlySells, awaitAsset, showSellMode } = props;
     const [highlightedOps, setHighlightedOps] = useState<string[]>([])
     
+    
     useEffect(() => {
-        setHighlightedOps([]);
+            return () => setHighlightedOps([])
     }, [showSellMode, purchases]);
 
     const setHighlightedOpsHelper = (idsList: string[]) => {
@@ -26,11 +28,13 @@ function OperationsSec(props: Props) {
     const RenderedSells = showSellMode === 'individual' ?   
     <IndividualSells 
         sells={individualSells}
+        awaitAsset={awaitAsset}
         highlightedOps={highlightedOps}
         setHighlightedOpsHelper={setHighlightedOpsHelper}
     /> :
     <MonthSells 
         sells={monthlySells}
+        awaitAsset={awaitAsset}
         highlightedOps={highlightedOps}
         setHighlightedOpsHelper={setHighlightedOpsHelper}
     /> 
@@ -38,7 +42,8 @@ function OperationsSec(props: Props) {
     return <section className="operationsSec">
         <PurchasesList 
             purchases={purchases}
-            highlightedOps={highlightedOps} 
+            awaitAsset={awaitAsset}
+            highlightedOps={highlightedOps}
         />
         {RenderedSells}
     </section>
