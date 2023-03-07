@@ -127,7 +127,7 @@ button:hover {
 }
 
 main.mainMenu {
-    padding: 2rem 15vw 0 15vw;
+    padding: 1rem 15vw 0 15vw;
     font-size: var(--custom-larger-font);
 }
 

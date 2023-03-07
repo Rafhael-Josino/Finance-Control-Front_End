@@ -15,7 +15,6 @@
 
 .navCryptos {
     width: var(--cryptopageMainMenu-ElementsWidth);
-    margin-top: 1rem;
     padding: .5rem;
     background-color: var(--custom-green);
     color: white;
@@ -65,14 +64,14 @@ tr.cryptoAccordion td:last-child {
 }
 
 /* ############################################ */
-/*              Summary List Page               */
+/*              Loaded Sheet Page               */
 /* ############################################ */
 
 .navSheetLoaded {
     display: flex;
     gap: 1rem;
-    /* width: var(--cryptoSummaryList-elementWidth); */
     width: 100%;
+    margin-bottom: 1rem;
 }
 
 #loadSheet {
@@ -90,7 +89,6 @@ tr.cryptoAccordion td:last-child {
 }
 
 .cryptoSummaryTable {
-    /* width: var(--cryptoSummaryList-elementWidth); */
     width: 100%;
     color: black;
     border-spacing: 0 2px;
@@ -128,8 +126,8 @@ tr.cryptoAccordion td:last-child {
 
 .opsContainer {
     overflow-x: auto;
-    height: 255px;
-    border: var(--custom-green) solid 1px;
+    height: 500px;
+    /* border: var(--custom-green) solid 1px; */
     margin-bottom: 2rem;
 }
 

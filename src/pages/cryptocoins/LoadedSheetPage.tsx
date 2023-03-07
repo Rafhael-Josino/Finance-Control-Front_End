@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { SlArrowLeft, SlArrowDown } from 'react-icons/sl';
+import { SlArrowLeft, SlArrowDown, SlCursor } from 'react-icons/sl';
 import { CryptoSummaryType, PurchaseType, res1, res2, SellType, SellTypeMonth } from "../../types";
 import { cryptocoinSummary, cryptoAssetOperations } from "../../actions";
 import OperationsSec from "../../components/cryptocoin/OperationsSec";
@@ -33,9 +33,9 @@ const LoadedSheetPage = (props: Props) => {
     const [awaitAsset, setAwaitAsset] = useState('');
     
     // The arrows that indicate by which parameter the cryptcoins list is ordered
-    let assetArrowDown = null;
-    let quantityArrowDown = null;
-    let totalValueArrowDown = null;
+    let assetArrowDown = <SlCursor />;
+    let quantityArrowDown = <SlCursor />;
+    let totalValueArrowDown = <SlCursor />;
 
     /**
      * Use effect
@@ -155,16 +155,28 @@ const LoadedSheetPage = (props: Props) => {
     /**
      * Other handler functions
      */
+    const returnButtonHandler = () => {
+        if (assetOperations.asset === '') {
+            setRestartPageHandler()
+        } else {
+            setAssetOperations({
+                asset: '', 
+                purchases: [],
+                individualSells: [],
+                monthlySells: [],
+            });
+        }
+    }
 
     return <main className="mainMenu">
         <section className="cryptopageMainMenu">
             <nav className="navCryptos navSheetLoaded">
-                <div className="director" onClick={setRestartPageHandler}>
+                <div className="director" onClick={returnButtonHandler}>
                     <SlArrowLeft />
                 </div>
 
                 <div>
-                    XLSX Sheet: {loadedSheet}
+                    XLSX Sheet: {loadedSheet} - {assetOperations.asset}
                 </div>
 
                 <div>
@@ -176,35 +188,39 @@ const LoadedSheetPage = (props: Props) => {
                 </div>
             </nav>
 
-            <section>
-                {assetsList.length ? 
-                    <table className='cryptoSummaryTable'>
-                        <thead>
-                            <tr className="selectable">
-                                <th className="leftColumn" onClick={() => setShowOrderHandler('asset')}>
-                                    <span>Asset {assetArrowDown}</span>
-                                </th>
-                                <th className="middleColumn" onClick={() => setShowOrderHandler('quantity')}>
-                                    <span>Quantity {quantityArrowDown}</span>
-                                </th>
-                                <th className="rightColumn" onClick={() => setShowOrderHandler('totalValue')}>
-                                    <span>Total Value {totalValueArrowDown}</span>
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>{renderedSummaryList}</tbody>
-                    </table>
+            {
+                assetOperations.asset === '' ?
+                    <section>
+                        {assetsList.length ? 
+                            <table className='cryptoSummaryTable'>
+                                <thead>
+                                    <tr className="selectable">
+                                        <th className="leftColumn" onClick={() => setShowOrderHandler('asset')}>
+                                            <span>Asset {assetArrowDown}</span>
+                                        </th>
+                                        <th className="middleColumn" onClick={() => setShowOrderHandler('quantity')}>
+                                            <span>Quantity {quantityArrowDown}</span>
+                                        </th>
+                                        <th className="rightColumn" onClick={() => setShowOrderHandler('totalValue')}>
+                                            <span>Total Value {totalValueArrowDown}</span>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>{renderedSummaryList}</tbody>
+                            </table>
+                        :
+                            <Spinner message=''/>
+                        }
+                    </section>
                 :
-                    <Spinner message=''/>
-                }
-            </section>
-            <OperationsSec 
-                purchases={assetOperations.purchases}
-                individualSells={assetOperations.individualSells}
-                monthlySells={assetOperations.monthlySells}
-                awaitAsset={awaitAsset}
-                showSellMode={showSellMode}
-            />
+                    <OperationsSec 
+                    purchases={assetOperations.purchases}
+                    individualSells={assetOperations.individualSells}
+                    monthlySells={assetOperations.monthlySells}
+                    awaitAsset={awaitAsset}
+                    showSellMode={showSellMode}
+                    />
+        }
         </section>
     </main>
 }
