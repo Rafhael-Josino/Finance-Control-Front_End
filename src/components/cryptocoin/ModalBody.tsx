@@ -10,7 +10,6 @@ function ModalBody(props: Props) {
     const [showDeleteBox, setShowDeleteBox] = useState(false);
 
     const loadButton = () => {
-        //setLoadedSheetHandler(selectedSheet)
         setPageDisplayedHandler(4);
     }
 

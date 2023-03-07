@@ -3,7 +3,7 @@ import { cryptocoinSheets, deleteCryptoSheet, sendCryptoSheet } from "../../acti
 import SheetListAccordion from "../../components/cryptocoin/SheetsAccordion";
 import UploadSheet from "../../components/cryptocoin/UploadSheet";
 import Spinner from "../../components/Spinner";
-import CryptoSummaryList from "./SummaryList";
+import CryptoSummaryList from "./LoadedSheetPage";
 import Modal from 'react-overlays/Modal';
 import { ModalProps } from "react-overlays/cjs/Modal";
 import ModalBody from '../../components/cryptocoin/ModalBody';
@@ -30,6 +30,7 @@ const Cryptocoins = (props: Props) => {
     const [selectedSheet, setSelectedSheet] = useState<string>('*');
     const [restartPage, setRestartPage] = useState(false);
     const [file, setFile] = useState<File>();
+    const [uploadError, setUploadError] = useState('');
 
 
     // Use Effect
@@ -47,6 +48,7 @@ const Cryptocoins = (props: Props) => {
     useEffect(() => {
         if (pageDisplayed === 1) {
             const cryptocoinSheetsAction = async () => {
+
                 // Get the list of the XLSX sheets saved
                 const res = await cryptocoinSheets(token);
                 
@@ -56,6 +58,7 @@ const Cryptocoins = (props: Props) => {
             cryptocoinSheetsAction();
         } else if (pageDisplayed === 2) {
             const cryptocoinSheetsAction = async () => {
+
                 // Delete sheet table with selectedSheet name
                 const res = await deleteCryptoSheet(selectedSheet, token);
 
@@ -72,7 +75,14 @@ const Cryptocoins = (props: Props) => {
                     // put a overwrite select option
                     const res = await sendCryptoSheet(formData, 'yes' ,token);
                     
-                    verifyAuth(res, res => setPageDisplayed(1));
+                    // TO DO: make more verifications -> bad request, could not read file...
+                    if (res.code === 'ERR_BAD_REQUEST') {
+                        // display page with the error
+                        setUploadError(res.response.data.message);
+
+                    } else {
+                        verifyAuth(res, res => setPageDisplayed(1));
+                    }
                 }
                 
                 cryptocoinSheetsAction();
@@ -95,7 +105,11 @@ const Cryptocoins = (props: Props) => {
     useEffect(() => {
         setSelectedSheet('*');
         return () => setPageDisplayed(0)
-    }, [sheetList, restartPage])
+    }, [sheetList, restartPage]);
+
+    useEffect(() => {
+        return () => setPageDisplayed(1);
+    }, [uploadError]);
 
 
     // Handlers
@@ -117,6 +131,10 @@ const Cryptocoins = (props: Props) => {
     const closeModalHandler = () => setSelectedSheetHandler('*');
 
     const renderBackdrop = (props: ModalProps) => <div className="backdrop" {...props} />   
+
+    const errorElement = uploadError === '' ? null : <div className="errorElement">
+        {uploadError}
+    </div>
 
 
     switch (pageDisplayed) {
@@ -153,7 +171,10 @@ const Cryptocoins = (props: Props) => {
                             setPageDisplayedHandler={setPageDisplayedHandler}
                             setFileHandler={setFileHandler}
                         />
+
                     </div>
+
+                    {errorElement}
             
                     <Modal
                         className="modal"
