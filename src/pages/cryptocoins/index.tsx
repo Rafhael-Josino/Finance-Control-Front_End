@@ -31,6 +31,7 @@ const Cryptocoins = (props: Props) => {
     const [restartPage, setRestartPage] = useState(false);
     const [file, setFile] = useState<File>();
     const [uploadError, setUploadError] = useState('');
+    const [overwrite, setOverwrite] = useState<'no'|'yes'>('no');
 
 
     // Use Effect
@@ -73,10 +74,10 @@ const Cryptocoins = (props: Props) => {
                 
                 const cryptocoinSheetsAction = async () => {
                     // put a overwrite select option
-                    const res = await sendCryptoSheet(formData, 'yes' ,token);
+                    const res = await sendCryptoSheet(formData, overwrite ,token);
                     
                     // TO DO: make more verifications -> bad request, could not read file...
-                    if (res.code === 'ERR_BAD_REQUEST') {
+                    if (res?.code === 'ERR_BAD_REQUEST') {
                         // display page with the error
                         setUploadError(res.response.data.message);
 
@@ -91,7 +92,7 @@ const Cryptocoins = (props: Props) => {
                 setPageDisplayed(0);
             }
         }
-    }, [pageDisplayed, file, selectedSheet, token, verifyAuth])
+    }, [pageDisplayed, file, selectedSheet, token, verifyAuth, overwrite])
 
     /**
      * The sheetList's update is the last step when is the page, a delete requisition
@@ -127,6 +128,10 @@ const Cryptocoins = (props: Props) => {
 
     const setRestartPageHandler = () => setRestartPage(!restartPage);
 
+    const setOverwriteHandler = (option: 'no'|'yes') => {
+        setOverwrite(option);
+    }
+
     // Modal
     const closeModalHandler = () => setSelectedSheetHandler('*');
 
@@ -155,7 +160,7 @@ const Cryptocoins = (props: Props) => {
         default:
             return <main className="mainMenu">
                 <section className="cryptopageMainMenu">
-                    <div className="navCryptos navSheetsList director">
+                    <div className="navCryptos navSheetsList">
                         <span>Select a saved log sheet</span>
                     </div>
             
@@ -164,15 +169,11 @@ const Cryptocoins = (props: Props) => {
                         setSelectedSheetHandler={setSelectedSheetHandler}
                     />
             
-                    <div className="navCryptos">
-                        <div>Or load a new XLSX file:</div> 
-                        
-                        <UploadSheet 
-                            setPageDisplayedHandler={setPageDisplayedHandler}
-                            setFileHandler={setFileHandler}
-                        />
-
-                    </div>
+                    <UploadSheet 
+                        setPageDisplayedHandler={setPageDisplayedHandler}
+                        setFileHandler={setFileHandler}
+                        setOverwriteHandler={setOverwriteHandler}
+                    />
 
                     {errorElement}
             
